@@ -760,3 +760,16 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
   font-size: 0.85rem;
   letter-spacing: 0.12em;
 }
+
+/* 다른 버전(WHY NOT?)으로 가는 링크 */
+.switch-link {
+  display: inline-block;
+  margin-top: 22px;
+  font-family: var(--label);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: rgba(239, 230, 212, 0.6);
+  border: 1px solid var(--rule-dark);
+  padding: 9px 18px;
+}
+.switch-link:hover { color: var(--amber-light); border-color: var(--amber-light); }
