@@ -751,3 +751,12 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
   .closing .motto { font-size: 3rem; }
   .contact-text { font-size: 1.25rem; }
 }
+
+/* Skills: 번호를 "01. AutoCAD"처럼 이름 앞에 한 줄로 */
+.tools li { flex-direction: row; justify-content: center; align-items: baseline; gap: 10px; }
+.tools .numeral {
+  font-family: var(--label);
+  font-style: normal;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+}
