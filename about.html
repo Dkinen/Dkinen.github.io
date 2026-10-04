@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | 이름</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="container nav">
+      <a href="index.html" class="logo">이름</a>
+      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html">Skills &amp; Courses</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-title">
+      <div class="container">
+        <h1>About Me</h1>
+        <p>저를 소개합니다</p>
+      </div>
+    </div>
+
+    <!-- 자기소개 -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Introduction</h2>
+        <p class="placeholder">자기소개 글을 입력하세요. (전공을 선택한 이유, 관심 분야, 성격·강점 등)</p>
+      </div>
+    </section>
+
+    <!-- 기본 정보 + 학력 -->
+    <section class="alt">
+      <div class="container about-grid">
+        <div>
+          <h2 class="section-title">Profile</h2>
+          <ul class="info-list">
+            <li><strong>이름</strong> <span class="placeholder">홍길동 (Gildong Hong)</span></li>
+            <li><strong>소속</strong> <span class="placeholder">OO대학교 OO학과</span></li>
+            <li><strong>학년</strong> <span class="placeholder">4학년</span></li>
+            <li><strong>Email</strong> <span class="placeholder">example@email.com</span></li>
+            <li><strong>GitHub</strong> <span class="placeholder">github.com/username</span></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="section-title">Education</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="date">YYYY.MM – 현재</div>
+              <h3 class="placeholder">OO대학교 OO학과</h3>
+              <p class="placeholder">학사 과정</p>
+            </div>
+            <div class="timeline-item">
+              <div class="date">YYYY.MM – YYYY.MM</div>
+              <h3 class="placeholder">OO고등학교</h3>
+              <p class="placeholder">졸업</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 진로 목표 -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Goals</h2>
+        <p class="placeholder">졸업 후 목표, 되고 싶은 개발자/연구자/엔지니어 상을 입력하세요.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> 이름. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="mailto:">Email</a>
+        <a href="#">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

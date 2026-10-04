@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>홈 | 이름</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="site-header">
+    <nav class="container nav">
+      <a href="index.html" class="logo">이름</a>
+      <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
+      <ul class="nav-menu">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html">Skills &amp; Courses</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 히어로: 사진 + 이름 + 한 줄 소개 -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="profile-img">
+          <!-- 사진 넣을 때: <img src="images/profile.jpg" alt="프로필 사진"> -->
+          프로필 사진
+        </div>
+        <div>
+          <h1>이름 <small class="placeholder">(English Name)</small></h1>
+          <p class="affiliation placeholder">OO대학교 OO학과 4학년</p>
+          <p class="intro placeholder">한 줄 자기소개를 입력하세요.</p>
+          <div class="hero-links">
+            <a href="about.html" class="btn primary">About Me</a>
+            <a href="projects.html" class="btn">Projects</a>
+            <a href="#" class="btn">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 관심 분야 -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">Interests</h2>
+        <div class="card-grid">
+          <div class="card">
+            <div class="icon">💡</div>
+            <h3>관심 분야 1</h3>
+            <p class="placeholder">간단한 설명을 입력하세요.</p>
+          </div>
+          <div class="card">
+            <div class="icon">💻</div>
+            <h3>관심 분야 2</h3>
+            <p class="placeholder">간단한 설명을 입력하세요.</p>
+          </div>
+          <div class="card">
+            <div class="icon">📊</div>
+            <h3>관심 분야 3</h3>
+            <p class="placeholder">간단한 설명을 입력하세요.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🚀</div>
+            <h3>관심 분야 4</h3>
+            <p class="placeholder">간단한 설명을 입력하세요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 대표 프로젝트 미리보기 -->
+    <section class="alt">
+      <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="card-grid">
+          <a href="projects.html" class="card">
+            <h3>프로젝트 1</h3>
+            <p class="placeholder">프로젝트 한 줄 요약</p>
+          </a>
+          <a href="projects.html" class="card">
+            <h3>프로젝트 2</h3>
+            <p class="placeholder">프로젝트 한 줄 요약</p>
+          </a>
+          <a href="projects.html" class="card">
+            <h3>프로젝트 3</h3>
+            <p class="placeholder">프로젝트 한 줄 요약</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 최근 소식 -->
+    <section>
+      <div class="container">
+        <h2 class="section-title">News</h2>
+        <ul class="news-list">
+          <li><span class="date">YYYY.MM</span><span class="placeholder">소식을 입력하세요.</span></li>
+          <li><span class="date">YYYY.MM</span><span class="placeholder">소식을 입력하세요.</span></li>
+          <li><span class="date">YYYY.MM</span><span class="placeholder">소식을 입력하세요.</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> 이름. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="mailto:">Email</a>
+        <a href="#">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
