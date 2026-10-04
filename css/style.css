@@ -427,7 +427,7 @@ section.tint { background: var(--paper-2); }
 }
 .project:first-child { padding-top: 0; }
 .project:last-child { border-bottom: none; padding-bottom: 0; }
-.project:nth-child(even) .project-thumb { order: 2; }
+.project:nth-child(even) .project-media { order: 2; }
 
 .project-thumb {
   position: relative;
@@ -594,7 +594,7 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
   .feature-list { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; gap: 64px; }
   .project { grid-template-columns: 1fr; gap: 36px; }
-  .project:nth-child(even) .project-thumb { order: 0; }
+  .project:nth-child(even) .project-media { order: 0; }
 }
 
 @media (max-width: 768px) {
@@ -657,3 +657,21 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
 .dark .spec li { border-color: var(--rule-dark); }
 .dark .spec .key { color: var(--amber-light); }
 .aside { font-style: italic; color: var(--muted); font-size: 0.9em; }
+
+/* Projects: 사진 캡션, 그래프용 여백, 요약 표 */
+.project-media { margin: 0; }
+.project-media figcaption {
+  margin-top: 12px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-align: center;
+}
+.project-thumb.contain { background: #fcfcfa; }
+.project-thumb.contain img { object-fit: contain; padding: 18px; }
+.project h3 { word-break: keep-all; }
+.project h3 small { font-size: 0.6em; color: var(--muted); }
+.spec.facts { margin-top: 26px; font-size: 0.92rem; }
+.spec.facts li { padding: 10px 0; }
+.project { scroll-margin-top: 110px; }
