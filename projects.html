@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | 이름</title>
+  <title>Projects · Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Serif+KR:wght@300;400;600&family=Oswald:wght@300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <header class="site-header">
     <nav class="container nav">
-      <a href="index.html" class="logo">이름</a>
+      <a href="index.html" class="logo">
+        <span class="logo-mark">Y</span>
+        <span class="logo-text"><span class="logo-name">Your Name</span><span class="logo-est">Est. 20XX</span></span>
+      </a>
       <button class="nav-toggle" aria-label="메뉴 열기">☰</button>
       <ul class="nav-menu">
         <li><a href="index.html">Home</a></li>
@@ -24,9 +30,11 @@
   </header>
 
   <main>
-    <div class="page-title">
+    <div class="page-title dark">
       <div class="container">
+        <p class="label">The Collection</p>
         <h1>Projects</h1>
+        <div class="ornament"><span></span></div>
         <p>참여한 프로젝트와 과제</p>
       </div>
     </div>
@@ -34,58 +42,52 @@
     <section>
       <div class="container">
 
-        <!-- 프로젝트 1 (아래 블록을 복사해서 추가하세요) -->
-        <article class="project">
+        <!-- 프로젝트 1 (아래 article 블록을 복사해서 추가하세요) -->
+        <article class="project reveal">
           <div class="project-thumb">
             <!-- <img src="images/project1.png" alt="프로젝트 1 스크린샷"> -->
-            이미지
+            Image
           </div>
           <div>
+            <p class="label">No. 01</p>
             <h3>프로젝트 제목 1</h3>
-            <p class="meta placeholder">YYYY.MM – YYYY.MM · 팀 프로젝트 (N명) · 역할: OO</p>
-            <p class="placeholder">프로젝트 설명을 입력하세요. 어떤 문제를 해결했는지, 내가 맡은 부분은 무엇인지 적어주세요.</p>
-            <div class="tags">
-              <span class="tag">기술1</span>
-              <span class="tag">기술2</span>
-              <span class="tag">기술3</span>
-            </div>
+            <p class="meta placeholder">20XX.MM – 20XX.MM · Team of N · 역할</p>
+            <p class="desc placeholder">프로젝트 설명을 입력하세요. 어떤 문제를 해결했는지, 내가 맡은 부분은 무엇인지 적어주세요.</p>
+            <p class="stack"><span>기술1</span><span>기술2</span><span>기술3</span></p>
             <div class="links">
-              <a href="#">GitHub</a>
-              <a href="#">시연 영상</a>
-              <a href="#">발표자료</a>
+              <a href="#" class="text-link">GitHub</a>
+              <a href="#" class="text-link">Demo</a>
+              <a href="#" class="text-link">Slides</a>
             </div>
           </div>
         </article>
 
         <!-- 프로젝트 2 -->
-        <article class="project">
-          <div class="project-thumb">이미지</div>
+        <article class="project reveal">
+          <div class="project-thumb">Image</div>
           <div>
+            <p class="label">No. 02</p>
             <h3>프로젝트 제목 2</h3>
-            <p class="meta placeholder">YYYY.MM – YYYY.MM · 개인 프로젝트</p>
-            <p class="placeholder">프로젝트 설명을 입력하세요.</p>
-            <div class="tags">
-              <span class="tag">기술1</span>
-              <span class="tag">기술2</span>
-            </div>
+            <p class="meta placeholder">20XX.MM – 20XX.MM · Personal</p>
+            <p class="desc placeholder">프로젝트 설명을 입력하세요.</p>
+            <p class="stack"><span>기술1</span><span>기술2</span></p>
             <div class="links">
-              <a href="#">GitHub</a>
+              <a href="#" class="text-link">GitHub</a>
             </div>
           </div>
         </article>
 
         <!-- 프로젝트 3 -->
-        <article class="project">
-          <div class="project-thumb">이미지</div>
+        <article class="project reveal">
+          <div class="project-thumb">Image</div>
           <div>
+            <p class="label">No. 03</p>
             <h3>프로젝트 제목 3</h3>
-            <p class="meta placeholder">YYYY.MM – YYYY.MM · 수업 과제 (과목명)</p>
-            <p class="placeholder">프로젝트 설명을 입력하세요.</p>
-            <div class="tags">
-              <span class="tag">기술1</span>
-            </div>
+            <p class="meta placeholder">20XX.MM – 20XX.MM · Coursework (과목명)</p>
+            <p class="desc placeholder">프로젝트 설명을 입력하세요.</p>
+            <p class="stack"><span>기술1</span></p>
             <div class="links">
-              <a href="#">GitHub</a>
+              <a href="#" class="text-link">GitHub</a>
             </div>
           </div>
         </article>
@@ -95,12 +97,20 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> 이름. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="mailto:">Email</a>
-        <a href="#">GitHub</a>
-      </div>
+    <div class="container">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">Y</span>
+        <span class="logo-text"><span class="logo-name">Your Name</span><span class="logo-est">Est. 20XX</span></span>
+      </a>
+      <ul class="footer-nav">
+        <li><a href="about.html">About</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="skills.html">Skills &amp; Courses</a></li>
+        <li><a href="activities.html">Activities</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <p class="toast">Slàinte mhath</p>
+      <p class="copyright">&copy; <span id="year"></span> Your Name · All rights reserved</p>
     </div>
   </footer>
 
