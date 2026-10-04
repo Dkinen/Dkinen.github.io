@@ -650,3 +650,10 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
 
 /* 로고의 G.O.A.T 강조 */
 .logo-name em { font-style: italic; color: var(--amber-light); }
+
+/* About: 연락처 링크, 어두운 배경의 목표 목록 */
+.spec a:hover { color: var(--amber); }
+.spec.goals { max-width: 720px; margin: 24px auto 0; text-align: left; }
+.dark .spec li { border-color: var(--rule-dark); }
+.dark .spec .key { color: var(--amber-light); }
+.aside { font-style: italic; color: var(--muted); font-size: 0.9em; }
