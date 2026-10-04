@@ -63,7 +63,7 @@ img { max-width: 100%; display: block; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.25; }
 
 /* Cormorant 기본 숫자(올드스타일)는 1이 ı처럼 보여서 일반 숫자로 고정 */
-body { font-variant-numeric: lining-nums; }
+body { font-variant-numeric: lining-nums; word-break: keep-all; overflow-wrap: break-word; }
 
 /* 장식 구분선: ── ◆ ── */
 .ornament {
@@ -121,7 +121,8 @@ body { font-variant-numeric: lining-nums; }
   justify-content: center;
   font-family: var(--serif);
   font-style: italic;
-  font-size: 1.35rem;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
   color: var(--amber-light);
   position: relative;
 }
@@ -270,7 +271,7 @@ section.tint { background: var(--paper-2); }
   text-transform: uppercase;
   color: rgba(239, 230, 212, 0.35);
 }
-.portrait-frame img { width: 100%; height: 100%; object-fit: cover; }
+.portrait-frame img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 30%; }
 
 /* ---------- 홈: 관심 분야 (로마 숫자 4열) ---------- */
 .pillars {
@@ -285,6 +286,8 @@ section.tint { background: var(--paper-2); }
   border-right: 1px solid var(--rule);
 }
 .pillar:last-child { border-right: none; }
+.pillars.three { grid-template-columns: repeat(3, 1fr); }
+.pillar .label { margin-bottom: 14px; }
 .pillar .numeral {
   font-family: var(--serif);
   font-style: italic;
@@ -292,7 +295,7 @@ section.tint { background: var(--paper-2); }
   color: var(--amber);
   line-height: 1;
 }
-.pillar h3 { font-size: 1.45rem; margin: 18px 0 10px; }
+.pillar h3 { font-size: 1.45rem; margin: 18px 0 2px; }
 .pillar p { color: var(--muted); font-size: 0.95rem; }
 
 /* ---------- 홈: 대표 프로젝트 ---------- */
@@ -316,7 +319,7 @@ section.tint { background: var(--paper-2); }
   pointer-events: none;
 }
 .feature:hover::after { border-color: rgba(201, 162, 107, 0.4); }
-.feature h3 { font-size: 1.6rem; margin: 14px 0 12px; }
+.feature h3 { font-size: 1.4rem; margin: 14px 0 12px; word-break: keep-all; }
 .feature p { color: rgba(239, 230, 212, 0.65); font-size: 0.95rem; }
 .feature .text-link { display: inline-block; margin-top: 26px; }
 
@@ -584,6 +587,9 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
   .pillars, .skill-grid { grid-template-columns: repeat(2, 1fr); }
   .pillar:nth-child(2), .skill:nth-child(2) { border-right: none; }
   .pillar:nth-child(-n+2), .skill:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  .pillars.three { grid-template-columns: repeat(3, 1fr); }
+  .pillars.three .pillar { border-bottom: none; }
+  .pillars.three .pillar:nth-child(2) { border-right: 1px solid var(--rule); }
 
   .feature-list { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; gap: 64px; }
@@ -633,3 +639,14 @@ td:nth-child(2) { font-family: var(--serif); font-size: 1.2rem; font-weight: 500
   .contact-list a { font-size: 1.25rem; word-break: break-all; }
   .closing blockquote { font-size: 1.5rem; }
 }
+
+/* 3열 관심 분야: 모바일에서는 1열 */
+@media (max-width: 768px) {
+  .pillars.three { grid-template-columns: 1fr; }
+  .pillars.three .pillar { border-right: none; border-bottom: 1px solid var(--rule); }
+  .pillars.three .pillar:nth-child(2) { border-right: none; }
+  .pillars.three .pillar:last-child { border-bottom: none; }
+}
+
+/* 로고의 G.O.A.T 강조 */
+.logo-name em { font-style: italic; color: var(--amber-light); }
