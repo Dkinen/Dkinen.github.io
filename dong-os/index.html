@@ -236,22 +236,45 @@ LNG가 기화할 때 바다로 그냥 버려지던 냉기를
     </div>
 
     <!-- ===== 위스키 저장소 ===== -->
-    <div class="window app" id="whisky" style="width: 380px;" data-title="위스키 저장소 (W:)">
+    <div class="window app" id="whisky" style="width: 400px;" data-title="위스키 저장소 (W:)">
       <div class="title-bar">
-        <div class="title-bar-text">🥃 W:\ 에 액세스할 수 없습니다</div>
+        <div class="title-bar-text">🥃 W:\ 네트워크 드라이브 연결</div>
         <div class="title-bar-controls"><button aria-label="Close"></button></div>
       </div>
       <div class="window-body">
-        <div class="row" style="align-items: flex-start; gap: 14px;">
+        <div class="row" style="align-items: flex-start; gap: 14px; flex-wrap: nowrap;">
           <div class="big-emoji">🔒</div>
           <div>
-            <p><b>W:\ 위스키 저장소에 액세스할 수 없습니다.</b></p>
-            <p>접근 권한이 있는 사용자:<br>· 만 19세 이상<br>· 내일 1교시가 없음<br>· 캠벨타운부터 아일라까지 이야기할 시간이 있음</p>
-            <p class="muted">조건을 만족한다면 연락처.txt를 참조하십시오.</p>
+            <p><b>W:\ 위스키 저장소는 보호된 드라이브입니다.</b></p>
+            <p>접근 권한 확인:<br>· 만 19세 이상입니까?<br>· 내일 1교시가 없습니까?<br>· 캠벨타운부터 아일라까지 이야기할 시간이 있습니까?</p>
           </div>
         </div>
-        <div class="row right"><button data-open="contact">연락처 열기</button><button data-close>확인</button></div>
+        <div class="row right"><button id="w-yes">예, 전부 해당</button><button id="w-no">아니오</button></div>
       </div>
+    </div>
+
+    <div class="window app" id="soollog" style="width: 920px; height: 640px;" data-title="술로그 (W:)">
+      <div class="title-bar">
+        <div class="title-bar-text">🥃 W:\ 술로그 - 김동현의 위스키 지도</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body sool">
+        <div class="row" style="margin-bottom: 6px;">
+          <span>주소:</span>
+          <input type="text" value="https://sool-log.onrender.com" readonly style="flex: 1;">
+          <a href="https://sool-log.onrender.com" target="_blank" rel="noopener"><button>새 창에서 열기</button></a>
+        </div>
+        <div class="sool-frame">
+          <div class="sool-wait" id="sool-wait">
+            <div class="big-emoji">🥃</div>
+            <p><b>W:\ 드라이브에 연결하는 중...</b></p>
+            <p class="muted">저장소 서버가 자고 있으면 깨우는 데 최대 1분 걸립니다.<br>위스키는 원래 기다림의 술입니다.</p>
+            <div class="progress-indicator"><span class="progress-indicator-bar" id="sool-bar" style="width: 0%"></span></div>
+          </div>
+          <iframe id="sool-iframe" title="술로그" allow="geolocation" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="sool-status">연결 중</p><p class="status-bar-field">읽기 전용 · 기록은 주인장만</p></div>
     </div>
 
     <!-- ===== 증명사진 ===== -->

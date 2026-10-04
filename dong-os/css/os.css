@@ -404,3 +404,23 @@ a { color: #0000ee; }
 .win-logo i:nth-child(2) { background: #81bc06; }
 .win-logo i:nth-child(3) { background: #05a6f0; }
 .win-logo i:nth-child(4) { background: #ffba08; }
+
+/* 술로그 (W: 드라이브) */
+.window-body.sool { display: flex; flex-direction: column; }
+.sool-frame { position: relative; flex: 1; min-height: 360px; background: #121014; border: 2px solid; border-color: grey #fff #fff grey; }
+.sool-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #121014; }
+.sool-wait {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--face);
+  padding: 20px;
+}
+.sool-wait .progress-indicator { width: 260px; }
+.sool-wait.hide { display: none; }
+.sool-wait .big-emoji { margin-bottom: 12px; }

@@ -544,6 +544,45 @@
     });
   }
 
+  /* ---------- 위스키 저장소 (술로그 연동) ---------- */
+  var SOOL_URL = "https://sool-log.onrender.com";
+  function initWhisky() {
+    $("#w-no").addEventListener("click", function () {
+      closeWin($("#whisky"));
+      msg("W:\\ 액세스 거부", "조건을 모두 만족하는 사용자만 열 수 있습니다.\n내일 1교시 끝나고 다시 오세요.", "🔒");
+    });
+    $("#w-yes").addEventListener("click", function () {
+      closeWin($("#whisky"));
+      openWin("soollog");
+    });
+    var frame = $("#sool-iframe"), wait = $("#sool-wait"), bar = $("#sool-bar"), status = $("#sool-status");
+    var loaded = false, timer = null;
+    var ready = function () {
+      if (loaded) return;
+      loaded = true;
+      clearInterval(timer);
+      wait.classList.add("hide");
+      status.textContent = "연결됨 · W:\\";
+    };
+    frame.addEventListener("load", function () { if (frame.getAttribute("src")) ready(); });
+    apps.soollog = function () {
+      if (loaded || frame.getAttribute("src")) return;
+      var t = 0;
+      status.textContent = "연결 중";
+      frame.setAttribute("src", SOOL_URL);
+      // 서버가 응답하면(깨어나면) 지도 타일을 다 받기 전이라도 안내 화면을 걷음
+      fetch(SOOL_URL + "/api/auth/status", { mode: "no-cors", cache: "no-store" })
+        .then(function () { setTimeout(ready, 1500); })
+        .catch(function () {});
+      // Render 무료 서버가 깨어나는 동안 진행 표시 (최대 약 60초)
+      timer = setInterval(function () {
+        t++;
+        bar.style.width = Math.min(95, t * 1.6) + "%";
+        if (t === 75) status.textContent = "응답이 늦습니다 · [새 창에서 열기]를 눌러 보세요";
+      }, 1000);
+    };
+  }
+
   /* ---------- 시작 ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initWindows();
@@ -556,6 +595,7 @@
     initTaskmgr();
     initTrash();
     initDiary();
+    initWhisky();
     boot();
     // 처음 방문하면 내 컴퓨터를 열어 둠
     setTimeout(function () { if (!$(".app.open")) openWin("mycomputer"); }, 2800);
