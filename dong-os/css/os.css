@@ -396,3 +396,11 @@ a { color: #0000ee; }
   #tray .cpu { display: none; }
   #desktop::after { font-size: 26px; }
 }
+
+/* 시작 버튼 로고 (네 가지 색 사각형) */
+.win-logo { display: inline-grid; grid-template-columns: 7px 7px; gap: 1px; transform: skewY(-6deg); margin-right: 2px; }
+.win-logo i { width: 7px; height: 7px; display: block; }
+.win-logo i:nth-child(1) { background: #f35325; }
+.win-logo i:nth-child(2) { background: #81bc06; }
+.win-logo i:nth-child(3) { background: #05a6f0; }
+.win-logo i:nth-child(4) { background: #ffba08; }
