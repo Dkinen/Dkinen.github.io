@@ -779,3 +779,42 @@ a { color: #0000ee; }
   .cbt-omr { width: 100%; grid-template-columns: repeat(5, 1fr); max-height: 140px; }
   .cbt-menu { grid-template-columns: 1fr; }
 }
+
+/* =========================================================
+   v6: 면접 · 용어 사전 · 경험 노트 · 지원 보드
+   ========================================================= */
+.iv-q { font-size: 18px; line-height: 1.6; background: #fffbe6; border: 2px solid #d4b106; padding: 14px; margin-bottom: 8px; }
+.iv-tip summary { cursor: pointer; color: #000080; }
+.iv-tip { margin-bottom: 6px; background: #f3f6ff; padding: 6px 8px; }
+.warn { color: #c00; }
+.term { border-bottom: 1px dotted #bbb; padding: 8px 4px; line-height: 1.6; position: relative; padding-right: 90px; }
+.term.known { background: #f2fff2; }
+.term-k { font-weight: bold; color: #000080; font-size: 14px; }
+.term-m { color: #555; background: #fffbe6; padding: 3px 6px; margin-top: 3px; }
+.term-toggle { position: absolute; right: 4px; top: 8px; min-width: 76px; }
+.flash { min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 20px; background: #fffef6; border: 3px double #000080; cursor: pointer; line-height: 1.7; font-size: 15px; }
+.flash-k { font-size: 26px; color: #000080; }
+.star { margin-bottom: 10px; }
+.star-tags { color: #555; margin-bottom: 4px; }
+.star-row { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0; }
+.star-row b { width: 18px; color: #000080; font-size: 16px; padding-top: 4px; }
+.star-row textarea { flex: 1; height: 44px; resize: vertical; }
+.ap-due { background: #fff3cd; border: 1px solid #d4b106; padding: 6px 8px; margin: 6px 0; }
+.kanban { display: grid; grid-template-columns: repeat(6, minmax(140px, 1fr)); gap: 6px; overflow-x: auto; margin: 8px 0; }
+.kcol { background: #e8e8e8; border: 1px solid #aaa; min-height: 220px; padding: 4px; }
+.kcol.over { background: #d6e4ff; }
+.khead { background: #000080; color: #fff; padding: 4px 6px; margin: -4px -4px 6px; font-size: 12px; }
+.kcard { background: #fff; border: 1px solid #888; box-shadow: 1px 1px 0 #000; padding: 6px; margin-bottom: 6px; cursor: grab; line-height: 1.4; }
+.kdue { color: #555; font-size: 11px; margin-top: 2px; }
+.kdue.soon { color: #c00; font-weight: bold; }
+.kmemo { background: #fffbe6; font-size: 11px; padding: 2px 4px; margin-top: 4px; white-space: pre-wrap; }
+.kmemo-edit { width: 100%; height: 50px; margin-top: 4px; }
+.kbtns { display: flex; gap: 2px; margin-top: 4px; }
+.kbtns button { min-width: 0; flex: 1; padding: 0; height: 20px; font-size: 11px; }
+.ap-import { display: inline-flex; align-items: center; padding: 0 10px; height: 23px; cursor: pointer; background: var(--face); box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf; }
+@media (max-width: 700px) {
+  .kanban { grid-template-columns: repeat(6, 150px); }
+  .term { padding-right: 4px; }
+  .term-toggle { position: static; margin-top: 4px; }
+}
+.kbtns button, .iv-q .e { font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif !important; }

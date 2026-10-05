@@ -185,6 +185,8 @@
     D.apps.silgi = home;
   }
 
+  window.DONG_makeCBT = makeCBT;   // 인적성 연습에서 재사용
+
   document.addEventListener("DOMContentLoaded", function () {
     var S = window.STUDY_DATA;
     makeCBT({
@@ -209,5 +211,15 @@
       }
     });
     makeSilgi();
+    makeCBT({
+      id: "apt", key: "apt", bank: S.apt, perQ: 45, cutoff: false,
+      title: "🧮 인적성 연습 · GSAT·HMAT 스타일 (수리·자료해석·추리)",
+      passText: "문제당 45초. 대기업 인적성은 정확도만큼 속도가 중요합니다. 손으로 계산하지 말고 어림셈으로 보기를 지워 보세요.",
+      pass: function (by, total) {
+        return total >= 85 ? { ok: true, short: "상위권", text: "상위권 페이스! 시간을 더 줄여 보세요." }
+          : total >= 65 ? { ok: true, short: "합격권", text: "합격권 · 틀린 유형만 다시 보세요." }
+          : { ok: false, short: "보완", text: "보완 필요 · 오답노트로 다시 풀어 보세요." };
+      }
+    });
   });
 })();
