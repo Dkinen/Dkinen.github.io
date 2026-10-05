@@ -54,6 +54,9 @@
         <h6><span class="e">📚</span> 공부</h6>
         <div class="group-icons">
           <button class="icon" data-open="toeic"><span class="glyph">🎤</span><span class="name">토스 연습기.exe</span></button>
+          <button class="icon" data-open="pilgi"><span class="glyph">🏗️</span><span class="name">전공 필기 CBT.exe</span></button>
+          <button class="icon" data-open="silgi"><span class="glyph">✍️</span><span class="name">전공 실기.exe</span></button>
+          <button class="icon" data-open="ncs"><span class="glyph">🏢</span><span class="name">NCS 문제풀이.exe</span></button>
           <button class="icon" data-open="typing"><span class="glyph">⌨️</span><span class="name">동현 타자연습.exe</span></button>
           <button class="icon" data-open="dday"><span class="glyph">📅</span><span class="name">D-day</span></button>
         </div>
@@ -718,6 +721,31 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       </div>
     </div>
 
+    <!-- ===== 공부: 전공 필기 · 실기 · NCS ===== -->
+    <div class="window app" id="pilgi" style="width: 820px; height: 640px;" data-title="전공 필기 CBT.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🏗️ 전공 필기 CBT.exe</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body study-body" id="pilgi-body"></div>
+    </div>
+
+    <div class="window app" id="silgi" style="width: 760px; height: 620px;" data-title="전공 실기.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">✍️ 전공 실기.exe</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body study-body" id="silgi-body"></div>
+    </div>
+
+    <div class="window app" id="ncs" style="width: 820px; height: 620px;" data-title="NCS 문제풀이.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🏢 NCS 문제풀이.exe</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body study-body" id="ncs-body"></div>
+    </div>
+
     <!-- ===== 메시지 상자 (공용) ===== -->
     <div class="window app" id="msgbox" style="width: 340px;" data-title="알림">
       <div class="title-bar">
@@ -752,6 +780,9 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li><button data-open="awards"><span>🗜️</span>수상내역.zip</button></li>
       <li class="cat"><span class="e">📚</span> 공부</li>
       <li><button data-open="toeic"><span>🎤</span>토스 연습기.exe</button></li>
+      <li><button data-open="pilgi"><span>🏗️</span>전공 필기 CBT.exe</button></li>
+      <li><button data-open="silgi"><span>✍️</span>전공 실기.exe</button></li>
+      <li><button data-open="ncs"><span>🏢</span>NCS 문제풀이.exe</button></li>
       <li><button data-open="typing"><span>⌨️</span>동현 타자연습.exe</button></li>
       <li><button data-open="dday"><span>📅</span>D-day</button></li>
       <li class="cat"><span class="e">📔</span> 기록</li>
@@ -805,5 +836,7 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
   <script src="js/games.js"></script>
   <script src="js/toeic.js"></script>
   <script src="js/fun.js"></script>
+  <script src="js/study-data.js"></script>
+  <script src="js/study.js"></script>
 </body>
 </html>

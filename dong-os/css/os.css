@@ -739,3 +739,43 @@ a { color: #0000ee; }
   .ty-stats { grid-template-columns: repeat(2, 1fr); }
   .tz-passage { font-size: 15px; }
 }
+
+/* =========================================================
+   v5: 공부 앱 (전공 필기 CBT · 실기 · NCS)
+   ========================================================= */
+.study-body { background: #fff; padding: 10px; border: 2px solid; border-color: grey #fff #fff grey; }
+.cbt-title { background: #000080; color: #fff; padding: 8px 10px; font-size: 14px; margin-bottom: 8px; }
+.cbt-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.cbt-menu button { min-height: 54px; font-size: 14px; line-height: 1.4; }
+.cbt-subs { display: flex; flex-wrap: wrap; gap: 6px; }
+.cbt-subs button { flex: 1 1 120px; height: 32px; }
+.cbt-bar { display: flex; justify-content: space-between; gap: 8px; background: #000080; color: #fff; padding: 6px 10px; margin-bottom: 8px; flex-wrap: wrap; }
+.cbt-time { font-family: var(--mono); color: #ff0; }
+.cbt-wrap { display: flex; gap: 10px; align-items: flex-start; }
+.cbt-q { flex: 1; min-width: 0; }
+.cbt-qtext { font-size: 15px; line-height: 1.7; white-space: normal; background: #f6f6f6; border: 1px solid #ccc; padding: 10px; margin: 0 0 10px !important; }
+.cbt-opt { padding: 6px 4px; border-bottom: 1px dotted #ccc; align-items: flex-start; }
+.cbt-opt label { line-height: 1.5; font-size: 14px; }
+.cbt-omr { width: 150px; flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; align-content: start; background: #f0f0f0; padding: 6px; border: 1px solid #aaa; max-height: 470px; overflow: auto; }
+.cbt-omr .muted { grid-column: 1 / -1; text-align: center; margin-bottom: 2px; }
+.cbt-omr .omr { min-width: 0; padding: 2px; height: 24px; font-size: 11px; }
+.cbt-omr .omr.done { background: #cfe3ff; }
+.cbt-omr .omr.cur { outline: 2px solid #000080; }
+.cbt-result { text-align: center; padding: 12px; margin: 8px 0; border: 2px solid; }
+.cbt-result.pass { background: #e6ffe6; border-color: #2a8a2a; }
+.cbt-result.fail { background: #ffe9e9; border-color: #c33; }
+.cbt-result .big { font-size: 32px; }
+.cbt-exp { padding: 8px; border-bottom: 1px dotted #bbb; line-height: 1.6; }
+.cbt-exp.no { background: #fff3f3; }
+.tz-plan td.warn { color: #c00; font-weight: bold; }
+.silgi-row { cursor: pointer; }
+.silgi-row:hover td { background: #e6eeff; }
+.silgi-q { max-width: 420px; }
+.silgi-paper { border: 1px solid #aaa; padding: 10px; background: #fffef6; }
+.silgi-text { width: 100%; height: 130px; margin-bottom: 6px; }
+.silgi-model { background: #eef6ff; border: 1px solid #9ab; padding: 10px; margin-top: 8px; line-height: 1.7; }
+@media (max-width: 700px) {
+  .cbt-wrap { flex-direction: column; }
+  .cbt-omr { width: 100%; grid-template-columns: repeat(5, 1fr); max-height: 140px; }
+  .cbt-menu { grid-template-columns: 1fr; }
+}
