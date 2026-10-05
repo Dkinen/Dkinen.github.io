@@ -34,6 +34,8 @@
         <h6><span class="e">👤</span> 나에 대해</h6>
         <div class="group-icons">
           <button class="icon" data-open="mycomputer"><span class="glyph">🖥️</span><span class="name">내 컴퓨터</span></button>
+          <button class="icon shortcut" data-site="../index.html" data-site-title="자기소개 · Heritage Edition"><span class="glyph">🥃</span><span class="name">자기소개 (고급).url</span></button>
+          <button class="icon shortcut" data-site="../why-not/index.html" data-site-title="자기소개 · WHY NOT? Edition"><span class="glyph">🔥</span><span class="name">자기소개 (열정).url</span></button>
           <button class="icon" data-open="resume"><span class="glyph">📄</span><span class="name">이력서.pdf</span></button>
           <button class="icon" data-open="mbti"><span class="glyph">🧠</span><span class="name">MBTI 진단.exe</span></button>
           <button class="icon" data-open="photo"><span class="glyph">🖼️</span><span class="name">증명사진.jpg</span></button>
@@ -61,6 +63,8 @@
           <button class="icon" data-open="quiz"><span class="glyph">❓</span><span class="name">김동현 맞추기.exe</span></button>
           <button class="icon" data-open="mines"><span class="glyph">🦺</span><span class="name">안전사고 찾기.exe</span></button>
           <button class="icon" data-open="tanghulu"><span class="glyph">🍡</span><span class="name">탕후루마스터.exe</span></button>
+          <button class="icon" data-open="swim"><span class="glyph">🏊</span><span class="name">50m 자유형.exe</span></button>
+          <button class="icon" data-open="kart"><span class="glyph">🏎️</span><span class="name">현장 카트 GP.exe</span></button>
         </div>
       </section>
       <section class="group">
@@ -499,6 +503,61 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       </div>
     </div>
 
+    <!-- ===== Dong Explorer (내 자기소개 사이트) ===== -->
+    <div class="window app" id="explorer" style="width: 960px; height: 640px;" data-title="Dong Explorer">
+      <div class="title-bar">
+        <div class="title-bar-text" id="ex-title">🌐 Dong Explorer</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body" style="display: flex; flex-direction: column;">
+        <div class="row" style="margin-bottom: 6px; flex-wrap: nowrap;">
+          <button id="ex-back" title="뒤로">◀</button>
+          <button id="ex-home" title="처음 화면">🏠</button>
+          <span>주소:</span>
+          <input type="text" id="ex-url" readonly style="flex: 1; min-width: 0;">
+          <button id="ex-pop">새 창에서 열기</button>
+        </div>
+        <div class="doc-frame"><iframe id="ex-frame" title="자기소개 사이트"></iframe></div>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="ex-status">완료</p><p class="status-bar-field">🌐 인터넷</p></div>
+    </div>
+
+    <!-- ===== 50m 자유형 ===== -->
+    <div class="window app game-win" id="swim" style="width: 680px;" data-title="50m 자유형.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🏊 50m 자유형</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <canvas id="swim-canvas" width="640" height="300"></canvas>
+        <div class="game-pad">
+          <button class="pad" data-key="ArrowLeft">◀ 왼팔</button>
+          <button class="pad" data-key="Space">🫧 숨</button>
+          <button class="pad" data-key="ArrowRight">오른팔 ▶</button>
+        </div>
+        <p class="muted game-help">← → 를 번갈아 눌러 팔 젓기 · 같은 팔 연속은 물만 튐 · Space 숨쉬기 (숨 게이지가 바닥나면 느려짐) · Enter 시작</p>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="swim-status">대기 중</p><p class="status-bar-field" id="swim-best">최고 기록 -</p></div>
+    </div>
+
+    <!-- ===== 현장 카트 GP ===== -->
+    <div class="window app game-win" id="kart" style="width: 400px;" data-title="현장 카트 GP.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🏎️ 현장 카트 GP</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <canvas id="kart-canvas" width="360" height="520"></canvas>
+        <div class="game-pad">
+          <button class="pad" data-key="ArrowLeft">◀ 왼쪽</button>
+          <button class="pad" data-key="Enter">▶ 시작</button>
+          <button class="pad" data-key="ArrowRight">오른쪽 ▶</button>
+        </div>
+        <p class="muted game-help">← → 차선 변경 · 🚧🛢️🕳️ 피하기 · 🍗 치킨 +100 · 🧊 아아 부스터 · 💖 3번 부딪히면 끝 · Enter 시작</p>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="kart-status">대기 중</p><p class="status-bar-field" id="kart-best">최고 기록 -</p></div>
+    </div>
+
     <!-- ===== 메시지 상자 (공용) ===== -->
     <div class="window app" id="msgbox" style="width: 340px;" data-title="알림">
       <div class="title-bar">
@@ -521,6 +580,8 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
     <ul>
       <li class="cat"><span class="e">👤</span> 나에 대해</li>
       <li><button data-open="mycomputer"><span>🖥️</span>내 컴퓨터</button></li>
+      <li><button data-site="../index.html" data-site-title="자기소개 · Heritage Edition"><span>🥃</span>자기소개 (고급)</button></li>
+      <li><button data-site="../why-not/index.html" data-site-title="자기소개 · WHY NOT? Edition"><span>🔥</span>자기소개 (열정)</button></li>
       <li><button data-open="resume"><span>📄</span>이력서.pdf</button></li>
       <li><button data-open="mbti"><span>🧠</span>MBTI 진단.exe</button></li>
       <li><button data-open="photo"><span>🖼️</span>증명사진.jpg</button></li>
@@ -536,6 +597,8 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li><button data-open="quiz"><span>❓</span>김동현 맞추기.exe</button></li>
       <li><button data-open="mines"><span>🦺</span>안전사고 찾기.exe</button></li>
       <li><button data-open="tanghulu"><span>🍡</span>탕후루마스터.exe</button></li>
+      <li><button data-open="swim"><span>🏊</span>50m 자유형.exe</button></li>
+      <li><button data-open="kart"><span>🏎️</span>현장 카트 GP.exe</button></li>
       <li class="cat"><span class="e">⚙️</span> 시스템</li>
       <li><button data-open="media"><span>🎵</span>미디어 플레이어</button></li>
       <li><button data-open="control"><span>🎨</span>제어판</button></li>
@@ -569,5 +632,6 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
 
   <script src="js/os.js"></script>
   <script src="js/os-extra.js"></script>
+  <script src="js/games.js"></script>
 </body>
 </html>
