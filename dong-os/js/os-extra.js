@@ -5,12 +5,12 @@
 (function () {
   "use strict";
 
-  /* ---------- 미디어 플레이어 재생목록 ----------
-     유튜브 주소에서 v= 뒤의 11자리 ID를 넣으면 됩니다.
-     예) https://www.youtube.com/watch?v=abcdefghijk → id: "abcdefghijk"            */
-  var PLAYLIST = [
-    // { title: "곡 제목 - 가수", id: "유튜브ID" },
-  ];
+  /* ---------- 미디어 플레이어: 유튜브 재생목록 연동 ----------
+     유튜브 앱에서 이 재생목록에 영상을 넣고 빼면 플레이어에 자동 반영됩니다.
+     API 키는 Google Cloud에서 dkinen.github.io 에서만 쓰이도록 제한되어 있습니다. */
+  var YT_KEY = "AIzaSyBqJugUq-Mq2d7cnJV4pAb4hAa2LQDUv7U";
+  var YT_PLAYLIST = "PLfFM25R6rvWA";
+  var PLAYLIST = [];   // 재생목록에서 불러온 { title, id }
 
   document.addEventListener("DOMContentLoaded", function () {
     var D = window.DONG, $ = D.$, $$ = D.$$;
@@ -204,24 +204,77 @@
       screen.appendChild(f);
       now.textContent = "재생 중: " + PLAYLIST[cur].title;
     };
+    var loaded = false, failed = false;
     var stop = function () {
-      screen.innerHTML = PLAYLIST.length ? "<p>재생할 항목을 고르세요.</p>" : "<p>재생목록이 비어 있습니다.<br>주인장이 플레이리스트를 고르는 중... (INTP라 오래 걸림)</p>";
+      if (failed) return;
+      screen.innerHTML = PLAYLIST.length ? "<p>재생할 항목을 고르세요.</p>" : "<p>재생목록 불러오는 중...</p>";
       now.textContent = "정지됨";
       cur = -1;
       $$("button", list).forEach(function (b) { b.classList.remove("on"); });
     };
-    list.innerHTML = "";
-    PLAYLIST.forEach(function (t, i) {
-      var b = document.createElement("button");
-      b.textContent = (i + 1) + ". " + t.title;
-      b.addEventListener("click", function () { play(i); });
-      list.appendChild(b);
-    });
-    if (!PLAYLIST.length) list.innerHTML = '<p class="muted" style="padding: 8px; margin: 0;">(비어 있음)</p>';
+    var renderList = function () {
+      list.innerHTML = "";
+      PLAYLIST.forEach(function (t, i) {
+        var b = document.createElement("button");
+        b.textContent = (i + 1) + ". " + t.title;
+        b.addEventListener("click", function () { play(i); });
+        list.appendChild(b);
+      });
+      if (!PLAYLIST.length) list.innerHTML = '<p class="muted" style="padding: 8px; margin: 0;">(비어 있음)</p>';
+    };
+    // API가 막히면 유튜브 기본 재생목록 플레이어로 대신 보여 줌
+    var fallback = function () {
+      failed = true;
+      list.innerHTML = '<p class="muted" style="padding: 8px; margin: 0;">목록을 불러오지 못해 유튜브 기본 재생목록으로 보여 줍니다.</p>';
+      screen.innerHTML = "";
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/videoseries?list=" + encodeURIComponent(YT_PLAYLIST);
+      f.allow = "encrypted-media; picture-in-picture";
+      f.allowFullscreen = true;
+      f.title = "재생목록";
+      screen.appendChild(f);
+      now.textContent = "유튜브 재생목록";
+    };
+    var api = function (path) {
+      return fetch("https://www.googleapis.com/youtube/v3/" + path + "&key=" + YT_KEY).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      });
+    };
+    var loadPlaylist = function () {
+      if (loaded) return;
+      loaded = true;
+      api("playlists?part=snippet&id=" + YT_PLAYLIST).then(function (d) {
+        if (d.items && d.items[0]) $("#media .title-bar-text").textContent = "🎵 " + d.items[0].snippet.title + " - DONG 미디어 플레이어";
+      }).catch(function () {});
+      var all = [];
+      var page = function (tok) {
+        return api("playlistItems?part=snippet,status&maxResults=50&playlistId=" + YT_PLAYLIST + (tok ? "&pageToken=" + tok : "")).then(function (d) {
+          d.items.forEach(function (it) {
+            if (it.status && it.status.privacyStatus === "private") return;   // 비공개·삭제 영상은 건너뜀
+            var t = it.snippet.title;
+            if (t === "Deleted video" || t === "Private video") return;
+            all.push({ title: t, id: it.snippet.resourceId.videoId });
+          });
+          if (d.nextPageToken && all.length < 200) return page(d.nextPageToken);
+        });
+      };
+      page("").then(function () {
+        PLAYLIST = all;
+        renderList();
+        stop();
+      }).catch(fallback);
+    };
+    renderList();
     $("#media-prev").addEventListener("click", function () { play(cur - 1); });
     $("#media-next").addEventListener("click", function () { play(cur + 1); });
-    D.apps.media = stop;
-    D.closers.media = stop;   // 창을 닫으면 소리도 끔
+    D.apps.media = function () { stop(); loadPlaylist(); };
+    D.closers.media = function () {   // 창을 닫으면 소리도 끔
+      screen.innerHTML = "";
+      if (failed) { loaded = false; failed = false; }
+      cur = -1;
+      now.textContent = "정지됨";
+    };
 
     /* ---------- 블루스크린 ---------- */
     var bsod = $("#bsod");

@@ -64,7 +64,7 @@
       win.classList.add("open");
       if (!isMobile()) {
         var w = win.offsetWidth, h = win.offsetHeight;
-        var x = (window.innerWidth > 1150 ? 540 : 130) + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
+        var x = (window.innerWidth > 1250 ? 640 : 130) + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
         x = Math.max(4, Math.min(x, window.innerWidth - w - 8));
         y = Math.max(4, Math.min(y, window.innerHeight - h - 44));
         win.style.left = x + "px";
@@ -137,7 +137,8 @@
   function initIcons() {
     $$(".icon").forEach(function (icon) {
       var act = function () {
-        if (icon.dataset.open) openWin(icon.dataset.open);
+        if (icon.dataset.href) window.open(icon.dataset.href, "_blank", "noopener");
+        else if (icon.dataset.open) openWin(icon.dataset.open);
         else if (icon.dataset.msg) {
           var p = icon.dataset.msg.split("|");
           msg(p[0], p[1].replace(/\\n/g, "\n"), "🗑️");
@@ -151,6 +152,9 @@
       });
       icon.addEventListener("dblclick", function () { if (!isTouch) act(); });
       icon.addEventListener("keydown", function (e) { if (e.key === "Enter") act(); });
+    });
+    $$("button[data-href]:not(.icon)").forEach(function (b) {
+      b.addEventListener("click", function () { closeStart(); window.open(b.dataset.href, "_blank", "noopener"); });
     });
     $$("button[data-open]:not(.icon)").forEach(function (b) {
       b.addEventListener("click", function () { openWin(b.dataset.open); });

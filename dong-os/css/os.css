@@ -604,3 +604,21 @@ a { color: #0000ee; }
 .e, #start-menu li button span, #mines-face, .group h6 .e, .icon .glyph, .big-emoji {
   font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif !important;
 }
+
+/* 바로가기 아이콘: 왼쪽 아래 화살표 */
+.icon.shortcut .glyph { position: relative; }
+.icon.shortcut .glyph::after {
+  content: "↗";
+  position: absolute;
+  left: -2px;
+  bottom: -2px;
+  width: 13px;
+  height: 13px;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  font-family: var(--pixel);
+}
