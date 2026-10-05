@@ -92,7 +92,7 @@
         if (k === "ArrowLeft" || k === "ArrowRight") {
           if (st.arm === k) { st.v *= 0.85; say("첨벙! 같은 팔 연속"); }
           else {
-            st.v = Math.min(3.3, st.v + (st.o2 > 0 ? 0.55 : 0.25));
+            st.v = Math.min(2.6, st.v + (st.o2 > 0 ? 0.42 : 0.2));   // 초당 6번 저으면 약 21~22초
             st.o2 = Math.max(0, st.o2 - 1.2);
           }
           st.arm = k;
@@ -135,7 +135,7 @@
         var lines = ["", "🥇 1위! 옆 레인이 먼저 의식합니다.", "🥈 2위. 수영 강사님이 한 수 위였습니다.", "🥉 3위. 옆 레인 아저씨... 다음엔 이깁니다.", "4위. 웨스트브룩보다 느렸습니다. 농구선수한테..."];
         $("#swim-status").textContent = me.toFixed(2) + "초 · " + place + "위" + (nb ? " · 최고 기록!" : "");
         $("#swim-best").textContent = "최고 기록 " + (nb ? me : best).toFixed(2) + "초";
-        D.msg("50m 자유형 결과", me.toFixed(2) + "초 · " + place + "위" + (nb ? " (최고 기록 갱신!)" : "") + "\n" + lines[place] + "\n\nEnter를 누르면 다시 출발합니다.", place === 1 ? "🏆" : "🏊");
+        D.msg("50m 자유형 결과", me.toFixed(2) + "초 · " + place + "위" + (nb ? " (최고 기록 갱신!)" : "") + "\n" + lines[place] + "\n\n다시 하려면 게임 화면을 누르거나 Enter를 누르세요.", place === 1 ? "🏆" : "🏊");
       };
       var draw = function () {
         // 물
@@ -193,7 +193,7 @@
         }
       };
       var loop = function (ts) {
-        var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+        var dt = last ? Math.max(0, Math.min(0.05, (ts - last) / 1000)) : 0; last = ts;   // 첫 프레임·되감긴 시간은 0
         if (!$("#swim").classList.contains("minimized")) update(dt);
         draw();
         raf = requestAnimationFrame(loop);
@@ -208,7 +208,7 @@
       });
       bindPad("swim", key);
       cv.addEventListener("pointerdown", function () { if (st.phase !== "race") key("Enter"); });
-      D.apps.swim = function () { reset(); last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
+      D.apps.swim = function () { reset(); last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
       D.closers.swim = function () { cancelAnimationFrame(raf); raf = null; };
       reset();
     })();
@@ -284,7 +284,7 @@
         if (nb) save("dongos-kart-best", s);
         $("#kart-status").textContent = s + "점" + (nb ? " · 최고 기록!" : "");
         $("#kart-best").textContent = "최고 기록 " + Math.max(s, best) + "점";
-        D.msg("현장 카트 GP 결과", "주행 " + Math.floor(st.dist / 10) + "m · 🍗 치킨 " + st.chicken + "마리\n점수 " + s + "점" + (nb ? " (최고 기록 갱신!)" : "") + "\n\n산업안전기사 한마디: 현장에서는 서행하세요.", "🏁");
+        D.msg("현장 카트 GP 결과", "주행 " + Math.floor(st.dist / 10) + "m · 🍗 치킨 " + st.chicken + "마리\n점수 " + s + "점" + (nb ? " (최고 기록 갱신!)" : "") + "\n\n산업안전기사 한마디: 현장에서는 서행하세요.\n다시 하려면 게임 화면이나 [시작] 버튼을 누르세요.", "🏁");
       };
       var drawKart = function (x, y) {
         ctx.save(); ctx.translate(x, y);
@@ -333,7 +333,7 @@
         }
       };
       var loop = function (ts) {
-        var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+        var dt = last ? Math.max(0, Math.min(0.05, (ts - last) / 1000)) : 0; last = ts;   // 첫 프레임·되감긴 시간은 0
         if (!$("#kart").classList.contains("minimized")) update(dt);
         draw();
         raf = requestAnimationFrame(loop);
@@ -347,7 +347,7 @@
       });
       bindPad("kart", key);
       cv.addEventListener("pointerdown", function () { if (st.phase !== "race") key("Enter"); });
-      D.apps.kart = function () { reset(); last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
+      D.apps.kart = function () { reset(); last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
       D.closers.kart = function () { cancelAnimationFrame(raf); raf = null; };
       reset();
     })();
