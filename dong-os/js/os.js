@@ -64,7 +64,7 @@
       win.classList.add("open");
       if (!isMobile()) {
         var w = win.offsetWidth, h = win.offsetHeight;
-        var x = (window.innerWidth > 1250 ? 640 : 130) + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
+        var x = (window.innerWidth > 1400 ? 740 : 130) + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
         x = Math.max(4, Math.min(x, window.innerWidth - w - 8));
         y = Math.max(4, Math.min(y, window.innerHeight - h - 44));
         win.style.left = x + "px";

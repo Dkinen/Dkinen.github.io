@@ -37,7 +37,8 @@
           <button class="icon shortcut" data-site="../index.html" data-site-title="자기소개 · Heritage Edition"><span class="glyph">🥃</span><span class="name">자기소개 (고급).url</span></button>
           <button class="icon shortcut" data-site="../why-not/index.html" data-site-title="자기소개 · WHY NOT? Edition"><span class="glyph">🔥</span><span class="name">자기소개 (열정).url</span></button>
           <button class="icon" data-open="resume"><span class="glyph">📄</span><span class="name">이력서.pdf</span></button>
-          <button class="icon" data-open="mbti"><span class="glyph">🧠</span><span class="name">MBTI 진단.exe</span></button>
+
+          <button class="icon" data-open="card"><span class="glyph">📇</span><span class="name">명함.vcf</span></button>          <button class="icon" data-open="mbti"><span class="glyph">🧠</span><span class="name">MBTI 진단.exe</span></button>
           <button class="icon" data-open="photo"><span class="glyph">🖼️</span><span class="name">증명사진.jpg</span></button>
           <button class="icon" data-open="contact"><span class="glyph">📝</span><span class="name">연락처.txt</span></button>
         </div>
@@ -50,11 +51,21 @@
         </div>
       </section>
       <section class="group">
+        <h6><span class="e">📚</span> 공부</h6>
+        <div class="group-icons">
+          <button class="icon" data-open="toeic"><span class="glyph">🎤</span><span class="name">토스 연습기.exe</span></button>
+          <button class="icon" data-open="typing"><span class="glyph">⌨️</span><span class="name">동현 타자연습.exe</span></button>
+          <button class="icon" data-open="dday"><span class="glyph">📅</span><span class="name">D-day</span></button>
+        </div>
+      </section>
+      <section class="group">
         <h6><span class="e">📔</span> 기록</h6>
         <div class="group-icons">
           <button class="icon" data-open="diary"><span class="glyph">📔</span><span class="name">일기장</span></button>
           <button class="icon" data-open="whisky"><span class="glyph">🥃</span><span class="name">위스키 저장소 (W:)</span></button>
-          <button class="icon" data-open="guestbook"><span class="glyph">💬</span><span class="name">방명록.exe</span></button>
+
+          <button class="icon" data-open="roulette"><span class="glyph">🎰</span><span class="name">오늘 뭐 마시지.exe</span></button>
+          <button class="icon" data-open="todo"><span class="glyph">✅</span><span class="name">할 일.txt</span></button>          <button class="icon" data-open="guestbook"><span class="glyph">💬</span><span class="name">방명록.exe</span></button>
         </div>
       </section>
       <section class="group">
@@ -65,7 +76,9 @@
           <button class="icon" data-open="tanghulu"><span class="glyph">🍡</span><span class="name">탕후루마스터.exe</span></button>
           <button class="icon" data-open="swim"><span class="glyph">🏊</span><span class="name">50m 자유형.exe</span></button>
           <button class="icon" data-open="kart"><span class="glyph">🏎️</span><span class="name">현장 카트 GP.exe</span></button>
-        </div>
+
+          <button class="icon" data-open="triple"><span class="glyph">🏀</span><span class="name">트리플더블 챌린지.exe</span></button>
+          <button class="icon" data-open="fortune"><span class="glyph">🔮</span><span class="name">오늘의 운세.exe</span></button>        </div>
       </section>
       <section class="group">
         <h6><span class="e">⚙️</span> 시스템</h6>
@@ -486,6 +499,13 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
           <div class="field-row"><input type="radio" id="wp-bar" name="wp" value="bar"><label for="wp-bar">위스키 바 🥃</label></div>
           <div class="field-row"><input type="radio" id="wp-pool" name="wp" value="pool"><label for="wp-pool">수영장 🏊</label></div>
         </fieldset>
+        <fieldset style="margin-top: 8px;">
+          <legend>화면 보호기</legend>
+          <div class="field-row"><input type="checkbox" id="saver-on"><label for="saver-on">사용</label>
+            <label for="saver-wait" style="margin-left: 12px;">대기</label>
+            <select id="saver-wait"><option value="30">30초</option><option value="60">1분</option><option value="180">3분</option><option value="300">5분</option></select>
+            <button id="saver-test">미리 보기</button></div>
+        </fieldset>
         <div class="row right" style="margin-top: 10px;"><button id="wp-apply">적용</button><button data-close>확인</button></div>
       </div>
     </div>
@@ -558,6 +578,146 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <div class="status-bar"><p class="status-bar-field" id="kart-status">대기 중</p><p class="status-bar-field" id="kart-best">최고 기록 -</p></div>
     </div>
 
+    <!-- ===== 토스 연습기 ===== -->
+    <div class="window app" id="toeic" style="width: 780px; height: 660px;" data-title="토스 연습기.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🎤 토스 연습기 - TOEIC Speaking (목표 IH~AL)</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body" style="display: flex; flex-direction: column;">
+        <menu role="tablist" class="tz-tabs">
+          <li role="tab" aria-selected="true" class="tz-tab" data-tab="home"><a href="#">🏠 홈 · 계획</a></li>
+          <li role="tab" class="tz-tab" data-tab="notes"><a href="#">📚 표현 노트</a></li>
+          <li role="tab" class="tz-tab" data-tab="log"><a href="#">📊 기록</a></li>
+        </menu>
+        <div class="window tz-panel" role="tabpanel"><div class="window-body" id="toeic-body"></div></div>
+      </div>
+    </div>
+
+    <!-- ===== 동현 타자연습 ===== -->
+    <div class="window app" id="typing" style="width: 620px;" data-title="동현 타자연습.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">⌨️ 동현 타자연습</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div class="row" style="margin-bottom: 8px;">
+          <label for="ty-mode">연습 종류</label>
+          <select id="ty-mode"><option value="toeic">🎤 토익 스피킹 표현 (영어)</option><option value="arch">🏗️ 건축 용어</option><option value="me">😎 김동현 어록</option></select>
+        </div>
+        <div class="ty-target sunken" id="ty-target"></div>
+        <input type="text" id="ty-input" class="ty-input" autocomplete="off" spellcheck="false" placeholder="위 문장을 따라 치고 Enter">
+        <div class="ty-stats">
+          <div><span id="ty-speed">0</span><small>타/분</small></div>
+          <div><span id="ty-acc">100</span><small>정확도 %</small></div>
+          <div><span id="ty-count">0</span><small>완료 문장</small></div>
+          <div><span id="ty-best">0</span><small>최고 타수 (오타 0)</small></div>
+        </div>
+        <p class="muted" style="margin: 6px 0 0;">토익 표현은 소리 내어 읽으면서 치면 스피킹 연습도 같이 됩니다.</p>
+      </div>
+    </div>
+
+    <!-- ===== D-day ===== -->
+    <div class="window app" id="dday" style="width: 420px;" data-title="D-day">
+      <div class="title-bar">
+        <div class="title-bar-text">📅 D-day 달력</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div id="dday-list" class="dday-list"></div>
+        <fieldset style="margin-top: 8px;">
+          <legend>내 D-day 추가 (이 브라우저에만 저장)</legend>
+          <div class="row"><input type="text" id="dday-name" placeholder="예) 컴활 1급 필기" style="flex: 1;"><input type="date" id="dday-date"><button id="dday-add">추가</button></div>
+        </fieldset>
+      </div>
+    </div>
+
+    <!-- ===== 명함 ===== -->
+    <div class="window app" id="card" style="width: 420px;" data-title="명함.vcf">
+      <div class="title-bar">
+        <div class="title-bar-text">📇 명함.vcf</div>
+        <div class="title-bar-controls"><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div class="bizcard">
+          <div class="bc-top"><span class="bc-logo">DG</span><span class="bc-motto">Why not?</span></div>
+          <div class="bc-name">김동현 <small>Donghyeon Kim</small></div>
+          <div class="bc-role">전남대학교 건축공학전공 4학년<br>건축기사 · 산업안전기사</div>
+          <div class="bc-contact">📞 010-4180-5088<br>✉️ kimdonghyun4180@gmail.com<br>🌐 dkinen.github.io</div>
+        </div>
+        <div class="row right" style="margin-top: 10px;"><button id="card-save">📲 연락처에 저장 (.vcf)</button><button data-close>닫기</button></div>
+        <p class="muted" style="margin: 6px 0 0;">휴대폰에서 누르면 연락처 앱에 바로 추가됩니다.</p>
+      </div>
+    </div>
+
+    <!-- ===== 할 일 ===== -->
+    <div class="window app" id="todo" style="width: 380px;" data-title="할 일.txt">
+      <div class="title-bar">
+        <div class="title-bar-text">✅ 할 일.txt</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div class="row" style="flex-wrap: nowrap;"><input type="text" id="todo-input" placeholder="할 일 입력 후 Enter" style="flex: 1;"><button id="todo-add">추가</button></div>
+        <div id="todo-list" class="todo-list sunken"></div>
+        <p class="muted" style="margin: 6px 0 0;">이 브라우저에만 저장되는 개인 목록입니다.</p>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="todo-status">남은 일 0개</p></div>
+    </div>
+
+    <!-- ===== 오늘 뭐 마시지? ===== -->
+    <div class="window app" id="roulette" style="width: 380px;" data-title="오늘 뭐 마시지.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🎰 오늘 뭐 마시지?</div>
+        <div class="title-bar-controls"><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div class="roul-box"><div class="roul-name" id="roul-name">?</div><div class="roul-detail" id="roul-detail"></div></div>
+        <div class="row" style="justify-content: center; margin-top: 10px;"><button id="roul-spin" style="min-width: 140px; height: 34px;">🎰 돌리기</button><button data-open="soollog">W: 술로그 열기</button></div>
+        <p class="muted" style="margin: 8px 0 0; text-align: center;"><span id="roul-src">목록 불러오는 중...</span><br>만 19세 이상 · 과음 금지 · 마셨으면 운전 금지</p>
+      </div>
+    </div>
+
+    <!-- ===== 트리플더블 챌린지 ===== -->
+    <div class="window app game-win" id="triple" style="width: 440px;" data-title="트리플더블 챌린지.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🏀 트리플더블 챌린지</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <canvas id="td-canvas" width="400" height="460"></canvas>
+        <div class="game-pad">
+          <button class="pad" data-key="0">1번</button>
+          <button class="pad" data-key="1">2번</button>
+          <button class="pad" data-key="2">3번</button>
+          <button class="pad" data-key="act">🏀 액션</button>
+        </div>
+        <p class="muted game-help">60초 안에 득점·리바운드·어시스트 모두 10 이상! · Space: 슛/리바운드 · 1~3: 패스할 동료 (🙋 손 든 사람)</p>
+      </div>
+      <div class="status-bar"><p class="status-bar-field" id="td-status">대기 중</p><p class="status-bar-field" id="td-best">최고 기록 -</p></div>
+    </div>
+
+    <!-- ===== 오늘의 운세 ===== -->
+    <div class="window app" id="fortune" style="width: 380px;" data-title="오늘의 운세.exe">
+      <div class="title-bar">
+        <div class="title-bar-text">🔮 INTP 오늘의 운세</div>
+        <div class="title-bar-controls"><button aria-label="Close"></button></div>
+      </div>
+      <div class="window-body">
+        <div class="fortune">
+          <div class="muted" id="fortune-date"></div>
+          <div class="fortune-ball e">🔮</div>
+          <p class="fortune-text" id="fortune-text"></p>
+          <table class="fortune-table">
+            <tr><td>오늘의 운</td><td id="fortune-score"></td></tr>
+            <tr><td>행운의 아이템</td><td id="fortune-lucky"></td></tr>
+            <tr><td>행운의 숫자</td><td><span id="fortune-num"></span> <span class="muted">(웨스트브룩 등번호)</span></td></tr>
+          </table>
+          <p class="muted" style="margin: 8px 0 0;">하루에 한 번 바뀝니다. 과학적 근거: 없음.</p>
+        </div>
+        <div class="row right"><button data-close>확인</button></div>
+      </div>
+    </div>
+
     <!-- ===== 메시지 상자 (공용) ===== -->
     <div class="window app" id="msgbox" style="width: 340px;" data-title="알림">
       <div class="title-bar">
@@ -583,15 +743,22 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li><button data-site="../index.html" data-site-title="자기소개 · Heritage Edition"><span>🥃</span>자기소개 (고급)</button></li>
       <li><button data-site="../why-not/index.html" data-site-title="자기소개 · WHY NOT? Edition"><span>🔥</span>자기소개 (열정)</button></li>
       <li><button data-open="resume"><span>📄</span>이력서.pdf</button></li>
+      <li><button data-open="card"><span>📇</span>명함.vcf</button></li>
       <li><button data-open="mbti"><span>🧠</span>MBTI 진단.exe</button></li>
       <li><button data-open="photo"><span>🖼️</span>증명사진.jpg</button></li>
       <li><button data-open="contact"><span>📝</span>연락처.txt</button></li>
       <li class="cat"><span class="e">💼</span> 커리어</li>
       <li><button data-open="projects"><span>📁</span>프로젝트</button></li>
       <li><button data-open="awards"><span>🗜️</span>수상내역.zip</button></li>
+      <li class="cat"><span class="e">📚</span> 공부</li>
+      <li><button data-open="toeic"><span>🎤</span>토스 연습기.exe</button></li>
+      <li><button data-open="typing"><span>⌨️</span>동현 타자연습.exe</button></li>
+      <li><button data-open="dday"><span>📅</span>D-day</button></li>
       <li class="cat"><span class="e">📔</span> 기록</li>
       <li><button data-open="diary"><span>📔</span>일기장</button></li>
       <li><button data-open="whisky"><span>🥃</span>위스키 저장소 (W:)</button></li>
+      <li><button data-open="roulette"><span>🎰</span>오늘 뭐 마시지.exe</button></li>
+      <li><button data-open="todo"><span>✅</span>할 일.txt</button></li>
       <li><button data-open="guestbook"><span>💬</span>방명록.exe</button></li>
       <li class="cat"><span class="e">🎮</span> 게임</li>
       <li><button data-open="quiz"><span>❓</span>김동현 맞추기.exe</button></li>
@@ -599,6 +766,8 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li><button data-open="tanghulu"><span>🍡</span>탕후루마스터.exe</button></li>
       <li><button data-open="swim"><span>🏊</span>50m 자유형.exe</button></li>
       <li><button data-open="kart"><span>🏎️</span>현장 카트 GP.exe</button></li>
+      <li><button data-open="triple"><span>🏀</span>트리플더블 챌린지.exe</button></li>
+      <li><button data-open="fortune"><span>🔮</span>오늘의 운세.exe</button></li>
       <li class="cat"><span class="e">⚙️</span> 시스템</li>
       <li><button data-open="media"><span>🎵</span>미디어 플레이어</button></li>
       <li><button data-open="control"><span>🎨</span>제어판</button></li>
@@ -615,10 +784,11 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
   <div id="taskbar">
     <button id="start-btn"><span class="win-logo"><i></i><i></i><i></i><i></i></span>시작</button>
     <div id="tasks"></div>
-    <div id="tray"><img class="hits" alt="방문자 수" title="오늘 / 전체 방문" src="https://hits.sh/dkinen.github.io/dong-os.svg?view=today-total&amp;style=flat-square&amp;label=%EB%B0%A9%EB%AC%B8&amp;color=000080&amp;labelColor=808080"><span class="cpu" title="쓸데없는 생각이 CPU를 사용 중입니다">🧠 <span id="tray-cpu">87</span>%</span><span id="clock">00:00</span></div>
+    <div id="tray"><span id="tray-dday" class="tray-dday" title="토익 스피킹 연습기 열기"></span><img class="hits" alt="방문자 수" title="오늘 / 전체 방문" src="https://hits.sh/dkinen.github.io/dong-os.svg?view=today-total&amp;style=flat-square&amp;label=%EB%B0%A9%EB%AC%B8&amp;color=000080&amp;labelColor=808080"><span class="cpu" title="쓸데없는 생각이 CPU를 사용 중입니다">🧠 <span id="tray-cpu">87</span>%</span><span id="clock">00:00</span></div>
   </div>
 
   <div id="balloon"><span class="x">×</span><b id="balloon-title"></b><span id="balloon-text"></span></div>
+  <div id="saver"><canvas id="saver-canvas"></canvas></div>
   <div id="bsod">
     <div class="bsod-inner">
       <p class="bsod-title">DONG OS 98</p>
@@ -633,5 +803,7 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
   <script src="js/os.js"></script>
   <script src="js/os-extra.js"></script>
   <script src="js/games.js"></script>
+  <script src="js/toeic.js"></script>
+  <script src="js/fun.js"></script>
 </body>
 </html>

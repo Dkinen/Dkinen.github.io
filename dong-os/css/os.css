@@ -438,7 +438,7 @@ a { color: #0000ee; }
   overflow: auto;
   padding-right: 6px;
 }
-.group { width: 92px; flex-shrink: 0; }
+.group { width: 86px; flex-shrink: 0; }
 .group h6 {
   margin: 0 0 6px;
   padding: 2px 4px 3px;
@@ -630,4 +630,112 @@ a { color: #0000ee; }
 .game-help { margin: 6px 0 0 !important; font-size: 11px; }
 @media (max-width: 700px) {
   .game-pad .pad { height: 56px; font-size: 16px; }
+}
+
+/* =========================================================
+   v4: 토스 연습기 · 타자 · D-day · 명함 · 할 일 · 룰렛 · 운세 · 화면 보호기
+   ========================================================= */
+.tray-dday { cursor: pointer; padding: 0 4px; background: #000080; color: #fff; font-size: 11px; }
+.tray-dday:empty { display: none; }
+
+/* 토스 연습기 */
+.tz-tabs { margin: 0; }
+.tz-panel { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.tz-panel > .window-body { flex: 1; overflow: auto; margin: 8px; }
+.tz-dday { background: #000080; color: #fff; padding: 12px; text-align: center; }
+.tz-dday .big { font-size: 34px; letter-spacing: 2px; }
+.tz-stats { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.tz-stats .warn { color: #c00; }
+.tz-plan { width: 100%; border-collapse: collapse; background: #fff; }
+.tz-plan td, .tz-plan th { border: 1px solid #c0c0c0; padding: 4px 6px; vertical-align: top; }
+.tz-plan th { background: var(--face); font-weight: normal; }
+.tz-plan td:first-child { white-space: nowrap; color: var(--navy); }
+.tz-plan tr.now td { background: #ffffa8; font-weight: bold; }
+.tz-plan tr.past td { color: #888; text-decoration: line-through; }
+.tz-start { margin: 10px 0; text-align: center; }
+.tz-start button { height: 40px; padding: 0 18px; font-size: 14px; }
+.tz-types { display: flex; flex-wrap: wrap; gap: 6px; }
+.tz-types button { flex: 1 1 140px; height: 32px; }
+.tz-head { background: #000080; color: #fff; padding: 6px 8px; margin-bottom: 8px; }
+.tz-head .muted { color: #ccd; }
+.tz-dir { font-size: 12px; color: #444; background: #ffffe1; border: 1px solid #c8c88c; padding: 6px 8px; }
+.tz-stage { background: #fff; border: 2px solid; border-color: grey #fff #fff grey; padding: 10px; min-height: 140px; }
+.tz-passage { font-size: 17px; line-height: 1.9; font-family: Georgia, "Times New Roman", serif !important; }
+.tz-q { font-size: 16px; margin-top: 8px; font-family: Arial, sans-serif !important; }
+.tz-pic { display: block; max-width: 100%; max-height: 300px; margin: 6px auto 0; }
+.tz-info { font-family: Arial, sans-serif !important; font-size: 13px; }
+.tz-info table { border-collapse: collapse; margin-top: 6px; width: 100%; }
+.tz-info td, .tz-info th { border: 1px solid #999; padding: 3px 6px; font-family: Arial, sans-serif !important; }
+.tz-info th { background: #e8e8e8; }
+.tz-timer { margin: 8px 0; }
+.tz-bar-wrap { height: 16px; background: #fff; border: 2px solid; border-color: grey #fff #fff grey; }
+.tz-bar { height: 100%; width: 100%; transition: width 0.1s linear; }
+.tz-bar.prep { background: #1e90ff; }
+.tz-bar.resp { background: #e33; }
+.tz-label { margin-top: 4px; font-family: var(--mono); font-size: 14px; }
+.tz-live { min-height: 40px; font-family: Arial, sans-serif !important; color: #333; margin-bottom: 6px; }
+.tz-res audio { width: 100%; margin: 4px 0; }
+.tz-text { font-family: Arial, sans-serif !important; margin-top: 4px; line-height: 1.6; }
+.tz-notes { margin: 0; padding-left: 18px; line-height: 1.7; }
+.tz-notes i { font-family: Arial, sans-serif !important; font-style: normal; color: #00006a; }
+
+/* 타자연습 */
+.ty-target { font-size: 18px; min-height: 60px; line-height: 1.6; padding: 12px; word-break: break-all; }
+.ty-target .ok { color: #0000c0; }
+.ty-target .bad { background: #ffb3b3; color: #c00; }
+.ty-input { width: 100%; margin-top: 8px; height: 30px; font-size: 16px !important; }
+.ty-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.ty-stats div { background: #000; color: #0f0; text-align: center; padding: 6px; font-family: var(--mono); }
+.ty-stats span { display: block; font-size: 22px; }
+.ty-stats small { color: #9f9; font-size: 10px; }
+
+/* D-day */
+.dday-list { background: #fff; border: 2px solid; border-color: grey #fff #fff grey; }
+.dday-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-bottom: 1px dotted #bbb; }
+.dday-row.past { color: #999; }
+.dd-icon { font-size: 22px; }
+.dd-name { flex: 1; line-height: 1.3; }
+.dd-name small { display: block; color: #777; }
+.dd-n { font-family: var(--mono); font-size: 20px; color: #000080; }
+.dd-del { min-width: 22px; width: 22px; padding: 0; }
+
+/* 명함 */
+.bizcard { background: linear-gradient(135deg, #15130f, #2a2218); color: #efe6d4; padding: 18px 20px; border-radius: 4px; box-shadow: 3px 3px 0 #000; font-family: "Malgun Gothic", sans-serif !important; }
+.bizcard * { font-family: inherit !important; }
+.bc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.bc-logo { border: 1px solid #c9a26b; color: #c9a26b; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-style: italic; }
+.bc-motto { color: #ff6a2a; font-weight: bold; font-style: italic; }
+.bc-name { font-size: 22px; font-weight: bold; }
+.bc-name small { font-size: 12px; font-weight: normal; color: #c9a26b; margin-left: 6px; }
+.bc-role { margin: 6px 0 12px; font-size: 12px; color: #cfc4ae; line-height: 1.6; }
+.bc-contact { font-size: 12px; line-height: 1.8; }
+
+/* 할 일 */
+.todo-list { margin-top: 8px; min-height: 120px; max-height: 300px; overflow: auto; }
+.todo-row { justify-content: space-between; padding: 3px 0; border-bottom: 1px dotted #ccc; }
+.todo-row label { flex: 1; }
+.todo-row label.done { text-decoration: line-through; color: #888; }
+.td-del { min-width: 22px; width: 22px; padding: 0; }
+
+/* 룰렛 */
+.roul-box { background: #000; color: #ffd700; text-align: center; padding: 22px 10px; border: 4px ridge #c0c0c0; }
+.roul-name { font-size: 24px; min-height: 34px; }
+.roul-detail { color: #9cf; margin-top: 8px; min-height: 18px; font-size: 12px; }
+
+/* 운세 */
+.fortune { text-align: center; }
+.fortune-ball { font-size: 54px; margin: 6px 0; }
+.fortune-text { font-size: 15px; line-height: 1.6; background: #fff; border: 2px solid; border-color: grey #fff #fff grey; padding: 10px; }
+.fortune-table { margin: 8px auto 0; border-collapse: collapse; }
+.fortune-table td { padding: 3px 10px; text-align: left; }
+.fortune-table td:first-child { color: #000080; }
+
+/* 화면 보호기 */
+#saver { position: fixed; inset: 0; z-index: 9996; display: none; background: #000; cursor: none; }
+#saver.show { display: block; }
+#saver canvas { display: block; width: 100%; height: 100%; }
+
+@media (max-width: 700px) {
+  .ty-stats { grid-template-columns: repeat(2, 1fr); }
+  .tz-passage { font-size: 15px; }
 }
