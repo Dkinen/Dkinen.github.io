@@ -24,6 +24,14 @@
       return out;
     };
     var wrongKey = "dongos-" + cfg.key + "-wrong", histKey = "dongos-" + cfg.key + "-hist";
+    // 빠른 모의고사: 과목마다 같은 수만큼 골라 약 20문항
+    var per = function () { return Math.max(1, Math.ceil(20 / Object.keys(cfg.bank).length)); };
+    var quickCount = function () { return Object.keys(cfg.bank).reduce(function (n, s) { return n + Math.min(per(), cfg.bank[s].length); }, 0); };
+    var quickSet = function () {
+      var out = [];
+      Object.keys(cfg.bank).forEach(function (s) { out = out.concat(shuffle(all().filter(function (x) { return x.s === s; })).slice(0, per())); });
+      return out;
+    };
 
     var home = function () {
       clearInterval(timer);
@@ -34,6 +42,7 @@
         '<div class="cbt-title">' + cfg.title + '</div>' +
         '<fieldset><legend>시험 보기</legend>' +
         '<div class="cbt-menu"><button data-m="all">📝 전 과목 모의고사<br><small>' + all().length + '문항 · ' + Math.round(all().length * cfg.perQ / 60) + '분</small></button>' +
+        (all().length > 30 ? '<button data-m="quick">⚡ 빠른 모의고사<br><small>과목별 고르게 ' + quickCount() + '문항 · ' + Math.round(quickCount() * cfg.perQ / 60) + '분</small></button>' : "") +
         '<button data-m="wrong"' + (wrong.length ? "" : " disabled") + '>❌ 오답노트 다시 풀기<br><small>' + wrong.length + '문항</small></button></div>' +
         '<div class="cbt-subs">' + subs.map(function (s) { return '<button data-s="' + esc(s) + '">' + esc(s) + ' <small>(' + cfg.bank[s].length + ')</small></button>'; }).join("") + '</div></fieldset>' +
         '<fieldset><legend>최근 기록</legend>' + (last.length ? '<table class="tz-plan"><tr><th>날짜</th><th>구분</th><th>점수</th><th>결과</th></tr>' + last.map(function (h) {
@@ -41,6 +50,8 @@
         }).join("") + "</table>" : '<p class="muted">아직 기록이 없습니다.</p>') + "</fieldset>" +
         '<p class="muted">' + cfg.passText + '</p>';
       body.querySelector('[data-m="all"]').onclick = function () { start(shuffle(all()), "전 과목 모의고사"); };
+      var qb = body.querySelector('[data-m="quick"]');
+      if (qb) qb.onclick = function () { start(shuffle(quickSet()), "빠른 모의고사"); };
       body.querySelector('[data-m="wrong"]').onclick = function () {
         var ids = load(wrongKey, []);
         start(shuffle(all().filter(function (x) { return ids.indexOf(x.id) !== -1; })), "오답노트");
