@@ -152,13 +152,14 @@
       body.innerHTML =
         '<div class="cbt-title">✍️ 전공 실기 · 건축기사 실기 스타일</div>' +
         '<div class="tz-stats" style="margin-bottom: 8px;"><span>푼 문제 <b>' + done + " / " + data.length + '</b></span><span>완벽(O) <b>' + ok + '</b></span></div>' +
-        '<div class="row" style="margin-bottom: 8px;"><button id="silgi-random">🎲 랜덤 10문제</button><button id="silgi-retry">🔁 O 아닌 문제만</button>' +
+        '<div class="row" style="margin-bottom: 8px;"><button id="silgi-random">🎲 랜덤 10문제</button><button id="silgi-hard">★ 고난도만</button><button id="silgi-retry">🔁 O 아닌 문제만</button>' +
         Object.keys(cats).map(function (c) { return '<button data-c="' + esc(c) + '">' + esc(c) + "</button>"; }).join("") + "</div>" +
         '<table class="tz-plan"><tr><th>#</th><th>분야</th><th>유형</th><th>문제</th><th>채점</th></tr>' + data.map(function (p, i) {
-          return '<tr class="silgi-row" data-i="' + i + '"><td>' + (i + 1) + "</td><td>" + esc(p.cat) + "</td><td>" + (p.type === "calc" ? "계산" : "서술") + '</td><td class="silgi-q">' + esc(p.q.split("\n")[0]) + "</td><td>" + (g[i] || "-") + "</td></tr>";
+          return '<tr class="silgi-row" data-i="' + i + '"><td>' + (i + 1) + "</td><td>" + esc(p.cat) + "</td><td>" + (p.type === "calc" ? "계산" : "서술") + '</td><td class="silgi-q">' + (p.hard ? '<b class="hard">★</b> ' : "") + esc(p.q.split("\n")[0]) + "</td><td>" + (g[i] || "-") + "</td></tr>";
         }).join("") + "</table>" +
         '<p class="muted">서술형은 직접 쓰고 모범답안과 비교해 O/△/X로 스스로 채점합니다. 계산형은 숫자만 넣으면 자동 채점됩니다 (오차 1% 허용). 실제 시험처럼 풀이 과정도 꼭 손으로 써 보세요.</p>';
       $$("#silgi-body .silgi-row").forEach(function (r) { r.onclick = function () { run([+r.dataset.i]); }; });
+      $("#silgi-hard").onclick = function () { run(shuffle(data.map(function (_, i) { return i; }).filter(function (i) { return data[i].hard; }))); };
       $("#silgi-random").onclick = function () { run(shuffle(data.map(function (_, i) { return i; })).slice(0, 10)); };
       $("#silgi-retry").onclick = function () { var g2 = load(gradeKey, {}); var l = data.map(function (_, i) { return i; }).filter(function (i) { return g2[i] !== "O"; }); if (l.length) run(shuffle(l)); };
       $$("#silgi-body [data-c]").forEach(function (b) { b.onclick = function () { run(data.map(function (_, i) { return i; }).filter(function (i) { return data[i].cat === b.dataset.c; })); }; });
@@ -168,7 +169,7 @@
       var show = function () {
         var i = list[k], p = data[i];
         body.innerHTML =
-          '<div class="cbt-bar"><span>' + esc(p.cat) + " · " + (p.type === "calc" ? "계산형" : "서술형") + '</span><span>' + (k + 1) + " / " + list.length + '</span><span>문제 ' + (i + 1) + "</span></div>" +
+          '<div class="cbt-bar"><span>' + (p.hard ? "★ 고난도 · " : "") + esc(p.cat) + " · " + (p.type === "calc" ? "계산형" : "서술형") + '</span><span>' + (k + 1) + " / " + list.length + '</span><span>문제 ' + (i + 1) + "</span></div>" +
           '<div class="silgi-paper"><p class="cbt-qtext">' + esc(p.q) + "</p>" +
           (p.type === "calc"
             ? '<div class="row"><label>답</label><input type="number" step="any" id="silgi-num" style="width: 160px;"><span>' + esc(p.unit) + '</span><button id="silgi-check">채점</button></div>'
@@ -214,7 +215,7 @@
     makeCBT({
       id: "ncs", key: "ncs", bank: S.ncs, perQ: 60, cutoff: false,
       title: "🏢 NCS 직업기초능력 · 공기업 필기 스타일",
-      passText: "문제당 1분. 실제 공기업 NCS는 기관마다 영역·문항 수·유형(모듈형/PSAT형)이 다르니 지원 기관의 채용 공고를 꼭 확인하세요.",
+      passText: "문제당 1분. '기관형' 영역은 한전·한수원·발전사·부동산원 업무 소재로 만든 PSAT형 연습 세트입니다. 지문 속 수치는 문제용 가정값이며, 기관마다 출제 영역·유형이 해마다 바뀌니 채용 공고를 꼭 확인하세요.",
       pass: function (by, total) {
         return total >= 80 ? { ok: true, short: "안정권", text: "안정권! 실전에서는 속도를 더 올려 보세요." }
           : total >= 60 ? { ok: true, short: "보통", text: "보통 · 틀린 영역의 해설을 다시 보세요." }
