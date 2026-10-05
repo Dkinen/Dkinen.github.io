@@ -424,3 +424,183 @@ a { color: #0000ee; }
 .sool-wait .progress-indicator { width: 260px; }
 .sool-wait.hide { display: none; }
 .sool-wait .big-emoji { margin-bottom: 12px; }
+
+/* =========================================================
+   v2: 카테고리별 바탕화면 + 새 프로그램
+   ========================================================= */
+/* 바탕화면 그룹 (기존 격자 배치를 덮어씀) */
+.icons {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  grid-template-rows: none;
+  right: auto;
+  overflow: auto;
+  padding-right: 6px;
+}
+.group { width: 92px; flex-shrink: 0; }
+.group h6 {
+  margin: 0 0 6px;
+  padding: 2px 4px 3px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #fff;
+  text-align: center;
+  text-shadow: 1px 1px 0 #000;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+.group-icons { display: flex; flex-direction: column; gap: 2px; align-items: center; }
+
+/* 시작 메뉴 카테고리 제목 */
+#start-menu { width: 260px; max-height: calc(100vh - 44px); overflow: auto; }
+#start-menu li.cat { padding: 6px 8px 2px; font-size: 11px; color: #555; border-top: 1px solid #a0a0a0; margin-top: 2px; }
+#start-menu li.cat:first-child { border-top: none; margin-top: 0; }
+#start-menu li button { padding: 5px 8px; }
+
+/* 작업 표시줄 방문자 수 */
+#tray .hits { height: 18px; display: block; image-rendering: pixelated; }
+
+/* 문서 보기 (이력서) */
+.doc-frame { position: relative; flex: 1; min-height: 360px; background: #808080; border: 2px solid; border-color: grey #fff #fff grey; }
+.doc-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* 방명록 */
+#giscus-box { background: #fff; padding: 8px; min-height: 200px; }
+
+/* 안전사고 찾기 */
+.mines-wrap {
+  display: inline-block;
+  padding: 6px;
+  background: var(--face);
+  box-shadow: inset -2px -2px grey, inset 2px 2px #fff;
+}
+.mines-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  margin-bottom: 6px;
+  box-shadow: inset -2px -2px #fff, inset 2px 2px grey;
+}
+.lcd { background: #000; color: #f00; font-family: var(--mono); font-size: 20px; padding: 0 4px; letter-spacing: 2px; min-width: 52px; text-align: center; }
+#mines-face { min-width: 34px; width: 34px; height: 34px; padding: 0; font-size: 18px; }
+.mines-grid { display: grid; box-shadow: inset -2px -2px #fff, inset 2px 2px grey; padding: 2px; user-select: none; touch-action: manipulation; }
+.mines-grid .cell {
+  width: 24px;
+  height: 24px;
+  min-width: 0;
+  padding: 0;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1;
+}
+.mines-grid .cell.open { box-shadow: none; border: 1px solid #9a9a9a; border-width: 0 1px 1px 0; background: #d4d4d4; }
+.mines-grid .cell.boom { background: #f33; }
+.mines-grid .n1 { color: #0000ff; } .mines-grid .n2 { color: #008000; } .mines-grid .n3 { color: #ff0000; }
+.mines-grid .n4 { color: #000080; } .mines-grid .n5 { color: #800000; } .mines-grid .n6 { color: #008080; }
+.mines-grid .n7 { color: #000; } .mines-grid .n8 { color: #808080; }
+
+/* 제어판 미리보기 모니터 */
+.monitor { width: 190px; margin: 4px auto 12px; }
+.monitor-screen { height: 120px; border: 10px solid #c0c0c0; box-shadow: inset 0 0 0 1px #000, 2px 2px 0 #000; }
+.monitor-stand { width: 70px; height: 14px; margin: 0 auto; background: #c0c0c0; box-shadow: 2px 2px 0 #000; }
+
+/* 바탕화면 배경 테마 */
+.wp-teal { background: #008080; }
+.wp-blueprint {
+  background-color: #0b3d91;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+}
+.wp-court {
+  background-color: #c8833f;
+  background-image:
+    radial-gradient(circle at 50% 50%, transparent 0 110px, rgba(255, 255, 255, 0.8) 110px 114px, transparent 114px),
+    linear-gradient(90deg, transparent calc(50% - 2px), rgba(255, 255, 255, 0.8) calc(50% - 2px) calc(50% + 2px), transparent calc(50% + 2px)),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.06) 0 2px, transparent 2px 46px);
+}
+.wp-bar {
+  background-color: #2b1a10;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 75% 70%, rgba(214, 140, 50, 0.35), transparent 70%),
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0 3px, transparent 3px 26px);
+}
+.wp-pool {
+  background-color: #1b9ad6;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.25) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.25) 2px, transparent 2px),
+    repeating-linear-gradient(90deg, transparent 0 180px, rgba(10, 40, 120, 0.55) 180px 186px);
+  background-size: 30px 30px, 30px 30px, auto;
+}
+
+/* 미디어 플레이어 */
+.media-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  color: #8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--mono);
+  padding: 12px;
+}
+.media-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.media-list { max-height: 150px; overflow: auto; padding: 0; }
+.media-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  box-shadow: none;
+  background: none;
+  padding: 5px 8px;
+  min-width: 0;
+}
+.media-list button.on { background: var(--navy); color: #fff; }
+
+/* 블루스크린 */
+#bsod {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #0000aa;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.7;
+  cursor: pointer;
+}
+#bsod.show { display: flex; }
+.bsod-inner { max-width: 720px; padding: 24px; }
+.bsod-title { display: table; margin: 0 auto 22px; background: #aaa; color: #0000aa; padding: 0 10px; }
+.bsod-blink { text-align: center; margin-top: 22px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 일기장 → 술로그 */
+.diary-sool { margin-top: 16px; }
+
+/* 모바일: 그룹을 세로로 쌓기 */
+@media (max-width: 700px) {
+  .icons { flex-direction: column; right: 10px; gap: 4px; }
+  .group { width: 100%; }
+  .group h6 { text-align: left; }
+  .group-icons { flex-direction: row; flex-wrap: wrap; justify-content: flex-start; }
+  #tray .hits { display: none; }
+  .mines-grid .cell { width: 22px; height: 22px; }
+}
+
+/* 도트 글꼴의 흑백 이모지 대신 컬러 이모지 사용 */
+.e, #start-menu li button span, #mines-face, .group h6 .e, .icon .glyph, .big-emoji {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif !important;
+}

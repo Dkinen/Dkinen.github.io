@@ -64,7 +64,7 @@
       win.classList.add("open");
       if (!isMobile()) {
         var w = win.offsetWidth, h = win.offsetHeight;
-        var x = 210 + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
+        var x = (window.innerWidth > 1150 ? 540 : 130) + (openCount % 8) * 30, y = 20 + (openCount % 8) * 26;
         x = Math.max(4, Math.min(x, window.innerWidth - w - 8));
         y = Math.max(4, Math.min(y, window.innerHeight - h - 44));
         win.style.left = x + "px";
@@ -438,7 +438,7 @@
       { n: "탕후루_시럽온도.exe", base: 1 },
       { n: "단톡방_답장_숙고.exe", base: 5 }
     ];
-    var timer = null, history = [], sel = null;
+    var timer = null, history = [], sel = null, hangKills = 0;
     var tbody = $("#proc-list"), graph = $("#cpu-graph");
     var render = function () {
       var total = 0;
@@ -463,6 +463,7 @@
     $("#kill-btn").addEventListener("click", function () {
       if (sel === null) { msg("작업 관리자", "끝낼 작업을 먼저 선택하세요.", "ℹ️"); return; }
       var p = procs[sel];
+      if (p.hang && ++hangKills >= 3) { hangKills = 0; if (window.DONG && DONG.bsod) DONG.bsod(); return; }
       if (p.hang) msg("작업 끝내기", "'" + p.n + "'을(를) 끝낼 수 없습니다.\n학사 일정 서버의 응답을 기다리는 중입니다.", "⏳");
       else msg("작업 끝내기", "'" + p.n + "'을(를) 끝낼 수 없습니다.\nINTP 핵심 프로세스입니다.", "⛔");
     });
@@ -488,6 +489,13 @@
       $("h3", view).textContent = p.title || "(제목 없음)";
       $(".meta", view).textContent = p.date + "  ·  기분 " + (p.mood || "-") + "  ·  날씨 " + (p.weather || "-");
       $(".content", view).innerHTML = p.content;   // 주인장이 Commit한 글만 들어옴
+      if ((p.mood || "").indexOf("🥃") !== -1) {
+        var sb = document.createElement("button");
+        sb.className = "diary-sool";
+        sb.textContent = "🥃 이날 마신 술 보기 (W: 술로그)";
+        sb.addEventListener("click", function () { openWin("soollog"); });
+        view.appendChild(sb);
+      }
       view.scrollTop = 0;
     };
     var load = function () {
@@ -582,6 +590,8 @@
       }, 1000);
     };
   }
+
+  window.DONG = { openWin: openWin, closeWin: closeWin, msg: msg, apps: apps, closers: closers, $: $, $$: $$, isMobile: isMobile, isTouch: isTouch };
 
   /* ---------- 시작 ---------- */
   document.addEventListener("DOMContentLoaded", function () {
