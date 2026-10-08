@@ -23,6 +23,14 @@
       catch (e) { window.open("resume.html", "_blank", "noopener"); }
     });
 
+    /* ---------- 캡스톤 연구노트 (capstone/index.html) ---------- */
+    var cf = $("#capstone-frame");
+    D.apps.capstone = function () { if (!cf.getAttribute("src")) cf.setAttribute("src", cf.dataset.src); };
+    // 메모장 속 링크(a[data-open])도 새 페이지 대신 OS 창으로 열기
+    $$("a[data-open]").forEach(function (a) {
+      a.addEventListener("click", function (e) { e.preventDefault(); D.openWin(a.dataset.open); });
+    });
+
     /* ---------- 방명록 (giscus · GitHub Discussions) ---------- */
     var gbLoaded = false;
     D.apps.guestbook = function () {
