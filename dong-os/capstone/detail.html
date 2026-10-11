@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>장기수선 연구 세부 기록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<style>
+
+/* Layout: one Windows 98 window on a teal desktop — menu bar as section nav, explorer tree + white document pane, status bar.
+   Deliberately single-theme (DONG OS 98 look), every color set explicitly. */
+:root {
+  color-scheme: light;
+  --desk: #008080;
+  --face: #c0c0c0;
+  --hi: #ffffff;
+  --lite: #dfdfdf;
+  --shade: #808080;
+  --dark: #0a0a0a;
+  --title-a: #000080;
+  --title-b: #1084d0;
+  --ink: #111111;
+  --ink2: #444444;
+  --muted: #6b6b6b;
+  --paper: #ffffff;
+  --link: #0000c8;
+  --grid: #e3e3e3;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --ok: #007a00;
+  --warn: #9a5b00;
+  --info: #000080;
+  --ui: "Gulim", "굴림", "Nanum Gothic", "Apple SD Gothic Neo", sans-serif;
+  --body: "Nanum Gothic", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --mono: "Nanum Gothic Coding", "D2Coding", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--desk); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.7;
+  margin: 0; padding: 24px 16px 40px; }
+a { color: var(--link); }
+a:focus-visible, button:focus-visible { outline: 1px dotted var(--dark); outline-offset: 2px; }
+
+/* bevels */
+.raised { background: var(--face); box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--lite), inset -2px -2px var(--shade), inset 2px 2px var(--hi); }
+.sunken { box-shadow: inset -1px -1px var(--hi), inset 1px 1px var(--shade), inset -2px -2px var(--lite), inset 2px 2px var(--dark); }
+
+.win { max-width: 1080px; margin: 0 auto; padding: 3px; }
+.titlebar { display: flex; align-items: center; gap: 8px; padding: 3px 4px 3px 6px; color: #fff;
+  background: linear-gradient(90deg, var(--title-a), var(--title-b)); font-family: var(--ui); font-weight: 700; font-size: 13px; }
+.titlebar .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.titlebar .ctl { display: flex; gap: 2px; }
+.titlebar .ctl span { width: 18px; height: 16px; display: grid; place-items: center; color: var(--ink); font: 700 11px/1 var(--mono); }
+.menubar { display: flex; flex-wrap: wrap; gap: 0 2px; padding: 2px 2px; font-family: var(--ui); font-size: 13px; }
+.menubar a { color: var(--ink); text-decoration: none; padding: 2px 8px; }
+.menubar a:hover, .menubar a:focus-visible { background: var(--title-a); color: #fff; outline: none; }
+.addr { display: flex; align-items: center; gap: 8px; padding: 4px 6px; font-family: var(--ui); font-size: 12px; color: var(--ink); border-top: 1px solid var(--shade); }
+.addr .field { flex: 1; min-width: 0; background: var(--paper); padding: 2px 6px; font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.frame { display: grid; grid-template-columns: 210px 1fr; gap: 3px; padding: 3px; }
+.tree { background: var(--paper); padding: 10px 8px; font-family: var(--ui); font-size: 13px; align-self: start; position: sticky; top: env(safe-area-inset-top, 0px); }
+.tree ul { list-style: none; margin: 0; padding: 0 0 0 14px; }
+.tree > ul { padding-left: 0; }
+.tree li { padding: 1px 0; white-space: nowrap; }
+.tree a { color: var(--ink); text-decoration: none; padding: 0 3px; }
+.tree a:hover { background: var(--title-a); color: #fff; }
+.doc { background: var(--paper); padding: 28px clamp(16px, 4vw, 44px) 40px; min-width: 0; }
+.status { display: flex; flex-wrap: wrap; gap: 3px; padding: 3px; font-family: var(--ui); font-size: 12px; }
+.status span { padding: 2px 8px; }
+
+/* document */
+.doc h1 { font-size: clamp(22px, 3.4vw, 30px); line-height: 1.35; margin: 0 0 6px; text-wrap: balance; font-weight: 800; letter-spacing: -0.01em; }
+.doc .sub { color: var(--ink2); margin: 0 0 22px; max-width: 64ch; }
+section { margin-top: 40px; scroll-margin-top: 12px; }
+section > h2 { font-family: var(--ui); font-size: 15px; font-weight: 700; margin: 0 0 14px; padding: 4px 10px; color: #fff;
+  background: linear-gradient(90deg, var(--title-a), var(--title-b)); display: flex; justify-content: space-between; gap: 12px; }
+section > h2 small { font-weight: 400; opacity: .85; }
+p, li { max-width: 68ch; }
+h3 { font-size: 16px; margin: 22px 0 6px; }
+.lead { font-size: 17px; }
+.note { color: var(--ink2); font-size: 14px; }
+code, .mono { font-family: var(--mono); font-size: .92em; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* properties dialog */
+.props { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; padding: 14px 16px; background: var(--face); font-size: 14px; }
+.props dt { font-family: var(--ui); color: var(--ink2); }
+.props dd { margin: 0; min-width: 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 14px; }
+.tile { padding: 12px 14px; background: var(--face); }
+.tile .k { font-family: var(--ui); font-size: 12px; color: var(--ink2); }
+.tile .v { font-size: 28px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.tile .v small { font-size: 14px; font-weight: 700; }
+.tile .d { font-size: 12.5px; color: var(--ink2); line-height: 1.5; }
+.badge { display: inline-block; font-family: var(--ui); font-size: 11.5px; padding: 1px 6px; border: 1px solid currentColor; vertical-align: 2px; }
+.badge.ok { color: var(--ok); } .badge.warn { color: var(--warn); } .badge.todo { color: var(--muted); } .badge.info { color: var(--info); }
+
+/* tables */
+.tbl { overflow-x: auto; margin: 10px 0; }
+table { border-collapse: collapse; font-size: 14px; min-width: 100%; }
+th, td { border: 1px solid var(--shade); padding: 5px 9px; text-align: left; vertical-align: top; }
+th { background: var(--face); font-family: var(--ui); font-weight: 700; font-size: 13px; white-space: nowrap; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.em td { background: #fff6d6; }
+
+/* figures */
+figure { margin: 18px 0; }
+.fig { background: var(--paper); padding: 10px; }
+figcaption { font-size: 13px; color: var(--ink2); margin-top: 6px; max-width: 72ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; margin: 0 0 6px; }
+.legend i { display: inline-block; width: 14px; height: 3px; vertical-align: 4px; margin-right: 6px; }
+.legend i.dash { height: 0; border-top: 2px dashed var(--ink2); }
+.km-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+.km-card { background: var(--face); padding: 8px; min-width: 0; }
+.km-card h4 { margin: 2px 4px 6px; font-family: var(--ui); font-size: 13px; }
+.km-card .plot { background: var(--paper); position: relative; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font-family: var(--ui); fill: var(--ink2); font-size: 11px; }
+svg .axis { stroke: var(--shade); }
+svg .gridl { stroke: var(--grid); }
+.tip { position: absolute; pointer-events: none; background: #ffffe1; color: var(--ink); border: 1px solid var(--dark);
+  font: 12px/1.45 var(--ui); padding: 4px 7px; white-space: nowrap; z-index: 2; }
+
+/* steps */
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; max-width: none; }
+.steps li { max-width: none; display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 10px 12px; background: var(--face); }
+.steps .id { font: 700 18px/1.2 var(--mono); }
+.steps .nm { font-weight: 700; }
+.steps .meta { font-family: var(--ui); font-size: 12px; color: var(--ink2); }
+.steps .dt { font-size: 13.5px; color: var(--ink2); margin-top: 2px; }
+.steps li.active { box-shadow: inset 0 0 0 2px var(--title-a), inset -1px -1px var(--dark), inset 1px 1px var(--hi); }
+
+.pipe { counter-reset: s; list-style: none; padding: 0; display: grid; gap: 8px; }
+.pipe li { counter-increment: s; position: relative; padding-left: 40px; }
+.pipe li::before { content: counter(s); position: absolute; left: 0; top: 2px; width: 26px; height: 26px; display: grid; place-items: center;
+  background: var(--face); font: 700 13px var(--mono); box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--hi), inset -2px -2px var(--shade); }
+
+.findings { display: grid; gap: 10px; }
+.finding { padding: 12px 14px; background: var(--face); }
+.finding h3 { margin: 0 0 4px; font-size: 15px; }
+.finding p { margin: 4px 0 0; font-size: 14px; }
+.log { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--shade); }
+.log li { position: relative; padding: 4px 0 8px 18px; max-width: 72ch; font-size: 14px; }
+.log li::before { content: ""; position: absolute; left: -6px; top: 11px; width: 8px; height: 8px; background: var(--title-a); }
+.log .d { font: 700 12.5px var(--mono); color: var(--ink2); margin-right: 8px; }
+.funnel td.bar { width: 45%; }
+.meter { height: 12px; background: var(--s1); }
+.meter.out { background: var(--shade); }
+.pages { display: flex; flex-wrap: wrap; gap: 2px; padding: 4px 6px 0; border-top: 1px solid var(--shade); font-family: var(--ui); font-size: 13px; }
+.pages a { color: var(--ink); text-decoration: none; padding: 4px 12px 3px; background: var(--face);
+  box-shadow: inset -1px 0 var(--dark), inset 1px 1px var(--hi), inset -2px 0 var(--shade); }
+.pages a[aria-current="page"] { font-weight: 700; padding-bottom: 5px; margin-bottom: -2px; position: relative; z-index: 1; }
+.pages a:hover { background: var(--lite); }
+.callout { padding: 10px 14px; background: #ffffe1; border: 1px solid var(--dark); font-size: 14px; margin: 14px 0; max-width: 72ch; }
+
+@media (max-width: 760px) {
+  .frame { grid-template-columns: 1fr; }
+  .tree { display: none; }
+  .props { grid-template-columns: 1fr; gap: 0 0; }
+  .props dd { margin-bottom: 8px; }
+  .steps li { grid-template-columns: 40px 1fr; }
+}
+
+/* 세부 기록 전용: 날짜별 일지 카드, 정의 목록, 히스토그램 */
+.day { margin-top: 26px; }
+.day > h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0 0 10px; padding-bottom: 4px; border-bottom: 1px solid var(--shade); }
+.day > h3 .date { font-family: var(--mono); font-size: 15px; }
+.day > h3 .tt { font-size: 15px; }
+.entry { padding: 10px 14px 12px; background: var(--face); margin-top: 8px; }
+.entry h4 { margin: 0 0 6px; font-size: 14.5px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.entry h4 .tm { font: 700 12px var(--mono); color: var(--ink2); }
+.entry dl { display: grid; grid-template-columns: 3.2em 1fr; gap: 3px 10px; margin: 0; font-size: 14px; }
+.entry dt { font-family: var(--ui); font-size: 12px; color: var(--ink2); padding-top: 3px; }
+.entry dd { margin: 0; min-width: 0; max-width: 72ch; }
+.entry .files { font-family: var(--mono); font-size: 12px; color: var(--ink2); overflow-wrap: anywhere; }
+.defs { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 10px 0; font-size: 14px; }
+.defs dt { font-weight: 700; }
+.defs dd { margin: 0; min-width: 0; max-width: 68ch; }
+.rule { padding: 10px 14px; background: var(--face); margin-top: 8px; font-size: 14px; }
+.rule b.k { display: block; margin-bottom: 2px; }
+.rule .why { color: var(--ink2); }
+.check { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 4px; }
+.check li { display: flex; gap: 10px; align-items: baseline; }
+.check .box { width: 13px; height: 13px; flex: 0 0 13px; background: var(--paper); display: grid; place-items: center; font: 700 11px/1 var(--mono); color: var(--ok); }
+td.cm { text-align: center; font-variant-numeric: tabular-nums; min-width: 3.4em; }
+.hist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .defs { grid-template-columns: 1fr; gap: 0; } .defs dd { margin-bottom: 8px; } }
+</style>
+
+<div class="win raised">
+  <div class="titlebar">
+    <span aria-hidden="true">📄</span>
+    <span class="t">세부 기록.htm - 연구 노트</span>
+    <span class="ctl" aria-hidden="true"><span class="raised">_</span><span class="raised">□</span><span class="raised">×</span></span>
+  </div>
+  <nav class="menubar" aria-label="섹션">
+    <a href="#d-journal">날짜별 기록</a><a href="#d-design">생존분석 설계</a><a href="#d-event">사건 정의</a>
+    <a href="#d-goldset">입찰 골드셋</a><a href="#d-amount">금액 기준</a><a href="#d-todo">남은 일</a>
+  </nav>
+  <div class="addr"><span>주소(D)</span><span class="field sunken">C:\캡스톤2\장기수선_생존분석\세부 기록.htm</span></div>
+  <nav class="pages" aria-label="페이지">
+    <a href="./">연구노트</a><a href="detail.html" aria-current="page">세부 기록</a><a href="brief.html">한눈에 보기</a>
+  </nav>
+
+  <div class="frame">
+    <aside class="tree sunken" aria-label="목차">
+      <ul>
+        <li>📁 세부 기록
+          <ul>
+            <li>🗒️ <a href="#d-journal">날짜별 기록</a>
+              <ul id="tree-days"></ul>
+            </li>
+            <li>📐 <a href="#d-design">생존분석 설계</a></li>
+            <li>🧹 <a href="#d-event">사건 정의와 문제</a></li>
+            <li>🏷️ <a href="#d-goldset">입찰 골드셋</a></li>
+            <li>💰 <a href="#d-amount">금액 기준</a></li>
+            <li>☑️ <a href="#d-todo">남은 일</a></li>
+          </ul>
+        </li>
+        <li style="margin-top:8px">📄 <a href="./">연구노트.htm</a></li>
+        <li>📄 <a href="brief.html">한눈에 보기.htm</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc sunken">
+      <h1>무엇을, 왜, 어떻게 정했나</h1>
+      <p class="sub">날짜별 작업 기록과 생존분석의 설계 결정을 모은 페이지입니다. 연구노트가 결과를 보여 준다면, 이 페이지는 그 결과에 이르기까지 내린 판단과 근거를 남깁니다. <span id="upd"></span></p>
+
+      <section id="d-journal">
+        <h2>날짜별 기록 <small id="j-count"></small></h2>
+        <p class="note">시각은 한국 시간입니다. 각 항목은 무엇을 했는지, 왜 그렇게 했는지, 결과가 무엇이었는지 순서로 적었습니다.</p>
+        <div id="journal"></div>
+      </section>
+
+      <section id="d-design">
+        <h2>생존분석 설계 <small>단위 · 시간축 · 절단 · 코호트</small></h2>
+        <h3>질문을 생존분석의 언어로 옮기기</h3>
+        <p>"승강기를 준공 후 몇 년에 바꾸나"는 "준공 후 몇 년까지 바꾸지 않고 버티나"와 같은 질문입니다. 사람의 생존 기간을 재는 방법을 그대로 쓰되, 사망 대신 '첫 전면 교체'를 사건으로 둡니다.</p>
+        <dl class="defs">
+          <dt>분석 단위</dt><dd>단지 × 부위. 한 단지는 승강기 기계장치, 지붕 방수, 외부 도장 세 줄을 가집니다. 승강기는 승강기가 1대 이상인 단지만 넣습니다.</dd>
+          <dt>모집단</dt><dd>K-apt 단지 중 아파트 · 주상복합 분양 단지 <b class="tnum" id="n-base"></b>곳. 임대 단지는 수선 재원을 사업자가 부담하는 등 충당금 구조가 달라 뺐습니다.</dd>
+          <dt>시간축</dt><dd>사용승인일로부터 지난 햇수(나이). 달력 연도가 아니라 나이로 재야 '몇 년 주기'와 직접 비교할 수 있습니다.</dd>
+          <dt>사건</dt><dd>관측 기간 안의 첫 전면 교체(이력의 전면교체 · 전면수리 · 전면도장). 두 번째 교체는 지금 분석에 쓰지 않습니다.</dd>
+          <dt>진입 나이</dt><dd>관측 시작일(기본 2016-01-01)에 그 단지가 몇 살이었는지. 관측 시작 뒤에 준공했다면 0.</dd>
+          <dt>종료 나이</dt><dd>첫 교체 나이. 교체가 없으면 관측 종료일(2026-09-28, 자료 추출일)의 나이.</dd>
+          <dt>중도절단</dt><dd>관측 종료까지 교체하지 않은 단지. 버린 것이 아니라 "적어도 이 나이까지는 바꾸지 않았다"는 정보로 계산에 들어갑니다.</dd>
+        </dl>
+
+        <h3>좌측절단: 2016년 이전은 보이지 않는다</h3>
+        <p>전국 이력 등록은 2016년 무렵부터 본격화됐습니다. 1995년에 준공한 단지는 2016년에 이미 21살이라, 그 전에 승강기를 바꿨는지 알 수 없습니다. 이런 단지를 0살부터 관측한 것처럼 넣으면 "21년 동안 교체 없음"이라는 잘못된 정보가 들어가 주기가 길게 나옵니다.</p>
+        <p>그래서 각 단지를 <b>관측에 들어온 나이(진입 나이)부터</b> 위험 집합에 넣습니다(delayed entry). 21살에 들어온 단지는 21살 이후의 교체 확률 계산에만 기여합니다.</p>
+
+        <h3>코호트 세 가지와 주분석</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>코호트</th><th>정의</th><th>쓰는 이유</th><th>약점</th></tr></thead>
+          <tbody>
+            <tr><td>전체</td><td>이력을 한 번이라도 등록했고, 관측 시작 전 교체 기록이 없는 단지</td><td>표본이 가장 큼</td><td>관측 시작 때 이미 법령 주기를 넘긴 단지는 관측 전에 바꿨을 수 있음. 이번이 첫 교체인지 두 번째인지 모름</td></tr>
+            <tr class="em"><td><b>주분석</b></td><td>전체 중 관측 시작 나이 ≤ 법령 주기</td><td>법령 주기에 닿기 전부터 관측했으므로, 관측된 교체가 첫 교체일 가능성이 높음</td><td>오래된 단지가 빠져 표본이 젊음</td></tr>
+            <tr><td>신축</td><td>관측 시작 뒤 준공</td><td>절단이 전혀 없음</td><td>최대 10년만 관측 가능해 15년 주기를 직접 볼 수 없음</td></tr>
+          </tbody>
+        </table></div>
+        <p>이력을 한 번도 등록하지 않은 단지는 모든 코호트에서 뺐습니다. 이런 단지는 "교체가 없었다"와 "등록을 안 했다"를 구분할 수 없어서, 넣으면 미교체로 계산돼 주기가 길게 나옵니다. 분양 단지 중 이력을 등록한 비율은 <b class="tnum" id="n-report"></b>입니다.</p>
+
+        <h3>관측 시작을 2016년으로 둔 이유와 민감도</h3>
+        <p>이력 등록은 해마다 늘어납니다. 같은 기간 낙찰공고 건수는 거의 일정해서, 늘어난 것은 실제 공사가 아니라 등록률로 봅니다. 등록이 덜 된 초기 연도를 넣을수록 교체를 놓쳐 주기가 길게 나옵니다. 기본은 2016년으로 두고 2018 · 2020년으로 늦춘 결과를 함께 봅니다.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>부위</th><th class="n">법령</th><th class="n">관측 시작 2016</th><th class="n">2018</th><th class="n">2020</th></tr></thead>
+          <tbody id="sens-body"></tbody>
+        </table></div>
+        <p class="note">주분석 코호트의 Kaplan–Meier 중위 교체 연령. 관측 시작을 늦출수록 짧아집니다. 등록 누락이 주기를 길게 만든다는 해석과 같은 방향입니다.</p>
+      </section>
+
+      <section id="d-event">
+        <h2>사건 정의와 발견한 문제 <small>이력 기록 → 교체 사건</small></h2>
+        <h3>정제 규칙</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>규칙</th><th>내용</th><th>이유</th><th class="n">제외 행</th></tr></thead>
+          <tbody id="rule-body"></tbody>
+        </table></div>
+        <h3>분할 시공 병합 (2년)</h3>
+        <p>같은 단지 · 같은 부위의 사건 후보가 730일 안에 이어지면 한 번의 공사로 묶고 첫 날짜를 사건일로 씁니다. 승강기는 호기별로, 방수와 도장은 동별로 나눠 1–2년에 걸쳐 시공하는 경우가 많습니다. 묶지 않으면 한 번의 교체가 여러 번으로 세어집니다. 2년은 장기수선계획에서 한 공사를 나눠 집행하는 일반적인 기간에 맞춘 값입니다.</p>
+        <p>결과: 사건 후보 <b class="tnum" id="n-cand"></b>건 → 병합 후 <b class="tnum" id="n-epi"></b>건.</p>
+
+        <h3>1차 결과에서 드러난 문제: '전면교체'가 전면 교체가 아니다</h3>
+        <p>1차 Kaplan–Meier에서 승강기 기계장치의 중위 교체 연령은 <b id="elev-med"></b>로 법령 15년보다 깁니다. 그런데 기록을 들여다보니 준공 10년 안에 전면교체했다는 기록이 621건(14%)이었습니다. 승강기 기계장치를 10년 안에 통째로 바꾸는 일은 드뭅니다.</p>
+        <p>같은 단지 · 같은 시기의 낙찰공고를 붙여 보니 제목은 대부분 '부품 교체', '쉬브 · 로프 교체', '정기검사 지적사항 보수'였고, 금액은 승강기 1대당 중위 97만 원이었습니다. 10년 이상 된 기록도 1대당 중위 227만 원으로, 실제 전면 교체 비용(대당 수천만 원)에 한참 못 미칩니다. 관리사무소가 부품을 통째로 바꾼 것도 '전면교체'로 입력하는 것으로 보입니다.</p>
+        <div class="callout">이 오류는 가짜 교체를 만들어 <b>주기를 짧게</b> 보이게 합니다. 반대로 등록 누락은 <b>주기를 길게</b> 보이게 합니다. 두 편향이 서로 반대 방향이라 지금 숫자는 범위로만 읽어야 하고, 사건 정의를 입찰 자료로 확인하는 단계가 필요해졌습니다.</div>
+      </section>
+
+      <section id="d-goldset">
+        <h2>입찰 골드셋 <small>사건 확인을 위한 정답지</small></h2>
+        <h3>왜 골드셋이 필요한가</h3>
+        <p>계획은 이력의 전면교체 기록 중 <b>같은 시기에 대규모 전면 공사 입찰이 있었던 것만</b> 사건으로 확정하는 것입니다. 입찰은 50만 건이라 사람이 다 볼 수 없으니 제목을 자동으로 분류해야 하고, 그 분류기가 얼마나 맞는지 채점하려면 사람이 직접 라벨을 단 정답지가 필요합니다.</p>
+
+        <h3>표본 설계</h3>
+        <dl class="defs">
+          <dt>모집단</dt><dd>낙찰공고 중 공사(분류코드 02-02). 용역, 물품 · 매각, 수거 · 보험은 1차에서 뺐습니다.</dd>
+          <dt>후보 추출</dt><dd>제목 키워드로 부위별 후보를 잡았습니다: 승강기(승강기 · 엘리베이터), 방수(방수), 도장(도장 · 페인트 · 칠).</dd>
+          <dt>표본 수</dt><dd id="gs-sample"></dd>
+          <dt>추출</dt><dd>부위별 무작위 추출, 시드 42로 고정. 승강기를 더 뽑은 것은 부품 교체 혼입 문제가 승강기에서 가장 크기 때문입니다.</dd>
+        </dl>
+
+        <h3>라벨 다섯 가지</h3>
+        <div class="tbl"><table>
+          <thead><tr><th>라벨</th><th>정의</th><th>분석에서 쓰임</th></tr></thead>
+          <tbody>
+            <tr><td><b>전면</b></td><td>대상 부위를 전면 교체 · 전면 시공하는 공사 단독 건</td><td>사건 확인 + 공사 단가</td></tr>
+            <tr><td><b>부분</b></td><td>일부만 보수 · 교체. 단일 부품, 부분 보수, 정기검사 지적사항</td><td>사건에서 제외</td></tr>
+            <tr><td><b>복합</b></td><td>대상 부위 전면 시공이 다른 공종과 한 건으로 묶여 금액을 나눌 수 없음</td><td>사건 확인에만 (단가에는 안 씀)</td></tr>
+            <tr><td><b>감리·설계·용역</b></td><td>공사 자체가 아닌 감리, 설계, 컨설팅</td><td>제외 (공사가 있었다는 간접 증거)</td></tr>
+            <tr><td><b>무관</b></td><td>키워드만 걸렸을 뿐 대상 부위 수선이 아님 (지하주차장, 승강기 바닥재, 매각 등)</td><td>제외</td></tr>
+          </tbody>
+        </table></div>
+        <p>판단 기준은 하나입니다. <b>"이 건이 해당 부위의 전면 교체 사건과 그 비용을 대표하는가."</b></p>
+
+        <h3>라벨링 방식: LLM 사전 라벨 + 블라인드 100건</h3>
+        <p>처음에는 연구자가 400건을 모두 직접 라벨링했지만, 경계가 애매한 건이 많아 속도가 나지 않았습니다(10월 11일, 34건 완료 시점). 그래서 LLM이 먼저 라벨을 달고 연구자가 검토하는 방식으로 바꿨습니다.</p>
+        <p>문제는 골드셋이 나중에 <b>LLM 분류기를 채점하는 정답지</b>라는 점입니다. LLM 답을 보고 검토만 하면 사람은 제시된 답을 따라가기 쉽고(앵커링), 결국 LLM이 만든 답으로 LLM을 채점하게 됩니다. 이를 막으려고 400건을 둘로 나눴습니다.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>세트</th><th class="n">건수</th><th>방식</th><th>용도</th></tr></thead>
+          <tbody>
+            <tr><td><b>블라인드</b></td><td class="n" id="gs-nb"></td><td>연구자가 LLM 답을 보지 않고 독립 라벨. 이미 직접 단 34건을 우선 넣고, 나머지는 부위별 층화 무작위(시드 2026)로 승강기 40 · 방수 30 · 도장 30을 맞춤</td><td>분류기 평가, 사람–LLM 일치도</td></tr>
+            <tr><td><b>검토</b></td><td class="n" id="gs-nr"></td><td>LLM 사전 라벨을 연구자가 검토 · 수정. 원래 LLM 답은 별도 열에 남겨 수정률을 계산</td><td>규칙 개발, 분류기 조정</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>블라인드 일치도</h3>
+        <div class="tiles" id="gs-tiles"></div>
+        <div class="tbl"><table>
+          <thead><tr><th>구분</th><th class="n">N</th><th class="n">일치율</th><th class="n">Cohen's κ</th></tr></thead>
+          <tbody id="gs-part"></tbody>
+        </table></div>
+        <p class="note">Cohen's κ는 우연히 맞을 확률을 뺀 일치도입니다. 0.61–0.80을 '상당한 일치', 0.81 이상을 '거의 완전한 일치'로 봅니다(Landis &amp; Koch, 1977). 합의 전 연구자 원본 라벨로 계산했고, 합의로 라벨이 바뀌어도 이 값은 바뀌지 않습니다.</p>
+        <h3>혼동행렬 <small class="note">행: 연구자, 열: LLM</small></h3>
+        <div class="tbl"><table id="cm"></table></div>
+
+        <h3>불일치는 어디서 나왔나</h3>
+        <p>불일치 15건의 대부분은 판단 착오가 아니라 <b>규칙이 정해지지 않은 경계</b>에서 나왔습니다.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>유형</th><th class="n">건수</th><th>내용</th><th>조치</th></tr></thead>
+          <tbody>
+            <tr><td>복합의 경계</td><td class="n">7</td><td>'재도장 + 옥상방수'는 연구자 전면 · LLM 복합(4건), '방수 + 파라펫 · 배수로 · 처마'는 연구자 복합 · LLM 전면(3건). 두 사람의 기준이 서로 반대였습니다.</td><td>경계 규칙 확정</td></tr>
+            <tr><td>규칙과 다르게 단 라벨</td><td class="n">4</td><td>제목에 '부분'이 있는 건, 정기검사 보완, 내부 도장, 어린이집(부속 건물) 옥상을 전면으로 단 경우</td><td>합의에서 수정</td></tr>
+            <tr><td>애매한 건</td><td class="n">4</td><td>승강기실 옥탑 방수, 아스콘 및 방수, 재도장 + 칼라강판, 세대당 5.8만 원 방수</td><td>규칙 v2로 판단</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>라벨 규칙 v2 (확정한 순서대로)</h3>
+        <div class="rule raised"><b class="k">1. 균열(크랙)보수 · 10월 9일</b>균열보수만 하면 '부분'. '균열보수 및 재도장'은 '전면'. 여기에 옥상방수가 묶이면 '복합'. <span class="why">균열보수는 재도장 전에 하는 바탕 작업이라, 같이 적혀 있으면 공사의 실체는 외벽 전체 재도장입니다.</span></div>
+        <div class="rule raised"><b class="k">2. 범위는 단지 전체 기준 · 10월 11일</b>여러 동 중 일부 동만 전면 시공하면 '부분' + 메모 '일부 동 전면'. 1개 동 단지는 '전면'. 동 범위를 모르면 '전면', 확신도 '낮음'. <span class="why">생존 데이터의 한 줄이 '한 단지의 한 부위'이고, 한 동 금액을 전면 단가로 쓰면 단가가 낮아집니다. 동별로 나눠 시공한 경우는 사건 단계의 2년 병합 규칙이 다시 묶습니다.</span></div>
+        <div class="rule raised"><b class="k">3. 복합의 경계 · 10월 11일</b>같은 부위의 부속 작업(방수의 파라펫 · 배수로 · 처마 · 트렌치 · 바탕 보수, 도장의 균열보수)은 '전면'에 포함. 서로 다른 대상 부위나 공종을 한 건으로 묶으면(외벽 재도장 + 옥상방수, 외벽 + 지하주차장 · 계단실) '복합'. <span class="why">재도장 + 방수를 전면으로 두면 두 공사 금액이 한 부위 단가에 들어가 단가가 부풀려집니다. 복합으로 두어도 두 부위 모두의 사건 확인에는 쓰이므로 사건 수는 줄지 않습니다.</span></div>
+        <div class="rule raised"><b class="k">4. 승강기 부가장치 · 10월 11일</b>회생제동장치 · 자가발전장치 · 비상통화장치 · 안전장치 설치는 '부분'. <span class="why">기계장치(권상기 · 전동기)를 바꾸는 공사가 아닙니다.</span></div>
+        <div class="rule raised"><b class="k">5. 금액 보조 기준 · 10월 11일</b>제목 · 내용에 범위 단서가 없을 때만 씁니다. 방수는 세대당 10만 원, 도장은 20만 원을 기준으로 '부분'과 '전면'을 나누고, 그 주변 구간은 확신도 '낮음'. <a href="#d-amount">근거는 아래</a>.</div>
+      </section>
+
+      <section id="d-amount">
+        <h2>금액 기준 <small>왜 5만 원이 아니라 10만 원인가</small></h2>
+        <h3>처음 5만 원은 어디서 나왔나</h3>
+        <p>LLM 사전 라벨을 달면서 제목이 '옥상 방수공사'처럼 범위를 알 수 없는 건을 가르려고 정한 값입니다. 부분 방수는 보통 수백만 원에서 2천만 원대라는 경험적 감으로 고른 어림수였고, 자료로 검증한 값은 아니었습니다. 연구자도 블라인드 라벨링에서 5만 원을 기준으로 썼습니다.</p>
+
+        <h3>어떻게 검증했나</h3>
+        <p>정답을 아는 입찰로 금액 분포를 비교했습니다. 옥상 · 지붕 방수 입찰 중 제목에 범위 단서가 분명한 것만 골랐습니다.</p>
+        <dl class="defs">
+          <dt>부분 단서</dt><dd>'부분', '일부', '누수', '긴급', 동 번호(예: 101동) → <b class="tnum" id="a-np"></b>건</dd>
+          <dt>전면 단서</dt><dd>'전면', '전체', '각 동', '전 동', '재방수' → <b class="tnum" id="a-nf"></b>건</dd>
+          <dt>지표</dt><dd>낙찰금액 ÷ 단지 세대수 (만 원/세대)</dd>
+        </dl>
+        <figure class="fig sunken">
+          <div class="legend"><span><i style="background:var(--s2)"></i>부분 단서</span><span><i style="background:var(--s1)"></i>전면 단서</span><span><i class="dash"></i>기준선</span></div>
+          <div class="hist-grid">
+            <div><svg id="h-roof" viewBox="0 0 360 230" role="img" aria-label="옥상 방수 입찰의 세대당 금액 분포"></svg></div>
+            <div><svg id="h-paint" viewBox="0 0 360 230" role="img" aria-label="외벽 도장 입찰의 세대당 금액 분포"></svg></div>
+          </div>
+          <figcaption>세대당 금액 분포(가로축 로그 눈금). 각 그룹 안에서의 비율이라 건수가 다른 두 그룹을 같은 높이로 비교할 수 있습니다. 두 분포가 겹치는 구간이 있어서 어떤 기준을 써도 일부는 틀립니다.</figcaption>
+        </figure>
+
+        <h3>기준별로 얼마나 맞나 (방수)</h3>
+        <div class="tbl"><table>
+          <thead><tr><th class="n">기준 (만 원/세대)</th><th class="n">전면을 전면으로</th><th class="n">부분을 부분으로</th><th class="n">부분을 전면으로 오분류</th><th>비고</th></tr></thead>
+          <tbody id="thr-body"></tbody>
+        </table></div>
+        <p class="note" id="auc-note"></p>
+
+        <h3>왜 '부분을 전면으로' 틀리는 쪽을 더 경계하나</h3>
+        <p>부분 공사를 전면으로 잘못 세면 실제로 없던 교체 사건이 생겨 <b>주기가 짧게</b> 나옵니다. 이것은 이력의 '전면교체'에 부품 교체가 섞인 문제와 <b>같은 방향의 편향</b>입니다. 이 단계는 그 편향을 걸러내려는 것인데, 5만 원 기준은 부분 공사의 37%를 전면으로 넘겨 오히려 편향을 더합니다. 10만 원은 이 비율을 19%로 줄이면서 전면은 77%를 잡아, 두 오류가 비슷한 크기가 되는 지점입니다.</p>
+
+        <h3>고정 금액의 한계: 공사비가 오른다</h3>
+        <figure class="fig sunken">
+          <svg id="trend" viewBox="0 0 640 190" role="img" aria-label="기간별 전면 방수 세대당 중위 금액"></svg>
+          <figcaption>전면 단서 방수 입찰의 기간별 세대당 중위 금액. 기간별 표본이 작아(괄호 안 건수) 연도별 기준을 따로 두기에는 불안정해서 단일 기준을 택했습니다.</figcaption>
+        </figure>
+
+        <h3>도장은 기준이 다르다</h3>
+        <p id="paint-note"></p>
+
+        <h3>결정과 남긴 장치</h3>
+        <ul>
+          <li><b>확정(10월 11일, B안):</b> 방수 10만 원, 도장 20만 원. 방수 5–15만 원, 도장 10–30만 원 구간은 확신도 '낮음'.</li>
+          <li><b>먼저 보는 것은 제목과 내용</b>입니다. 금액은 범위 단서가 없을 때만 씁니다.</li>
+          <li><b>민감도 분석(P7):</b> 기준을 5 · 10 · 15만 원으로 바꿔 사건을 다시 정의하고 Kaplan–Meier 중위 교체 연령이 얼마나 움직이는지 보고합니다. "왜 10만 원인가"에 숫자로 답하기 위해서입니다.</li>
+          <li><b>층수 보정은 하지 않음:</b> 고층일수록 세대당 지붕 면적이 작아 금액 × 층수로 보정해 봤지만 판별력(AUC)이 같아 단순한 쪽을 택했습니다.</li>
+          <li><b>검증 표본의 한계:</b> 제목 단서 자체가 완벽하지 않고(예: '긴급'인데 전면인 공사), 전면 단서 표본은 92건뿐입니다.</li>
+        </ul>
+      </section>
+
+      <section id="d-todo">
+        <h2>남은 일</h2>
+        <ul class="check" id="todo"></ul>
+      </section>
+    </main>
+  </div>
+  <div class="status">
+    <span class="sunken" id="st-updated"></span>
+    <span class="sunken">개별 단지는 공개하지 않고 집계값만 표시</span>
+  </div>
+</div>
+
+<script>
+const DATA = {"progress":{"updated":"2026-10-11","current_step":"P2","current_label":"입찰 골드셋 검토 · 사건 정의 검증 중","steps":[{"id":"P0","name":"데이터 확보 가능성 점검","weeks":"W1","status":"done","date":"2026-09-28","detail":"유지관리 이력 API로 10곳 → 300곳 시범 수집. 단지 74%에서 이력 확인, 부위별 전면교체 수십 건 확인으로 Gate A 통과."},{"id":"P1","name":"전국 수집 파이프라인","weeks":"W2–W4","status":"done","date":"2026-10-02","detail":"21,728개 단지 × 2개 기능 = 43,456회 호출 완료. 낙찰공고 2010–2026년 전체 수집."},{"id":"P2","name":"공종 매핑 · 사건 규칙","weeks":"W4–W6","status":"active","date":"","detail":"부위 매핑표와 제외 규칙 R1–R5, 분할 시공 병합 규칙 완료. 입찰 골드셋 400건: 블라인드 100건 독립 라벨(κ 0.78) 완료, 라벨 규칙 v2 확정, 검토 300건 진행 중."},{"id":"P3","name":"생존 데이터셋 구축","weeks":"W6–W7","status":"done","date":"2026-10-02","detail":"분양 단지 18,200곳 × 3개 부위. 관측 시작 2016 · 2018 · 2020년 세 가지 버전."},{"id":"P4","name":"생존분석","weeks":"W7–W9","status":"active","date":"","detail":"Kaplan–Meier 1차 결과 산출. 골드셋으로 사건 정의를 강화한 뒤 재분석하고, Cox 비례위험모형과 Random Survival Forest로 넘어간다."},{"id":"P5","name":"충당금 진단 시뮬레이션","weeks":"W9–W10","status":"todo","date":"","detail":"잔여수명 분포 × 낙찰금액 기반 단가로 30년 수선비 몬테카를로."},{"id":"P6","name":"대시보드","weeks":"W10–W12","status":"todo","date":"","detail":"부위별 생존곡선, 법령 주기 대비 편차, 30년 누적비용 화면."},{"id":"P7","name":"민감도 분석 · 집필","weeks":"W12–W14","status":"todo","date":"","detail":"코호트 정의 · 관측 시작 · 금액 기준(5·10·15만 원) 민감도와 한계 절."}],"log":[{"date":"2026-09-27","text":"후보 주제 세 갈래(장기수선 · 도면 정합 · 정비사업)의 위험 요소와 14주 일정 검토."},{"date":"2026-09-28","text":"K-apt 단지 기본정보 21,728곳 확보. 유지관리 이력 API와 입찰결과 API 명세 확인, 10곳 시범 호출."},{"date":"2026-09-28","text":"이력이 항목별 최근 1건이 아니라 반복 기록이라는 점, 공종이 법령 별표와 같은 체계로 정형화되어 있다는 점 확인."},{"date":"2026-09-28","text":"이력에는 공사 금액이 없음을 확인. 낙찰공고 2016–2026년 395,735건을 받아 단가 자료로 확보."},{"date":"2026-09-28","text":"법령 별표 1의 2019판과 2024판 원문 대조. 외부 도장 주기가 5년에서 8년으로 바뀐 것 확인."},{"date":"2026-09-28","text":"공공데이터포털 운영계정 신청. 동시 요청 직후 게이트웨이 차단(HTTP_ERROR 04)을 겪고 순차 호출로 수집 방식 변경."},{"date":"2026-10-02","text":"전국 이력 43,456회 호출 완료(10분당 약 150건 제한). 2010–2015 낙찰공고 추가로 입찰 자료 50만 건."},{"date":"2026-10-02","text":"Kaplan–Meier 1차 분석. 승강기 기계장치에서 '전면교체' 기록 상당수가 부품 교체로 보이는 문제 발견."},{"date":"2026-10-08","text":"진행 보고 페이지와 자동 갱신 스크립트 작성."},{"date":"2026-10-11","text":"골드셋을 'LLM 사전 라벨 + 블라인드 100건' 방식으로 변경. 블라인드 일치도 κ 0.78."},{"date":"2026-10-11","text":"라벨 규칙 v2 확정: 복합의 경계, 금액 보조 기준 5만 원 → 10만 원(방수) · 20만 원(도장)."}],"findings":[{"title":"이력의 '전면교체'에 부품 교체가 섞여 있다","effect":"주기를 짧게 만든다","text":"준공 10년 안에 승강기 기계장치를 전면교체했다는 기록이 621건(14%)이다. 같은 시기의 낙찰공고와 연결하면 제목은 대부분 부품교체 · 쉬브·로프 교체 · 정기검사 지적사항 보수였고, 금액은 승강기 1대당 중위 97만 원이었다. 10년 이상 된 기록도 1대당 중위 227만 원으로 실제 전면교체 비용(대당 수천만 원)에 크게 못 미친다."},{"title":"초기 연도일수록 등록이 덜 되어 있다","effect":"주기를 길게 만든다","text":"연도별 사건 수가 해마다 늘어난다. 같은 기간 입찰 건수는 거의 일정하므로 실제 공사가 늘었다기보다 K-apt 등록률이 높아진 것으로 본다. 관측 시작을 늦출수록 중위 교체 연령이 짧아진다."},{"title":"느슨한 금액 기준은 가짜 교체를 만든다","effect":"주기를 짧게 만든다","text":"제목만으로 범위를 알 수 없는 방수 입찰을 세대당 5만 원으로 가르면 실제 부분 공사의 37%가 전면으로 분류된다. 10만 원으로 올리면 이 비율이 19%로 줄고 전면은 77%를 유지한다. 전면 공사 단가가 2015년 이전 10만 원에서 2023년 이후 33만 원으로 올라 고정 기준의 의미도 해마다 달라진다."}],"next":["블라인드 합의 확정 · 검토 세트 300건 검토 → 최종 골드셋","규칙 + LLM 분류기로 전체 입찰 분류, 골드셋으로 정확도와 혼동행렬 보고","이력의 전면교체 중 대규모 입찰이 확인된 건만 사건으로 확정하는 강화된 사건 정의로 재분석","Cox 비례위험모형: 준공연도 · 세대수 · 난방방식 · 지역 · 관리방식과 교체 시점의 연관","충당금 진단 시뮬레이션(P5)과 대시보드(P6)"]},"counts":{"complexes":21728,"api_calls":43456,"history_rows":227869,"history_complexes":14733,"episodes":31506,"bids":505114,"bid_complexes":24821,"survival_complexes":18200,"reporting_share":0.764},"funnel":{"R1_대상부위아님":176519,"사건 후보":32175,"R5_부분또는미상":18180,"R4_하자보수재원":948,"R2_날짜오류":47},"events_by_year":{"years":[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],"ELEV_MACH":[109,99,114,159,265,329,442,574,347,413,641,533,286],"ROOF_WP":[109,70,130,294,399,505,676,730,397,483,614,635,326],"EXT_PAINT":[124,113,186,353,493,773,921,533,547,538,548,594,279]},"bids_by_year":{"years":[2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],"n":[573,1666,5040,16197,41759,44144,43510,39521,39246,39381,38227,36525,35809,36002,33574,31877,22063]},"km_table":[{"관측시작":2016,"부위":"ELEV_MACH","코호트":"trunc","법령주기_2019":15,"N":7482,"사건":2064,"KM중위수":22.1,"CI하한":21.604,"CI상한":22.708,"법령주기시점_미교체비율":0.714,"교체단지만_중위":14.721,"교체단지만_평균":14.153},{"관측시작":2016,"부위":"ELEV_MACH","코호트":"all","법령주기_2019":15,"N":13232,"사건":3943,"KM중위수":23.934,"CI하한":23.368,"CI상한":24.413,"법령주기시점_미교체비율":0.714,"교체단지만_중위":20.591,"교체단지만_평균":19.747},{"관측시작":2016,"부위":"ELEV_MACH","코호트":"clean","법령주기_2019":15,"N":2074,"사건":297,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.743,"교체단지만_중위":5.919,"교체단지만_평균":6.158},{"관측시작":2016,"부위":"ROOF_WP","코호트":"trunc","법령주기_2019":15,"N":7457,"사건":2099,"KM중위수":21.391,"CI하한":20.709,"CI상한":22.308,"법령주기시점_미교체비율":0.707,"교체단지만_중위":14.724,"교체단지만_평균":14.331},{"관측시작":2016,"부위":"ROOF_WP","코호트":"all","법령주기_2019":15,"N":13496,"사건":4596,"KM중위수":22.872,"CI하한":22.248,"CI상한":23.463,"법령주기시점_미교체비율":0.707,"교체단지만_중위":21.489,"교체단지만_평균":21.116},{"관측시작":2016,"부위":"ROOF_WP","코호트":"clean","법령주기_2019":15,"N":2076,"사건":158,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.851,"교체단지만_중위":6.658,"교체단지만_평균":6.568},{"관측시작":2016,"부위":"EXT_PAINT","코호트":"trunc","법령주기_2019":5,"N":3266,"사건":358,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.996,"교체단지만_중위":8.057,"교체단지만_평균":8.631},{"관측시작":2016,"부위":"EXT_PAINT","코호트":"all","법령주기_2019":5,"N":13394,"사건":5626,"KM중위수":20.12,"CI하한":19.817,"CI상한":20.485,"법령주기시점_미교체비율":0.996,"교체단지만_중위":21.478,"교체단지만_평균":21.502},{"관측시작":2016,"부위":"EXT_PAINT","코호트":"clean","법령주기_2019":5,"N":2076,"사건":113,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.996,"교체단지만_중위":7.411,"교체단지만_평균":7.166},{"관측시작":2018,"부위":"ELEV_MACH","코호트":"trunc","법령주기_2019":15,"N":6520,"사건":1652,"KM중위수":20.736,"CI하한":20.129,"CI상한":21.147,"법령주기시점_미교체비율":0.667,"교체단지만_중위":13.717,"교체단지만_평균":13.096},{"관측시작":2018,"부위":"ELEV_MACH","코호트":"all","법령주기_2019":15,"N":12961,"사건":3672,"KM중위수":21.331,"CI하한":20.794,"CI상한":21.947,"법령주기시점_미교체비율":0.667,"교체단지만_중위":20.745,"교체단지만_평균":19.883},{"관측시작":2018,"부위":"ELEV_MACH","코호트":"clean","법령주기_2019":15,"N":1413,"사건":168,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.786,"교체단지만_중위":5.472,"교체단지만_평균":5.542},{"관측시작":2018,"부위":"ROOF_WP","코호트":"trunc","법령주기_2019":15,"N":6450,"사건":1658,"KM중위수":19.858,"CI하한":19.184,"CI상한":20.479,"법령주기시점_미교체비율":0.663,"교체단지만_중위":14.096,"교체단지만_평균":13.633},{"관측시작":2018,"부위":"ROOF_WP","코호트":"all","법령주기_2019":15,"N":13083,"사건":4183,"KM중위수":20.151,"CI하한":19.532,"CI상한":20.876,"법령주기시점_미교체비율":0.663,"교체단지만_중위":21.854,"교체단지만_평균":21.361},{"관측시작":2018,"부위":"ROOF_WP","코호트":"clean","법령주기_2019":15,"N":1415,"사건":82,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.892,"교체단지만_중위":6.134,"교체단지만_평균":5.94},{"관측시작":2018,"부위":"EXT_PAINT","코호트":"trunc","법령주기_2019":5,"N":2867,"사건":246,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.996,"교체단지만_중위":7.788,"교체단지만_평균":7.978},{"관측시작":2018,"부위":"EXT_PAINT","코호트":"all","법령주기_2019":5,"N":12866,"사건":5098,"KM중위수":18.861,"CI하한":18.543,"CI상한":19.22,"법령주기시점_미교체비율":0.996,"교체단지만_중위":21.927,"교체단지만_평균":21.825},{"관측시작":2018,"부위":"EXT_PAINT","코호트":"clean","법령주기_2019":5,"N":1415,"사건":46,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.995,"교체단지만_중위":6.628,"교체단지만_평균":6.562},{"관측시작":2020,"부위":"ELEV_MACH","코호트":"trunc","법령주기_2019":15,"N":5480,"사건":1229,"KM중위수":19.099,"CI하한":18.305,"CI상한":19.685,"법령주기시점_미교체비율":0.622,"교체단지만_중위":12.479,"교체단지만_평균":12.107},{"관측시작":2020,"부위":"ELEV_MACH","코호트":"all","법령주기_2019":15,"N":12379,"사건":3090,"KM중위수":19.406,"CI하한":18.617,"CI상한":20.077,"법령주기시점_미교체비율":0.622,"교체단지만_중위":20.832,"교체단지만_평균":19.985},{"관측시작":2020,"부위":"ELEV_MACH","코호트":"clean","법령주기_2019":15,"N":675,"사건":49,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.868,"교체단지만_중위":4.507,"교체단지만_평균":4.457},{"관측시작":2020,"부위":"ROOF_WP","코호트":"trunc","법령주기_2019":15,"N":5355,"사건":1101,"KM중위수":19.554,"CI하한":18.787,"CI상한":20.479,"법령주기시점_미교체비율":0.649,"교체단지만_중위":13.413,"교체단지만_평균":12.905},{"관측시작":2020,"부위":"ROOF_WP","코호트":"all","법령주기_2019":15,"N":12200,"사건":3300,"KM중위수":19.28,"CI하한":18.65,"CI상한":19.989,"법령주기시점_미교체비율":0.649,"교체단지만_중위":22.552,"교체단지만_평균":21.833},{"관측시작":2020,"부위":"EXT_PAINT","코호트":"trunc","법령주기_2019":5,"N":2345,"사건":155,"KM중위수":null,"CI하한":null,"CI상한":null,"법령주기시점_미교체비율":0.996,"교체단지만_중위":7.499,"교체단지만_평균":7.42},{"관측시작":2020,"부위":"EXT_PAINT","코호트":"all","법령주기_2019":5,"N":11614,"사건":3846,"KM중위수":18.973,"CI하한":18.563,"CI상한":19.351,"법령주기시점_미교체비율":0.996,"교체단지만_중위":22.935,"교체단지만_평균":22.426}],"km_curves":{"ELEV_MACH":{"trunc":{"n":7482,"events":2064,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,1.0,1.0,1.0],[1.5,1.0,1.0,1.0],[1.75,1.0,1.0,1.0],[2.0,1.0,1.0,1.0],[2.25,0.9996,0.9973,0.9999],[2.5,0.9996,0.9973,0.9999],[2.75,0.9993,0.997,0.9998],[3.0,0.9993,0.997,0.9998],[3.25,0.9971,0.9943,0.9986],[3.5,0.9939,0.9903,0.9962],[3.75,0.9901,0.9857,0.9931],[4.0,0.9855,0.9804,0.9893],[4.25,0.9793,0.9734,0.9839],[4.5,0.9755,0.9692,0.9806],[4.75,0.9697,0.9628,0.9754],[5.0,0.9636,0.9561,0.9698],[5.25,0.9568,0.9488,0.9636],[5.5,0.9498,0.9413,0.9572],[5.75,0.9433,0.9343,0.9511],[6.0,0.9343,0.9247,0.9427],[6.25,0.9279,0.918,0.9367],[6.5,0.922,0.9118,0.931],[6.75,0.9167,0.9063,0.9261],[7.0,0.9112,0.9005,0.9208],[7.25,0.9042,0.8932,0.9141],[7.5,0.8979,0.8866,0.9081],[7.75,0.8916,0.8801,0.9021],[8.0,0.8865,0.8748,0.8972],[8.25,0.8793,0.8673,0.8903],[8.5,0.8722,0.86,0.8834],[8.75,0.8666,0.8542,0.878],[9.0,0.8604,0.8477,0.872],[9.25,0.853,0.8401,0.8649],[9.5,0.8483,0.8353,0.8603],[9.75,0.842,0.8288,0.8542],[10.0,0.8364,0.8231,0.8488],[10.25,0.8312,0.8178,0.8437],[10.5,0.8273,0.8137,0.8399],[10.75,0.8197,0.8061,0.8325],[11.0,0.8129,0.7991,0.8258],[11.25,0.8063,0.7924,0.8193],[11.5,0.8013,0.7873,0.8144],[11.75,0.7943,0.7802,0.8076],[12.0,0.7895,0.7753,0.8028],[12.25,0.7815,0.7673,0.795],[12.5,0.7735,0.7592,0.7871],[12.75,0.7698,0.7554,0.7834],[13.0,0.7648,0.7504,0.7785],[13.25,0.7581,0.7436,0.7719],[13.5,0.7523,0.7377,0.7661],[13.75,0.7467,0.7321,0.7606],[14.0,0.7403,0.7257,0.7543],[14.25,0.7322,0.7176,0.7463],[14.5,0.7278,0.7131,0.7419],[14.75,0.7214,0.7067,0.7355],[15.0,0.7144,0.6996,0.7285],[15.25,0.7075,0.6927,0.7216],[15.5,0.7018,0.687,0.716],[15.75,0.6946,0.6798,0.7088],[16.0,0.6878,0.673,0.7021],[16.25,0.6814,0.6666,0.6958],[16.5,0.6755,0.6606,0.6898],[16.75,0.6688,0.6539,0.6832],[17.0,0.6604,0.6455,0.6749],[17.25,0.6533,0.6384,0.6678],[17.5,0.6461,0.6311,0.6606],[17.75,0.6377,0.6227,0.6523],[18.0,0.6306,0.6156,0.6453],[18.25,0.622,0.607,0.6367],[18.5,0.614,0.5988,0.6287],[18.75,0.6071,0.592,0.6219],[19.0,0.6002,0.585,0.615],[19.25,0.5925,0.5773,0.6074],[19.5,0.585,0.5697,0.5999],[19.75,0.5756,0.5603,0.5906],[20.0,0.567,0.5516,0.582],[20.25,0.5592,0.5437,0.5743],[20.5,0.5545,0.539,0.5697],[20.75,0.5462,0.5307,0.5615],[21.0,0.5356,0.5199,0.551],[21.25,0.5271,0.5113,0.5426],[21.5,0.5182,0.5023,0.5338],[21.75,0.5128,0.4969,0.5286],[22.0,0.5022,0.486,0.5181],[22.25,0.4968,0.4805,0.5128],[22.5,0.4903,0.4738,0.5065],[22.75,0.4819,0.4652,0.4983],[23.0,0.4739,0.457,0.4906],[23.25,0.4638,0.4466,0.4809],[23.5,0.4561,0.4385,0.4734],[23.75,0.4523,0.4346,0.4699],[24.0,0.4422,0.424,0.4603],[24.25,0.4333,0.4145,0.4519],[24.5,0.4273,0.4081,0.4464],[24.75,0.4217,0.402,0.4413],[25.0,0.4181,0.3978,0.4381],[25.25,0.4181,0.3978,0.4381],[25.5,0.4181,0.3978,0.4381]]},"all":{"n":13232,"events":3943,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,1.0,1.0,1.0],[1.5,1.0,1.0,1.0],[1.75,1.0,1.0,1.0],[2.0,1.0,1.0,1.0],[2.25,0.9996,0.9973,0.9999],[2.5,0.9996,0.9973,0.9999],[2.75,0.9993,0.997,0.9998],[3.0,0.9993,0.997,0.9998],[3.25,0.9971,0.9943,0.9986],[3.5,0.9939,0.9903,0.9962],[3.75,0.9901,0.9857,0.9931],[4.0,0.9855,0.9804,0.9893],[4.25,0.9793,0.9734,0.9839],[4.5,0.9755,0.9692,0.9806],[4.75,0.9697,0.9628,0.9754],[5.0,0.9636,0.9561,0.9698],[5.25,0.9568,0.9488,0.9636],[5.5,0.9498,0.9413,0.9572],[5.75,0.9433,0.9343,0.9511],[6.0,0.9343,0.9247,0.9427],[6.25,0.9279,0.918,0.9367],[6.5,0.922,0.9118,0.931],[6.75,0.9167,0.9063,0.9261],[7.0,0.9112,0.9005,0.9208],[7.25,0.9042,0.8932,0.9141],[7.5,0.8979,0.8866,0.9081],[7.75,0.8916,0.8801,0.9021],[8.0,0.8865,0.8748,0.8972],[8.25,0.8793,0.8673,0.8903],[8.5,0.8722,0.86,0.8834],[8.75,0.8666,0.8542,0.878],[9.0,0.8604,0.8477,0.872],[9.25,0.853,0.8401,0.8649],[9.5,0.8483,0.8353,0.8603],[9.75,0.842,0.8288,0.8542],[10.0,0.8364,0.8231,0.8488],[10.25,0.8312,0.8178,0.8437],[10.5,0.8273,0.8137,0.8399],[10.75,0.8197,0.8061,0.8325],[11.0,0.8129,0.7991,0.8258],[11.25,0.8063,0.7924,0.8193],[11.5,0.8013,0.7873,0.8144],[11.75,0.7943,0.7802,0.8076],[12.0,0.7895,0.7753,0.8028],[12.25,0.7815,0.7673,0.795],[12.5,0.7735,0.7592,0.7871],[12.75,0.7698,0.7554,0.7834],[13.0,0.7648,0.7504,0.7785],[13.25,0.7581,0.7436,0.7719],[13.5,0.7523,0.7377,0.7661],[13.75,0.7467,0.7321,0.7606],[14.0,0.7403,0.7257,0.7543],[14.25,0.7322,0.7176,0.7463],[14.5,0.7278,0.7131,0.7419],[14.75,0.7214,0.7067,0.7355],[15.0,0.7144,0.6996,0.7285],[15.25,0.7076,0.6928,0.7218],[15.5,0.7022,0.6875,0.7164],[15.75,0.6956,0.6808,0.7098],[16.0,0.6892,0.6745,0.7035],[16.25,0.6828,0.6681,0.6971],[16.5,0.6777,0.663,0.692],[16.75,0.672,0.6573,0.6863],[17.0,0.6653,0.6506,0.6796],[17.25,0.6594,0.6446,0.6736],[17.5,0.6538,0.6391,0.6681],[17.75,0.647,0.6324,0.6613],[18.0,0.6418,0.6272,0.6561],[18.25,0.6355,0.6208,0.6497],[18.5,0.6288,0.6142,0.6431],[18.75,0.6236,0.609,0.6378],[19.0,0.6184,0.6038,0.6326],[19.25,0.6129,0.5984,0.6271],[19.5,0.6074,0.5929,0.6215],[19.75,0.6001,0.5857,0.6142],[20.0,0.5941,0.5797,0.6081],[20.25,0.5877,0.5734,0.6018],[20.5,0.5834,0.5691,0.5974],[20.75,0.5775,0.5632,0.5915],[21.0,0.571,0.5568,0.5849],[21.25,0.5644,0.5502,0.5782],[21.5,0.5587,0.5446,0.5725],[21.75,0.5533,0.5393,0.5671],[22.0,0.5457,0.5317,0.5594],[22.25,0.5384,0.5246,0.5521],[22.5,0.533,0.5192,0.5466],[22.75,0.527,0.5132,0.5405],[23.0,0.5225,0.5088,0.536],[23.25,0.5156,0.5019,0.529],[23.5,0.5107,0.4972,0.5241],[23.75,0.5051,0.4916,0.5185],[24.0,0.4976,0.4842,0.5108],[24.25,0.4904,0.4771,0.5036],[24.5,0.4847,0.4715,0.4978],[24.75,0.476,0.4629,0.4891],[25.0,0.4702,0.4571,0.4832],[25.25,0.4656,0.4525,0.4785],[25.5,0.4606,0.4476,0.4734],[25.75,0.4553,0.4424,0.4681],[26.0,0.4504,0.4376,0.4632],[26.25,0.4455,0.4327,0.4581],[26.5,0.4418,0.429,0.4544],[26.75,0.4369,0.4243,0.4495],[27.0,0.4312,0.4186,0.4437],[27.25,0.427,0.4145,0.4395],[27.5,0.4231,0.4106,0.4356],[27.75,0.4195,0.4071,0.4319],[28.0,0.416,0.4036,0.4284],[28.25,0.4124,0.4,0.4247],[28.5,0.4092,0.3968,0.4215],[28.75,0.4065,0.3942,0.4187],[29.0,0.4026,0.3903,0.4148],[29.25,0.3998,0.3875,0.412],[29.5,0.3968,0.3846,0.409],[29.75,0.3927,0.3805,0.4049],[30.0,0.3894,0.3772,0.4015],[30.25,0.3864,0.3743,0.3985],[30.5,0.3826,0.3704,0.3947],[30.75,0.3796,0.3675,0.3917],[31.0,0.3759,0.3638,0.388],[31.25,0.3737,0.3617,0.3858],[31.5,0.3703,0.3583,0.3824],[31.75,0.367,0.355,0.3791],[32.0,0.3644,0.3523,0.3764],[32.25,0.36,0.3479,0.3721],[32.5,0.3566,0.3445,0.3686],[32.75,0.3544,0.3423,0.3665],[33.0,0.3521,0.34,0.3642],[33.25,0.3494,0.3373,0.3615],[33.5,0.3459,0.3337,0.358],[33.75,0.3434,0.3312,0.3556],[34.0,0.3403,0.3281,0.3526],[34.25,0.3369,0.3246,0.3493],[34.5,0.3345,0.3221,0.3469],[34.75,0.3336,0.3212,0.3461],[35.0,0.3317,0.3193,0.3442],[35.25,0.3296,0.3171,0.3422],[35.5,0.3262,0.3134,0.3389],[35.75,0.3255,0.3128,0.3383],[36.0,0.3248,0.312,0.3377],[36.25,0.3188,0.3056,0.3321],[36.5,0.318,0.3047,0.3313],[36.75,0.3156,0.3021,0.3291],[37.0,0.3122,0.2985,0.326],[37.25,0.3113,0.2975,0.3251],[37.5,0.3084,0.2944,0.3225],[37.75,0.3064,0.2922,0.3207],[38.0,0.3064,0.2922,0.3207],[38.25,0.3064,0.2922,0.3207],[38.5,0.303,0.2884,0.3176],[38.75,0.3018,0.2871,0.3166],[39.0,0.3018,0.2871,0.3166],[39.25,0.3004,0.2856,0.3154],[39.5,0.299,0.284,0.3142],[39.75,0.299,0.284,0.3142],[40.0,0.299,0.284,0.3142]]}},"ROOF_WP":{"trunc":{"n":7457,"events":2099,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,0.9996,0.997,0.9999],[1.5,0.9996,0.997,0.9999],[1.75,0.9996,0.997,0.9999],[2.0,0.9996,0.997,0.9999],[2.25,0.9996,0.997,0.9999],[2.5,0.9996,0.997,0.9999],[2.75,0.9996,0.997,0.9999],[3.0,0.9996,0.997,0.9999],[3.25,0.9989,0.9965,0.9996],[3.5,0.9982,0.9956,0.9992],[3.75,0.9975,0.9947,0.9988],[4.0,0.9957,0.9924,0.9976],[4.25,0.9947,0.9912,0.9968],[4.5,0.993,0.9891,0.9954],[4.75,0.9909,0.9867,0.9938],[5.0,0.9902,0.9859,0.9932],[5.25,0.9875,0.9827,0.991],[5.5,0.9852,0.98,0.989],[5.75,0.9799,0.9741,0.9844],[6.0,0.9757,0.9694,0.9806],[6.25,0.9696,0.9628,0.9752],[6.5,0.9658,0.9586,0.9717],[6.75,0.9608,0.9532,0.9671],[7.0,0.9526,0.9445,0.9596],[7.25,0.9471,0.9386,0.9544],[7.5,0.94,0.9311,0.9478],[7.75,0.9348,0.9256,0.943],[8.0,0.929,0.9194,0.9375],[8.25,0.9228,0.9129,0.9317],[8.5,0.9195,0.9094,0.9285],[8.75,0.9133,0.903,0.9227],[9.0,0.906,0.8953,0.9156],[9.25,0.9011,0.8901,0.911],[9.5,0.8944,0.8831,0.9046],[9.75,0.8899,0.8785,0.9003],[10.0,0.8825,0.8708,0.8932],[10.25,0.8759,0.864,0.8869],[10.5,0.8678,0.8557,0.879],[10.75,0.8582,0.8458,0.8698],[11.0,0.8494,0.8367,0.8611],[11.25,0.841,0.8281,0.853],[11.5,0.831,0.8179,0.8433],[11.75,0.8213,0.808,0.8338],[12.0,0.8117,0.7982,0.8244],[12.25,0.8025,0.7888,0.8154],[12.5,0.7946,0.7808,0.8076],[12.75,0.7876,0.7737,0.8007],[13.0,0.7778,0.7638,0.7911],[13.25,0.7688,0.7547,0.7823],[13.5,0.7595,0.7452,0.7731],[13.75,0.753,0.7387,0.7666],[14.0,0.7442,0.7298,0.758],[14.25,0.7369,0.7225,0.7508],[14.5,0.7294,0.7149,0.7433],[14.75,0.7203,0.7057,0.7342],[15.0,0.7069,0.6922,0.721],[15.25,0.6988,0.6841,0.7129],[15.5,0.6886,0.6739,0.7028],[15.75,0.6796,0.6648,0.6938],[16.0,0.6698,0.655,0.6841],[16.25,0.6588,0.644,0.6732],[16.5,0.6491,0.6342,0.6636],[16.75,0.6412,0.6263,0.6557],[17.0,0.6323,0.6173,0.6468],[17.25,0.6222,0.6072,0.6369],[17.5,0.6134,0.5983,0.6281],[17.75,0.6037,0.5886,0.6184],[18.0,0.598,0.5829,0.6128],[18.25,0.5896,0.5744,0.6044],[18.5,0.58,0.5648,0.5949],[18.75,0.5715,0.5562,0.5864],[19.0,0.5643,0.549,0.5793],[19.25,0.5545,0.5391,0.5695],[19.5,0.5488,0.5334,0.5639],[19.75,0.5399,0.5244,0.555],[20.0,0.5312,0.5157,0.5465],[20.25,0.5256,0.5101,0.5409],[20.5,0.52,0.5044,0.5353],[20.75,0.5134,0.4978,0.5288],[21.0,0.5092,0.4935,0.5247],[21.25,0.5019,0.4861,0.5175],[21.5,0.4977,0.4818,0.5133],[21.75,0.4933,0.4773,0.509],[22.0,0.4893,0.4733,0.5052],[22.25,0.4851,0.469,0.501],[22.5,0.481,0.4648,0.4971],[22.75,0.4745,0.4581,0.4907],[23.0,0.4675,0.4508,0.4839],[23.25,0.4618,0.4449,0.4784],[23.5,0.4554,0.4383,0.4724],[23.75,0.4517,0.4344,0.4689],[24.0,0.445,0.4274,0.4625],[24.25,0.4402,0.4222,0.458],[24.5,0.4368,0.4185,0.4549],[24.75,0.4339,0.4153,0.4523],[25.0,0.4298,0.4106,0.4489],[25.25,0.4231,0.402,0.444],[25.5,0.4231,0.402,0.444]]},"all":{"n":13496,"events":4596,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,0.9996,0.997,0.9999],[1.5,0.9996,0.997,0.9999],[1.75,0.9996,0.997,0.9999],[2.0,0.9996,0.997,0.9999],[2.25,0.9996,0.997,0.9999],[2.5,0.9996,0.997,0.9999],[2.75,0.9996,0.997,0.9999],[3.0,0.9996,0.997,0.9999],[3.25,0.9989,0.9965,0.9996],[3.5,0.9982,0.9956,0.9992],[3.75,0.9975,0.9947,0.9988],[4.0,0.9957,0.9924,0.9976],[4.25,0.9947,0.9912,0.9968],[4.5,0.993,0.9891,0.9954],[4.75,0.9909,0.9867,0.9938],[5.0,0.9902,0.9859,0.9932],[5.25,0.9875,0.9827,0.991],[5.5,0.9852,0.98,0.989],[5.75,0.9799,0.9741,0.9844],[6.0,0.9757,0.9694,0.9806],[6.25,0.9696,0.9628,0.9752],[6.5,0.9658,0.9586,0.9717],[6.75,0.9608,0.9532,0.9671],[7.0,0.9526,0.9445,0.9596],[7.25,0.9471,0.9386,0.9544],[7.5,0.94,0.9311,0.9478],[7.75,0.9348,0.9256,0.943],[8.0,0.929,0.9194,0.9375],[8.25,0.9228,0.9129,0.9317],[8.5,0.9195,0.9094,0.9285],[8.75,0.9133,0.903,0.9227],[9.0,0.906,0.8953,0.9156],[9.25,0.9011,0.8901,0.911],[9.5,0.8944,0.8831,0.9046],[9.75,0.8899,0.8785,0.9003],[10.0,0.8825,0.8708,0.8932],[10.25,0.8759,0.864,0.8869],[10.5,0.8678,0.8557,0.879],[10.75,0.8582,0.8458,0.8698],[11.0,0.8494,0.8367,0.8611],[11.25,0.841,0.8281,0.853],[11.5,0.831,0.8179,0.8433],[11.75,0.8213,0.808,0.8338],[12.0,0.8117,0.7982,0.8244],[12.25,0.8025,0.7888,0.8154],[12.5,0.7946,0.7808,0.8076],[12.75,0.7876,0.7737,0.8007],[13.0,0.7778,0.7638,0.7911],[13.25,0.7688,0.7547,0.7823],[13.5,0.7595,0.7452,0.7731],[13.75,0.753,0.7387,0.7666],[14.0,0.7442,0.7298,0.758],[14.25,0.7369,0.7225,0.7508],[14.5,0.7294,0.7149,0.7433],[14.75,0.7203,0.7057,0.7342],[15.0,0.7069,0.6922,0.721],[15.25,0.699,0.6843,0.7131],[15.5,0.6894,0.6747,0.7035],[15.75,0.6805,0.6658,0.6948],[16.0,0.6717,0.6569,0.6859],[16.25,0.6623,0.6475,0.6766],[16.5,0.6541,0.6394,0.6684],[16.75,0.6472,0.6324,0.6615],[17.0,0.6388,0.624,0.6531],[17.25,0.6306,0.6158,0.6449],[17.5,0.6236,0.609,0.638],[17.75,0.6166,0.6019,0.6309],[18.0,0.6121,0.5975,0.6264],[18.25,0.6053,0.5906,0.6195],[18.5,0.5987,0.5841,0.6129],[18.75,0.5922,0.5776,0.6064],[19.0,0.5868,0.5723,0.601],[19.25,0.5787,0.5642,0.5928],[19.5,0.5733,0.5589,0.5874],[19.75,0.5677,0.5534,0.5818],[20.0,0.5605,0.5462,0.5745],[20.25,0.5563,0.542,0.5703],[20.5,0.5503,0.5361,0.5643],[20.75,0.5445,0.5304,0.5584],[21.0,0.5399,0.5258,0.5538],[21.25,0.534,0.52,0.5479],[21.5,0.5289,0.5149,0.5426],[21.75,0.5242,0.5103,0.5379],[22.0,0.5196,0.5057,0.5333],[22.25,0.5138,0.4999,0.5274],[22.5,0.5084,0.4947,0.522],[22.75,0.5027,0.489,0.5162],[23.0,0.4967,0.483,0.5101],[23.25,0.4923,0.4788,0.5058],[23.5,0.4861,0.4726,0.4994],[23.75,0.481,0.4676,0.4943],[24.0,0.4757,0.4624,0.4889],[24.25,0.47,0.4568,0.4832],[24.5,0.4652,0.452,0.4783],[24.75,0.4603,0.4472,0.4733],[25.0,0.4545,0.4415,0.4675],[25.25,0.4494,0.4364,0.4623],[25.5,0.4435,0.4307,0.4563],[25.75,0.4353,0.4226,0.448],[26.0,0.4291,0.4164,0.4417],[26.25,0.4244,0.4118,0.437],[26.5,0.4184,0.4059,0.4309],[26.75,0.4132,0.4008,0.4256],[27.0,0.4071,0.3947,0.4194],[27.25,0.402,0.3897,0.4143],[27.5,0.3966,0.3844,0.4088],[27.75,0.3894,0.3773,0.4015],[28.0,0.3839,0.3718,0.3959],[28.25,0.3782,0.3663,0.3902],[28.5,0.3734,0.3615,0.3853],[28.75,0.3692,0.3573,0.381],[29.0,0.3642,0.3524,0.3759],[29.25,0.3576,0.3459,0.3693],[29.5,0.3532,0.3416,0.3649],[29.75,0.3469,0.3354,0.3585],[30.0,0.3399,0.3284,0.3514],[30.25,0.3348,0.3234,0.3463],[30.5,0.3301,0.3187,0.3415],[30.75,0.3226,0.3113,0.3339],[31.0,0.318,0.3068,0.3293],[31.25,0.3107,0.2995,0.3219],[31.5,0.3067,0.2955,0.3179],[31.75,0.3007,0.2896,0.3119],[32.0,0.2953,0.2842,0.3064],[32.25,0.2925,0.2815,0.3036],[32.5,0.2878,0.2768,0.2989],[32.75,0.283,0.272,0.2941],[33.0,0.2753,0.2644,0.2864],[33.25,0.2723,0.2613,0.2833],[33.5,0.2679,0.2569,0.2789],[33.75,0.2666,0.2557,0.2777],[34.0,0.2637,0.2528,0.2748],[34.25,0.2597,0.2488,0.2708],[34.5,0.2561,0.2451,0.2672],[34.75,0.2535,0.2425,0.2647],[35.0,0.2496,0.2385,0.2609],[35.25,0.2474,0.2363,0.2587],[35.5,0.2455,0.2343,0.2568],[35.75,0.2401,0.2288,0.2516],[36.0,0.2383,0.2269,0.2498],[36.25,0.2363,0.2249,0.2479],[36.5,0.2333,0.2218,0.245],[36.75,0.2292,0.2176,0.241],[37.0,0.2281,0.2164,0.24],[37.25,0.2264,0.2147,0.2384],[37.5,0.2234,0.2115,0.2355],[37.75,0.2227,0.2108,0.2349],[38.0,0.2214,0.2094,0.2336],[38.25,0.22,0.2079,0.2323],[38.5,0.217,0.2047,0.2294],[38.75,0.2147,0.2023,0.2273],[39.0,0.2139,0.2015,0.2266],[39.25,0.2122,0.1996,0.225],[39.5,0.2103,0.1976,0.2232],[39.75,0.2075,0.1946,0.2206],[40.0,0.2064,0.1935,0.2197]]}},"EXT_PAINT":{"trunc":{"n":3266,"events":358,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,1.0,1.0,1.0],[1.5,1.0,1.0,1.0],[1.75,1.0,1.0,1.0],[2.0,1.0,1.0,1.0],[2.25,0.9996,0.9973,0.9999],[2.5,0.9992,0.997,0.9998],[2.75,0.9992,0.997,0.9998],[3.0,0.9992,0.997,0.9998],[3.25,0.9992,0.997,0.9998],[3.5,0.9992,0.997,0.9998],[3.75,0.9992,0.997,0.9998],[4.0,0.9992,0.997,0.9998],[4.25,0.9989,0.9966,0.9996],[4.5,0.9986,0.9962,0.9995],[4.75,0.9979,0.9953,0.999],[5.0,0.9962,0.9931,0.9979],[5.25,0.9955,0.9922,0.9974],[5.5,0.9934,0.9896,0.9958],[5.75,0.9923,0.9883,0.9949],[6.0,0.9909,0.9866,0.9938],[6.25,0.9846,0.9793,0.9886],[6.5,0.9797,0.9738,0.9844],[6.75,0.9763,0.9699,0.9814],[7.0,0.9716,0.9646,0.9772],[7.25,0.9628,0.9549,0.9693],[7.5,0.9541,0.9453,0.9615],[7.75,0.9429,0.9331,0.9513],[8.0,0.9302,0.9195,0.9396],[8.25,0.9227,0.9113,0.9326],[8.5,0.9162,0.9044,0.9267],[8.75,0.91,0.8977,0.9209],[9.0,0.9055,0.8929,0.9168],[9.25,0.8971,0.8838,0.909],[9.5,0.8908,0.8769,0.9032],[9.75,0.8868,0.8726,0.8995],[10.0,0.879,0.8641,0.8923],[10.25,0.8692,0.8535,0.8833],[10.5,0.8668,0.8509,0.8812],[10.75,0.8561,0.8392,0.8713],[11.0,0.8525,0.8354,0.868],[11.25,0.844,0.8261,0.8603],[11.5,0.84,0.8217,0.8566],[11.75,0.8315,0.8124,0.8489],[12.0,0.8258,0.8061,0.8437],[12.25,0.8233,0.8033,0.8415],[12.5,0.8161,0.7952,0.835],[12.75,0.8084,0.7866,0.8283],[13.0,0.7942,0.7704,0.8158],[13.25,0.7921,0.768,0.814],[13.5,0.7853,0.76,0.8082],[13.75,0.7724,0.745,0.7973],[14.0,0.7665,0.7379,0.7924],[14.25,0.7596,0.7296,0.7868],[14.5,0.7554,0.7243,0.7836],[14.75,0.7554,0.7243,0.7836],[15.0,0.7497,0.7167,0.7795],[15.25,0.7497,0.7167,0.7795],[15.5,0.7497,0.7167,0.7795]]},"all":{"n":13394,"events":5626,"pts":[[0.0,1.0,1.0,1.0],[0.25,1.0,1.0,1.0],[0.5,1.0,1.0,1.0],[0.75,1.0,1.0,1.0],[1.0,1.0,1.0,1.0],[1.25,1.0,1.0,1.0],[1.5,1.0,1.0,1.0],[1.75,1.0,1.0,1.0],[2.0,1.0,1.0,1.0],[2.25,0.9996,0.9973,0.9999],[2.5,0.9992,0.997,0.9998],[2.75,0.9992,0.997,0.9998],[3.0,0.9992,0.997,0.9998],[3.25,0.9992,0.997,0.9998],[3.5,0.9992,0.997,0.9998],[3.75,0.9992,0.997,0.9998],[4.0,0.9992,0.997,0.9998],[4.25,0.9989,0.9966,0.9996],[4.5,0.9986,0.9962,0.9995],[4.75,0.9979,0.9953,0.999],[5.0,0.9962,0.9931,0.9979],[5.25,0.9955,0.9922,0.9974],[5.5,0.9935,0.9898,0.9958],[5.75,0.9922,0.9882,0.9948],[6.0,0.9905,0.9863,0.9935],[6.25,0.9851,0.98,0.9888],[6.5,0.9806,0.975,0.9849],[6.75,0.9771,0.9712,0.9819],[7.0,0.9731,0.9667,0.9782],[7.25,0.9662,0.9592,0.972],[7.5,0.9591,0.9516,0.9655],[7.75,0.9496,0.9414,0.9567],[8.0,0.9384,0.9295,0.9463],[8.25,0.9312,0.9219,0.9395],[8.5,0.9251,0.9153,0.9337],[8.75,0.9189,0.9088,0.9278],[9.0,0.9135,0.9032,0.9228],[9.25,0.9076,0.897,0.9172],[9.5,0.9008,0.8899,0.9107],[9.75,0.8956,0.8845,0.9057],[10.0,0.8881,0.8766,0.8985],[10.25,0.8802,0.8684,0.8909],[10.5,0.8742,0.8622,0.8851],[10.75,0.8669,0.8547,0.8781],[11.0,0.8611,0.8488,0.8725],[11.25,0.8525,0.84,0.8642],[11.5,0.8437,0.8309,0.8556],[11.75,0.8363,0.8234,0.8484],[12.0,0.83,0.8169,0.8423],[12.25,0.8213,0.808,0.8338],[12.5,0.814,0.8006,0.8266],[12.75,0.8063,0.7928,0.8191],[13.0,0.7982,0.7845,0.8111],[13.25,0.7892,0.7754,0.8023],[13.5,0.7784,0.7644,0.7917],[13.75,0.7681,0.754,0.7815],[14.0,0.7584,0.7442,0.7719],[14.25,0.7498,0.7355,0.7634],[14.5,0.7426,0.7282,0.7563],[14.75,0.7341,0.7197,0.748],[15.0,0.7237,0.7092,0.7377],[15.25,0.7113,0.6967,0.7253],[15.5,0.7027,0.6881,0.7168],[15.75,0.6897,0.6751,0.7039],[16.0,0.6789,0.6642,0.6931],[16.25,0.6676,0.6529,0.6819],[16.5,0.6547,0.64,0.669],[16.75,0.6462,0.6315,0.6606],[17.0,0.6369,0.6221,0.6512],[17.25,0.6252,0.6105,0.6395],[17.5,0.6146,0.5999,0.6289],[17.75,0.6036,0.5889,0.6179],[18.0,0.5935,0.5789,0.6078],[18.25,0.5799,0.5654,0.5942],[18.5,0.5702,0.5557,0.5844],[18.75,0.5577,0.5433,0.5719],[19.0,0.5458,0.5315,0.5598],[19.25,0.5363,0.5221,0.5503],[19.5,0.5259,0.5117,0.5398],[19.75,0.5159,0.5018,0.5298],[20.0,0.5059,0.492,0.5197],[20.25,0.4947,0.4808,0.5083],[20.5,0.4858,0.4721,0.4994],[20.75,0.4768,0.4632,0.4903],[21.0,0.4674,0.4539,0.4808],[21.25,0.4599,0.4465,0.4732],[21.5,0.4532,0.4399,0.4665],[21.75,0.4452,0.4319,0.4583],[22.0,0.4387,0.4255,0.4517],[22.25,0.4317,0.4187,0.4447],[22.5,0.4255,0.4126,0.4384],[22.75,0.4182,0.4054,0.431],[23.0,0.4122,0.3995,0.4249],[23.25,0.4039,0.3913,0.4165],[23.5,0.3992,0.3867,0.4118],[23.75,0.3929,0.3805,0.4053],[24.0,0.3868,0.3745,0.3991],[24.25,0.3814,0.3692,0.3937],[24.5,0.3757,0.3636,0.3878],[24.75,0.3691,0.3571,0.3812],[25.0,0.3619,0.3501,0.3738],[25.25,0.3566,0.3448,0.3684],[25.5,0.3513,0.3396,0.3629],[25.75,0.344,0.3324,0.3555],[26.0,0.3373,0.3259,0.3487],[26.25,0.3318,0.3204,0.3431],[26.5,0.3252,0.314,0.3364],[26.75,0.3196,0.3085,0.3307],[27.0,0.312,0.3011,0.323],[27.25,0.3063,0.2955,0.3172],[27.5,0.3002,0.2895,0.311],[27.75,0.2932,0.2826,0.3038],[28.0,0.2863,0.2759,0.2968],[28.25,0.2806,0.2703,0.291],[28.5,0.2757,0.2654,0.286],[28.75,0.2706,0.2605,0.2808],[29.0,0.2645,0.2544,0.2746],[29.25,0.2581,0.2482,0.2681],[29.5,0.2527,0.2429,0.2626],[29.75,0.2468,0.2371,0.2566],[30.0,0.2413,0.2317,0.251],[30.25,0.2362,0.2267,0.2458],[30.5,0.2305,0.2211,0.24],[30.75,0.2252,0.2159,0.2346],[31.0,0.2209,0.2117,0.2302],[31.25,0.2174,0.2083,0.2267],[31.5,0.2117,0.2027,0.2209],[31.75,0.2071,0.1981,0.2162],[32.0,0.2024,0.1935,0.2115],[32.25,0.1967,0.1879,0.2057],[32.5,0.1935,0.1847,0.2025],[32.75,0.1892,0.1805,0.1981],[33.0,0.1862,0.1776,0.1951],[33.25,0.1827,0.174,0.1915],[33.5,0.1792,0.1706,0.188],[33.75,0.1771,0.1685,0.1858],[34.0,0.174,0.1655,0.1828],[34.25,0.1698,0.1613,0.1785],[34.5,0.1683,0.1598,0.177],[34.75,0.1631,0.1546,0.1718],[35.0,0.1588,0.1503,0.1675],[35.25,0.1568,0.1483,0.1655],[35.5,0.1552,0.1467,0.164],[35.75,0.1536,0.1451,0.1624],[36.0,0.1522,0.1437,0.1609],[36.25,0.151,0.1425,0.1597],[36.5,0.1488,0.1402,0.1575],[36.75,0.1475,0.1389,0.1563],[37.0,0.1461,0.1375,0.1549],[37.25,0.1447,0.1361,0.1536],[37.5,0.144,0.1353,0.1528],[37.75,0.1413,0.1326,0.1502],[38.0,0.1409,0.1322,0.1498],[38.25,0.14,0.1313,0.149],[38.5,0.1386,0.1299,0.1477],[38.75,0.1382,0.1294,0.1472],[39.0,0.1372,0.1284,0.1463],[39.25,0.1361,0.1273,0.1453],[39.5,0.1361,0.1273,0.1453],[39.75,0.1361,0.1273,0.1453],[40.0,0.1337,0.1248,0.143]]}}},"law":[{"부위코드":"ELEV_MACH","별표_구분":"3.마.승강기 및 인양기","수선방법":"전면교체","공사종별_2019판":"기계장치","주기_2019판":"15","수선율_2019판":"100","공사종별_2024판":"기계장치","주기_2024판":"15","수선율_2024판":"100","변경":"없음","주분석":"Y"},{"부위코드":"ELEV_ROPE","별표_구분":"3.마.승강기 및 인양기","수선방법":"전면교체","공사종별_2019판":"와이어로프, 쉬브(도르레)","주기_2019판":"5","수선율_2019판":"100","공사종별_2024판":"와이어로프, 쉬브(도르레)","주기_2024판":"5","수선율_2024판":"100","변경":"없음","주분석":"N"},{"부위코드":"ELEV_CTRL","별표_구분":"3.마.승강기 및 인양기","수선방법":"전면교체","공사종별_2019판":"제어반","주기_2019판":"15","수선율_2019판":"100","공사종별_2024판":"제어반","주기_2024판":"15","수선율_2024판":"100","변경":"없음","주분석":"N"},{"부위코드":"ELEV_GOV","별표_구분":"3.마.승강기 및 인양기","수선방법":"전면교체","공사종별_2019판":"조속기","주기_2019판":"15","수선율_2019판":"100","공사종별_2024판":"조속기(과속조절기)","주기_2024판":"15","수선율_2024판":"100","변경":"명칭만 변경","주분석":"N"},{"부위코드":"ELEV_DOOR","별표_구분":"3.마.승강기 및 인양기","수선방법":"전면교체","공사종별_2019판":"도어개폐장치","주기_2019판":"15","수선율_2019판":"100","공사종별_2024판":"도어개폐장치","주기_2024판":"15","수선율_2024판":"100","변경":"없음","주분석":"N"},{"부위코드":"ROOF_WP","별표_구분":"1.가.지붕","수선방법":"전면수리","공사종별_2019판":"고분자도막방수","주기_2019판":"15","수선율_2019판":"100","공사종별_2024판":"방수","주기_2024판":"15","수선율_2024판":"100","변경":"도막·시트 통합","주분석":"Y"},{"부위코드":"ROOF_WP","별표_구분":"1.가.지붕","수선방법":"전면수리","공사종별_2019판":"고분자시트방수","주기_2019판":"20","수선율_2019판":"100","공사종별_2024판":"방수","주기_2024판":"15","수선율_2024판":"100","변경":"도막·시트 통합 · 시트 20→15년","주분석":"Y"},{"부위코드":"ROOF_WP","별표_구분":"1.가.지붕","수선방법":"전면수리","공사종별_2019판":"모르타르 마감(시멘트액체방수)","주기_2019판":"10","수선율_2019판":"100","공사종별_2024판":"(삭제)","주기_2024판":null,"수선율_2024판":null,"변경":"2024판에서 삭제","주분석":"N"},{"부위코드":"EXT_PAINT","별표_구분":"1.나.외부","수선방법":"전면도장","공사종별_2019판":"수성페인트칠","주기_2019판":"5","수선율_2019판":"100","공사종별_2024판":"페인트칠","주기_2024판":"8","수선율_2024판":"100","변경":"명칭 변경 · 5→8년","주분석":"Y"}],"episodes_by_part":{"EXT_PAINT":6288,"ROOF_WP":5605,"ELEV_MACH":4439},"goldset":{"n_total":400,"n_blind":100,"n_review":300,"sample":{"승강기":160,"방수":120,"도장":120},"blind_n":97,"agree":0.845,"kappa":0.781,"kappa_full":0.716,"by_part":[{"part":"도장","n":28,"agree":0.857,"kappa":0.767},{"part":"방수","n":30,"agree":0.7,"kappa":0.551},{"part":"승강기","n":39,"agree":0.949,"kappa":0.9}],"cm":{"labels":["전면","부분","복합","감리·설계·용역","무관"],"rows":[[30,3,4,0,3],[0,32,0,0,1],[3,0,6,0,0],[0,0,0,3,0],[0,0,1,0,11]]},"disagree":15,"adj_total":21,"adj_done":0,"review_changed":0,"review_low":52,"review_dist":{"부분":122,"전면":81,"무관":49,"복합":41,"감리·설계·용역":7}},"amount":{"roof":{"n_full":92,"n_part":1854,"q_full":[3.9,12.6,28.5,36.9,50.8],"q_part":[0.8,1.4,3.2,8.0,16.3],"auc":0.868,"youden":{"t":12.5,"sens":0.76,"spec":0.86},"table":[{"t":3,"full_ok":0.935,"part_ok":0.484},{"t":5,"full_ok":0.859,"part_ok":0.633},{"t":8,"full_ok":0.804,"part_ok":0.75},{"t":10,"full_ok":0.772,"part_ok":0.809},{"t":12.5,"full_ok":0.761,"part_ok":0.861},{"t":15,"full_ok":0.717,"part_ok":0.888}],"bins":[0.25,0.33,0.436,0.577,0.762,1.006,1.33,1.757,2.321,3.066,4.051,5.352,7.071,9.342,12.343,16.307,21.544,28.464,37.606,49.684,65.642,86.725,114.579,151.38,200.0],"hist_full":[0,0,0,0,0,1,3,1,1,4,4,0,5,3,4,7,13,23,12,7,3,0,0,1],"hist_part":[45,34,42,69,105,124,168,140,185,145,153,139,119,125,75,62,49,36,23,9,3,3,0,1],"full_median_by_period":[{"period":"2010–15","median":10.0,"n":6},{"period":"2016–19","median":20.8,"n":15},{"period":"2020–22","median":25.9,"n":19},{"period":"2023–26","median":33.2,"n":52}]},"paint":{"n_full":4951,"n_part":159,"q_full":[27.0,38.1,52.6,70.3,89.4],"q_part":[0.9,2.3,5.9,16.5,66.0],"auc":0.875,"youden":{"t":19.2,"sens":0.96,"spec":0.79},"table":[{"t":5,"full_ok":0.992,"part_ok":0.447},{"t":10,"full_ok":0.986,"part_ok":0.654},{"t":15,"full_ok":0.979,"part_ok":0.711},{"t":20,"full_ok":0.957,"part_ok":0.792},{"t":30,"full_ok":0.867,"part_ok":0.83}],"bins":[0.25,0.33,0.436,0.577,0.762,1.006,1.33,1.757,2.321,3.066,4.051,5.352,7.071,9.342,12.343,16.307,21.544,28.464,37.606,49.684,65.642,86.725,114.579,151.38,200.0],"hist_full":[4,1,1,3,4,1,4,5,5,4,9,18,6,17,47,135,311,628,988,1256,950,374,113,67],"hist_part":[5,1,2,2,8,5,12,6,8,15,9,13,15,7,11,7,3,5,4,5,12,2,1,1]},"adopted":{"roof":10,"paint":20,"gray_roof":[5,15],"gray_paint":[10,30],"date":"2026-10-11"}},"journal":[{"date":"2026-09-27","title":"주제 선정","items":[{"time":"","title":"후보 주제 세 갈래 비교","what":"장기수선 주기 검증, 도면 정합, 정비사업 세 주제의 데이터 확보 가능성과 14주 일정 위험을 비교했다.","why":"캡스톤은 14주 안에 결과가 나와야 한다. 데이터를 못 구하면 방법이 좋아도 끝낼 수 없어서, 데이터 확보 가능성을 첫 기준으로 삼았다.","result":"주제 1(전국 수선 기록으로 법령 수선주기 검증)을 골랐다. 단, 첫 주 안에 실제 수선 기록이 받아지는지 확인하는 관문(Gate A)을 두기로 했다."}]},{"date":"2026-09-28","title":"데이터 확인 · API 연결 · 규칙 초안","items":[{"time":"14:16","title":"진행 계획 수립","what":"주제 설명 문서를 읽고 단계(P0–P7)와 주차별 일정을 정했다.","why":"데이터 → 사건 정의 → 생존분석 → 충당금 시뮬레이션 순서로 앞 단계 결과가 뒤 단계 입력이 되므로, 순서와 관문을 먼저 고정했다.","result":"P0 데이터 확보 점검부터 시작."},{"time":"14:39","title":"K-apt 단지 기본정보 확보","what":"공동주택관리정보시스템에서 단지 기본정보 엑셀을 받아 열 구조를 확인했다.","why":"생존분석의 시간축은 '준공 후 경과연수'다. 준공일(사용승인일)과 단지 특성(세대수, 난방, 승강기 대수)이 여기에 있다.","result":"21,728개 단지. 첫 행이 묶음 제목이라 둘째 행을 머리글로 읽어야 한다는 점을 확인했다.","files":["20260925_단지_기본정보.xlsx"]},{"time":"14:57","title":"유지관리 이력 API 연결 (Gate A 시험)","what":"공공데이터포털에서 공동주택 유지관리 이력 API 키를 받아 10개 단지, 이어서 300개 단지를 시범 호출했다.","why":"이 연구의 핵심 자료다. 실제로 교체 기록이 충분히 들어 있는지 수집 전에 확인해야 했다.","result":"단지의 74%에서 이력이 나왔고, 부위별 '전면교체' 기록이 수십 건씩 확인되어 Gate A를 통과했다. 이력에는 공사 금액이 없다는 점도 확인했다.","files":["gate_a_test.py"]},{"time":"15:09","title":"입찰결과(낙찰공고) API 연결","what":"공동주택 입찰결과 API를 신청하고 시험 호출했다. 단지코드로 조회하는 기능은 항상 0건이라, 연도별 낙찰공고를 통째로 받는 방식으로 바꿨다.","why":"이력에 없는 공사 금액을 얻고, 이력의 교체 기록을 실제 공사 발주와 대조하기 위해서다.","result":"낙찰공고 2016–2026년 약 39만 건을 받았다. 분류코드의 뜻은 공개 정의서가 없어 실제 제목과 대조해 추정했다(02-02 공사, 02-03 용역 등).","files":["collect_bids.py"]},{"time":"15:17","title":"전국 수집 시작과 차단","what":"속도를 높이려 4개 동시 요청으로 전국 수집을 시작했다.","why":"단지 21,728곳 × 2개 기능 = 43,456회 호출이 필요했다.","result":"게이트웨이가 키 전체를 일시 차단(HTTP_ERROR 04)했다. 순차 호출 + 실패 시 대기 후 재시도로 바꿨고, 10분에 약 150건이 한계라는 것을 알게 됐다.","files":["collect_history.py"]},{"time":"16:09","title":"공종 매핑표 · 사건 규칙 · 골드셋 표본","what":"이력의 공종명을 분석 부위(승강기 기계장치, 지붕 방수, 외부 도장)로 묶는 매핑표, 교체 사건 판정 규칙 R1–R5, 입찰 제목 골드셋 400건 추출 스크립트를 만들었다.","why":"같은 부위가 법령 개정 전후로 다른 이름(수성페인트칠 → 페인트칠)을 쓰고, 기록 중 상당수는 부분 수리다. 무엇을 '교체'로 셀지 먼저 문서로 고정해야 결과를 재현할 수 있다.","result":"코딩 매뉴얼(docs/코딩매뉴얼.md)에 규칙을 기록했다.","files":["mapping/part_map.csv","mapping/method_map.csv","build_history_events.py","make_goldset.py"]},{"time":"16:23","title":"운영계정 신청 자료","what":"개발계정의 하루 호출 한도로는 전국 수집이 불가능해 운영계정을 신청했다. 서비스 설명과 대표 이미지를 만들었다.","why":"43,456회 호출을 며칠 안에 끝내야 했다.","result":"당일 승인.","files":["docs/운영계정_신청서.md"]},{"time":"16:54","title":"법령 별표 1 원문 대조","what":"국가법령정보센터에서 공동주택관리법 시행규칙 별표 1의 2019. 1. 16.판과 2024. 12. 27.판을 받아 대상 부위의 수선주기를 인용표로 정리했다.","why":"비교 기준이 되는 숫자이므로 2차 자료가 아니라 원문에서 인용해야 한다. 관측 기간의 교체는 대부분 개정 전 계획을 따랐으므로 2019판을 기준으로 삼았다.","result":"승강기 기계장치 15년, 고분자도막방수 15년, 수성페인트칠 5년(2024판 8년).","files":["docs/법령주기_인용표.md","mapping/law_cycles.csv"]}]},{"date":"2026-09-29","title":"수집을 별도 터미널로","items":[{"time":"23:32","title":"수집 재시작","what":"Claude Code 백그라운드 작업이 메모리 부족으로 종료되어, 같은 수집을 별도 터미널에서 도는 배치 파일로 옮겼다. 끊겨도 다시 실행하면 받은 단지는 건너뛴다.","why":"사흘 가까이 걸리는 수집이 세션 상태에 묶이지 않게 하려고.","result":"배치 파일에 한글이 있으면 cmd가 깨져서 영문으로만 작성했다.","files":["run_collect.bat"]}]},{"date":"2026-10-02","title":"전국 수집 완료 · 1차 생존분석","items":[{"time":"02:07","title":"수집 완료","what":"이력 43,456회 호출을 마쳤다. 낙찰공고도 2010–2015년을 추가로 받았다.","why":"입찰 자료를 이력보다 앞선 기간까지 확보하면 이력 등록이 시작되기 전의 공사도 볼 수 있다.","result":"이력 원본 227,869행, 낙찰공고 505,114건."},{"time":"06:31","title":"교체 사건 추출","what":"규칙 R1–R5를 적용하고, 같은 단지·같은 부위에서 2년 안에 이어진 기록을 한 번의 공사로 병합했다.","why":"승강기는 호기별로, 방수·도장은 동별로 나눠 시공하는 경우가 많아 한 번의 교체가 여러 기록으로 남는다.","result":"사건 후보 32,175건 → 병합 후 31,506건.","files":["build_history_events.py"]},{"time":"06:35","title":"생존 데이터셋","what":"분양 아파트·주상복합 18,200곳 × 3개 부위로 진입 나이, 종료 나이, 교체 여부를 만들었다. 관측 시작을 2016·2018·2020년으로 바꾼 세 버전을 만들었다.","why":"이력 등록이 해마다 늘어서 관측 시작을 언제로 잡느냐에 따라 결과가 달라질 수 있다. 처음부터 민감도 분석이 가능하게 만들었다.","result":"이력을 한 번이라도 등록한 단지는 76%.","files":["build_survival.py"]},{"time":"06:40","title":"Kaplan–Meier 1차","what":"부위별 생존곡선과 법령 주기 시점의 미교체 비율을 계산했다.","why":"법령 주기와 실제 교체 연령을 처음으로 비교해 보는 단계다.","result":"승강기 기계장치 중위 교체 연령 22.1년(법령 15년), 지붕 방수 21.4년(법령 15년). 다만 승강기 '전면교체' 기록 상당수가 부품 교체로 보이는 문제를 발견했다.","files":["survival_km.py","results/km_table.csv"]}]},{"date":"2026-10-08","title":"진행 보고 페이지","items":[{"time":"21:00","title":"연구노트 아티팩트 · 홈페이지 연결","what":"분석 결과 파일에서 숫자를 다시 읽어 진행 보고 페이지를 만드는 스크립트를 만들었다. 홈페이지용 완성본도 함께 만든다.","why":"숫자를 손으로 옮기면 분석이 바뀔 때마다 페이지와 결과가 어긋난다.","result":"python site/build_progress.py 한 번으로 페이지가 갱신된다.","files":["site/build_progress.py","site/progress.json"]}]},{"date":"2026-10-09","title":"골드셋 라벨링 시작","items":[{"time":"11:56","title":"균열보수 라벨 규칙","what":"라벨링 중 '균열보수'가 들어간 입찰을 어떻게 볼지 정했다.","why":"제목에 균열보수가 들어간 건은 대부분 '균열보수 및 재도장'이다. 균열보수는 재도장 전 바탕 작업이라 공사의 실체는 외벽 전체 재도장이다.","result":"균열보수만 → 부분. 균열보수 및 재도장 → 전면. 여기에 옥상방수가 묶이면 → 복합."}]},{"date":"2026-10-11","title":"골드셋 설계 변경 · 일치도 · 규칙 v2","items":[{"time":"22:27","title":"범위는 단지 전체 기준","what":"여러 동 중 한 동만 옥상 방수를 전면 시공한 입찰을 어떻게 볼지 정했다.","why":"생존 데이터의 한 줄은 '한 단지의 한 부위'다. 한 동만 했다면 단지 전체로는 아직 교체 전이고, 그 금액을 전면 단가로 쓰면 단가가 낮아진다.","result":"일부 동만 → 부분 + 메모 '일부 동 전면'. 1개 동 단지 → 전면. 동 범위를 모르면 → 전면, 확신도 낮음."},{"time":"22:34","title":"LLM 사전 라벨 + 블라인드 세트","what":"400건을 혼자 라벨링하기 어려워 LLM이 먼저 라벨을 달고 연구자가 검토하는 방식으로 바꿨다. 단, 100건은 블라인드로 남겼다.","why":"골드셋은 나중에 LLM 분류기를 채점하는 정답지다. LLM 답을 보고 검토만 하면 사람이 그 답에 끌려가서, LLM이 만든 답으로 LLM을 채점하는 셈이 된다.","result":"블라인드 100건(승강기 40, 방수 30, 도장 30)은 연구자가 LLM 답을 보지 않고 독립 라벨. 검토 300건은 LLM 사전 라벨을 연구자가 수정.","files":["make_goldset_draft.py","goldset/goldset_bids_400_draft.xlsx"]},{"time":"23:09","title":"블라인드 일치도","what":"블라인드 97건(빈칸 3건 제외)에서 연구자 라벨과 LLM 라벨의 일치도를 계산했다.","why":"LLM 사전 라벨과 이후 LLM 분류기를 믿을 수 있는지 판단하는 근거다.","result":"일치율 84.5%, Cohen's κ 0.781. 승강기 κ 0.90, 방수 κ 0.55. 불일치 15건 대부분이 규칙이 정해지지 않은 부분(복합의 경계, 금액 기준)에서 나왔다.","files":["goldset_agreement.py","results/goldset_agreement.txt"]},{"time":"23:12","title":"복합의 경계 규칙","what":"'재도장 + 옥상방수'와 '방수 + 파라펫'을 어떻게 구분할지 정했다.","why":"두 경우에 연구자와 LLM의 판단이 정반대로 갈렸다. 금액 분석에 쓰는 '전면'에 두 부위 공사가 섞이면 한 부위 단가가 부풀려진다.","result":"같은 부위의 부속 작업(파라펫·배수로·처마·트렌치) → 전면. 서로 다른 부위·공종을 한 건으로 묶음(재도장+방수) → 복합."},{"time":"23:23","title":"금액 보조 기준 5만 원 → 10만 원","what":"제목만으로 범위를 알 수 없을 때 쓰는 세대당 금액 기준을 입찰 자료로 검증했다.","why":"처음 5만 원은 감으로 정한 값이었다. 범위 단서가 분명한 방수 입찰(부분 1,854건, 전면 92건)로 확인하니 5만 원은 부분 공사의 37%를 전면으로 분류했다. 이 오류는 가짜 교체 사건을 늘려 주기를 짧게 만든다.","result":"방수 10만 원, 도장 20만 원으로 확정(B안). 5–15만 원은 확신도 낮음. 임계값은 P7에서 5·10·15만 원 민감도 분석을 한다.","files":["analysis_amount_threshold.py","goldset_apply_rules_v2.py"]},{"time":"23:28","title":"블라인드 합의 시트","what":"불일치·빈칸·금액 구간 21건을 모아 규칙 v2 기준 제안 라벨을 붙였다. 합의 전 연구자 원본 라벨은 따로 고정했다.","why":"합의로 라벨이 바뀌어도 일치도는 독립 라벨 원본으로 보고해야 한다.","result":"합의 확정 입력 확인 중. 검토 세트 300건 검토 시작."}]}]};
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => (n == null ? "–" : Number(n).toLocaleString("ko-KR"));
+const pct = (v, d = 0) => `${(v * 100).toFixed(d)}%`;
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const PART = { ELEV_MACH: "승강기 기계장치", ROOF_WP: "지붕 방수", EXT_PAINT: "외부 도장" };
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+function journal() {
+  const days = DATA.journal;
+  const n = days.reduce((a, d) => a + d.items.length, 0);
+  $("#j-count").textContent = `${days.length}일 · ${n}개 항목`;
+  $("#tree-days").innerHTML = days.map((d, i) => `<li><a href="#day-${i}">${d.date.slice(5)} ${esc(d.title)}</a></li>`).join("");
+  $("#journal").innerHTML = days.map((d, i) => `<div class="day" id="day-${i}">
+    <h3><span class="date">${d.date}</span><span class="tt">${esc(d.title)}</span></h3>
+    ${d.items.map((it) => `<div class="entry raised">
+      <h4>${it.time ? `<span class="tm">${it.time}</span>` : ""}${esc(it.title)}</h4>
+      <dl><dt>무엇을</dt><dd>${esc(it.what)}</dd><dt>왜</dt><dd>${esc(it.why)}</dd><dt>결과</dt><dd>${esc(it.result)}</dd>
+      ${it.files && it.files.length ? `<dt>파일</dt><dd class="files">${it.files.map(esc).join(" · ")}</dd>` : ""}</dl></div>`).join("")}
+  </div>`).join("");
+}
+
+function design() {
+  const c = DATA.counts, p = DATA.progress;
+  $("#upd").textContent = `마지막 업데이트 ${p.updated}.`;
+  $("#st-updated").textContent = `업데이트 ${p.updated}`;
+  $("#n-base").textContent = fmt(c.survival_complexes);
+  $("#n-report").textContent = pct(c.reporting_share);
+  const law = { ELEV_MACH: 15, ROOF_WP: 15, EXT_PAINT: 5 };
+  const med = (part, y) => DATA.km_table.find((r) => r["관측시작"] === y && r["부위"] === part && r["코호트"] === "trunc");
+  const cell = (r) => (!r ? "–" : r["KM중위수"] == null ? `미도달 <span class="note">(${law[r["부위"]]}년 시점 ${pct(r["법령주기시점_미교체비율"])} 미교체)</span>` : `<b>${r["KM중위수"].toFixed(1)}년</b>`);
+  $("#sens-body").innerHTML = Object.keys(PART).map((pt) => `<tr><td>${PART[pt]}</td><td class="n">${law[pt]}년</td>
+    ${[2016, 2018, 2020].map((y) => `<td class="n">${cell(med(pt, y))}</td>`).join("")}</tr>`).join("");
+  const f = DATA.funnel;
+  const rules = [
+    ["R1", "분석 대상 부위가 아닌 공종", "소방 · 전기 · 창호 등은 이 연구의 비교 대상이 아님", f["R1_대상부위아님"]],
+    ["R2", "공사완료일이 비었거나 자료 수집일 이후", "사건 시점을 정할 수 없음", f["R2_날짜오류"]],
+    ["R3", "공사완료일이 사용승인일보다 이름", "준공 전 공사는 교체가 아니라 입력 오류", f["R3_준공전날짜"] || 0],
+    ["R4", "재원이 하자보수보증금 · 하자보수비용", "시공사 하자보수는 노후 교체가 아니고 충당금도 쓰지 않음", f["R4_하자보수재원"]],
+    ["R5", "수선방법이 부분 교체 · 부분 수리 · 기타", "전면 교체만 주기 비교 대상", f["R5_부분또는미상"]],
+  ];
+  $("#rule-body").innerHTML = rules.map(([k, a, b, v]) => `<tr><td><b>${k}</b></td><td>${a}</td><td>${b}</td><td class="n">${fmt(v)}</td></tr>`).join("");
+  $("#n-cand").textContent = fmt(f["사건 후보"]);
+  $("#n-epi").textContent = fmt(c.episodes);
+  const e = med("ELEV_MACH", 2016);
+  $("#elev-med").textContent = `${e["KM중위수"].toFixed(1)}년(95% CI ${e["CI하한"].toFixed(1)}–${e["CI상한"].toFixed(1)})`;
+}
+
+function goldset() {
+  const g = DATA.goldset;
+  const s = g.sample;
+  $("#gs-sample").textContent = `승강기 ${s["승강기"]} · 방수 ${s["방수"]} · 도장 ${s["도장"]} = ${g.n_total}건`;
+  $("#gs-nb").textContent = g.n_blind;
+  $("#gs-nr").textContent = g.n_review;
+  const tiles = [
+    ["Cohen's κ (5개 라벨)", g.kappa.toFixed(2), `블라인드 ${g.blind_n}건 · 일치율 ${pct(g.agree, 1)}`],
+    ["κ (전면 vs 나머지)", g.kappa_full.toFixed(2), "분석에서 실제로 쓰는 구분"],
+    ["불일치", `${g.disagree}<small>건</small>`, `합의 시트 ${g.adj_total}건 중 ${g.adj_done}건 확정`],
+  ];
+  $("#gs-tiles").innerHTML = tiles.map(([k, v, d]) => `<div class="tile raised"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+  $("#gs-part").innerHTML = g.by_part.map((r) => `<tr><td>${r.part}</td><td class="n">${r.n}</td><td class="n">${pct(r.agree, 1)}</td><td class="n">${r.kappa.toFixed(2)}</td></tr>`).join("")
+    + `<tr class="em"><td><b>전체</b></td><td class="n">${g.blind_n}</td><td class="n">${pct(g.agree, 1)}</td><td class="n"><b>${g.kappa.toFixed(2)}</b></td></tr>`;
+  const L = g.cm.labels, max = Math.max(...g.cm.rows.flat());
+  const shade = (v, diag) => (v === 0 ? "" : `background:${diag ? css("--s1") : css("--s2")}${Math.round(25 + (v / max) * 60).toString(16).padStart(2, "0")}`);
+  $("#cm").innerHTML = `<thead><tr><th>연구자 \\ LLM</th>${L.map((l) => `<th class="n">${l}</th>`).join("")}</tr></thead><tbody>`
+    + g.cm.rows.map((row, i) => `<tr><th>${L[i]}</th>${row.map((v, j) => `<td class="cm" style="${shade(v, i === j)}">${v || "·"}</td>`).join("")}</tr>`).join("") + "</tbody>";
+}
+
+function hist(svgId, o, lines, title) {
+  const svg = $(svgId);
+  const W = 360, H = 230, Lm = 34, R = 10, T = 24, B = 34;
+  const lo = Math.log10(o.bins[0]), hi = Math.log10(o.bins[o.bins.length - 1]);
+  const x = (v) => Lm + ((Math.log10(v) - lo) / (hi - lo)) * (W - Lm - R);
+  const share = (h) => { const s = h.reduce((a, b) => a + b, 0); return h.map((v) => v / s); };
+  const sp = share(o.hist_part), sf = share(o.hist_full);
+  const top = Math.ceil(Math.max(...sp, ...sf) * 10) / 10;
+  const y = (v) => T + (1 - v / top) * (H - T - B);
+  el("text", { x: Lm, y: 13, style: `fill:${css("--ink")};font-weight:700` }, svg).textContent = title;
+  for (let v = 0; v <= top + 1e-9; v += top / 2) {
+    el("line", { x1: Lm, x2: W - R, y1: y(v), y2: y(v), class: "gridl" }, svg);
+    el("text", { x: Lm - 4, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = `${Math.round(v * 100)}%`;
+  }
+  for (const t of [1, 3, 10, 30, 100]) el("text", { x: x(t), y: H - 18, "text-anchor": "middle" }, svg).textContent = `${t}`;
+  el("text", { x: (Lm + W - R) / 2, y: H - 3, "text-anchor": "middle" }, svg).textContent = "만 원/세대";
+  el("line", { x1: Lm, x2: W - R, y1: y(0), y2: y(0), class: "axis" }, svg);
+  for (const [arr, col] of [[sp, css("--s2")], [sf, css("--s1")]]) {
+    let d = `M${x(o.bins[0])},${y(0)}`;
+    arr.forEach((v, i) => { d += `V${y(v)}H${x(o.bins[i + 1])}`; });
+    d += `V${y(0)}Z`;
+    el("path", { d, fill: col, "fill-opacity": 0.22, stroke: col, "stroke-width": 1.5 }, svg);
+  }
+  lines.forEach(([v, label, strong], k) => {
+    el("line", { x1: x(v), x2: x(v), y1: T - 2, y2: y(0), stroke: strong ? css("--ink") : css("--ink2"), "stroke-width": strong ? 1.8 : 1.2, "stroke-dasharray": strong ? "6 3" : "2 3" }, svg);
+    el("text", { x: x(v) + (k ? 4 : -4), y: T + 8, "text-anchor": k ? "start" : "end", style: `fill:${css("--ink")}${strong ? ";font-weight:700" : ""}` }, svg).textContent = label;
+  });
+}
+
+function amount() {
+  const a = DATA.amount, r = a.roof, p = a.paint;
+  $("#a-np").textContent = fmt(r.n_part);
+  $("#a-nf").textContent = fmt(r.n_full);
+  hist("#h-roof", r, [[5, "5만 (처음)", false], [10, "10만 (확정)", true]], `옥상 방수 · 부분 ${fmt(r.n_part)} / 전면 ${fmt(r.n_full)}`);
+  hist("#h-paint", p, [[5, "5만", false], [20, "20만 (확정)", true]], `외벽 도장 · 부분 ${fmt(p.n_part)} / 전면 ${fmt(p.n_full)}`);
+  const note = { 5: "처음 쓴 기준", 10: "확정 (B안)", 12.5: "통계적 최적점 근처" };
+  $("#thr-body").innerHTML = r.table.map((t) => `<tr class="${t.t === 10 ? "em" : ""}"><td class="n">${t.t}</td><td class="n">${pct(t.full_ok)}</td>
+    <td class="n">${pct(t.part_ok)}</td><td class="n">${pct(1 - t.part_ok)}</td><td>${note[t.t] || ""}</td></tr>`).join("");
+  $("#auc-note").textContent = `판별력 AUC ${r.auc} (1이면 완벽, 0.5면 동전 던지기). 두 오류율의 합이 가장 작은 기준(Youden)은 ${r.youden.t}만 원으로, 이때 전면 ${pct(r.youden.sens)} · 부분 ${pct(r.youden.spec)}를 맞힙니다. 분위수: 부분 중위 ${r.q_part[2]}만 원(75% ${r.q_part[3]}만), 전면 중위 ${r.q_full[2]}만 원(25% ${r.q_full[1]}만).`;
+  $("#paint-note").innerHTML = `외벽 재도장은 전면 단서 입찰의 90%가 세대당 ${p.q_full[0]}만 원 이상이고 중위가 ${p.q_full[2]}만 원입니다. 방수 기준 5만 원을 도장에 쓰면 부분 공사의 ${pct(1 - p.table.find((t) => t.t === 5).part_ok)}가 전면이 됩니다. 도장의 통계적 최적점은 ${p.youden.t}만 원이라 <b>20만 원</b>으로 정했습니다. 다만 도장 입찰은 거의 모두 '균열보수 및 재도장'처럼 범위 단서가 있어 금액 기준을 쓸 일은 드뭅니다.`;
+  // 기간별 전면 단가
+  const svg = $("#trend"), rows = r.full_median_by_period;
+  const W = 640, H = 190, Lm = 70, R = 30, T = 14, B = 30;
+  const top = Math.ceil(Math.max(...rows.map((d) => d.median)) / 10) * 10;
+  const bw = (W - Lm - R) / rows.length;
+  const y = (v) => T + (1 - v / top) * (H - T - B);
+  for (let v = 0; v <= top; v += 10) {
+    el("line", { x1: Lm, x2: W - R, y1: y(v), y2: y(v), class: "gridl" }, svg);
+    el("text", { x: Lm - 6, y: y(v) + 4, "text-anchor": "end" }, svg).textContent = `${v}만`;
+  }
+  rows.forEach((d, i) => {
+    const cx = Lm + bw * i + bw / 2;
+    el("rect", { x: cx - bw * 0.28, y: y(d.median), width: bw * 0.56, height: y(0) - y(d.median), fill: css("--s1") }, svg);
+    el("text", { x: cx, y: y(d.median) - 6, "text-anchor": "middle", style: `fill:${css("--ink")};font-weight:700` }, svg).textContent = `${d.median}만 원`;
+    el("text", { x: cx, y: H - 10, "text-anchor": "middle" }, svg).textContent = `${d.period} (${d.n}건)`;
+  });
+  el("line", { x1: Lm, x2: W - R, y1: y(10), y2: y(10), stroke: css("--ink"), "stroke-width": 1.5, "stroke-dasharray": "6 3" }, svg);
+  el("text", { x: W - R, y: y(10) - 5, "text-anchor": "end", style: `fill:${css("--ink")}` }, svg).textContent = "확정 기준 10만 원";
+}
+
+function todo() {
+  const g = DATA.goldset;
+  const items = [
+    [true, "블라인드 100건 독립 라벨 · 일치도 계산"],
+    [true, "라벨 규칙 v2 확정 (복합 경계, 금액 기준)"],
+    [g.adj_done >= g.adj_total, `블라인드 합의 확정 (${g.adj_done}/${g.adj_total})`],
+    [false, `검토 세트 ${g.n_review}건 검토 (LLM 확신도 낮음 ${g.review_low}건부터, 현재 수정 ${g.review_changed}건)`],
+    [false, "규칙 + LLM 분류기로 전체 입찰 분류 → 골드셋으로 정확도 · 혼동행렬 보고"],
+    [false, "강화된 사건 정의(대규모 전면 입찰이 확인된 교체만)로 생존분석 재실행"],
+    [false, "금액 기준 5 · 10 · 15만 원 민감도 분석 (P7)"],
+  ];
+  $("#todo").innerHTML = items.map(([ok, t]) => `<li><span class="box sunken">${ok ? "✓" : ""}</span><span>${t}</span></li>`).join("");
+}
+
+if (DATA) { journal(); design(); goldset(); amount(); todo(); }
+</script>
+
+</html>
