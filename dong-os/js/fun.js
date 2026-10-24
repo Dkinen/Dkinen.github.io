@@ -119,7 +119,6 @@
       save("dongos-ddays", l); $("#dday-name").value = ""; renderDday();
     };
     D.apps.dday = renderDday;
-    // 작업 표시줄의 토익 D-day 는 toeic.js 가 시험일을 보고 표시
 
     /* =========================== 명함 (vCard) =========================== */
     $("#card-save").onclick = function () {
@@ -266,7 +265,7 @@
       ["mousemove", "keydown", "pointerdown", "touchstart", "wheel"].forEach(function (ev) { document.addEventListener(ev, stopSaver, { passive: true }); });
       setInterval(function () {
         idle++;
-        var playing = $$(".app.open.active").some(function (w) { return ["toeic", "media", "swim", "kart", "hoops"].indexOf(w.id) !== -1; });
+        var playing = $$(".app.open.active").some(function (w) { return ["media", "swim", "kart", "hoops"].indexOf(w.id) !== -1; });
         if (cfg.on && idle >= cfg.wait && !playing && !document.hidden) startSaver();
       }, 1000);
       // 제어판 설정
