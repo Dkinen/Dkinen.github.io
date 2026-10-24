@@ -7,7 +7,6 @@
 
   /* ---------- D-day 기본 목록 (날짜가 정해지면 여기 수정) ---------- */
   var DDAYS = [
-    { name: "토익 스피킹", date: "2026-10-12", icon: "🎤" },
     { name: "졸업 (2월이라면)", date: "2027-02-20", icon: "🎓", note: "날짜 추정" },
     { name: "졸업 (8월이라면)", date: "2027-08-20", icon: "🎓", note: "날짜 추정 · 아마도" }
   ];
@@ -46,7 +45,7 @@
     "오늘 만난 사람에게 먼저 질문해 보세요. 의외의 데이터를 얻습니다.",
     "완벽한 답을 기다리지 말고 70%에서 출발하세요.",
     "현장에서도 마음에서도 안전 제일. 오늘은 무리하지 마세요.",
-    "영어로 혼잣말 1분 해 보세요. 토익 스피킹 신이 보고 있습니다.",
+    "영어로 혼잣말 1분 해 보세요. 토익 신이 보고 있습니다.",
     "아침형 인간의 기운이 좋습니다. 일찍 자면 내일도 이깁니다.",
     "오늘은 위스키보다 물이 몸에 맞는 날입니다. 내일을 기약하세요.",
     "오래 고민한 결정, 오늘 정하면 맞습니다.",
@@ -57,16 +56,16 @@
   /* ---------- 타자연습 문장 ---------- */
   var TYPING = {
     toeic: [
-      "This picture was taken at a busy construction site.",
-      "The first thing I notice is a tall crane in the middle of the picture.",
-      "I go swimming about three times a week because it helps me relieve stress.",
-      "I'm sorry, but you have the wrong information. The session starts at nine thirty.",
-      "There are two main reasons why I agree with this statement.",
-      "For example, when I worked as an intern at a construction company, I learned a lot.",
-      "For these reasons, I believe that safety is more important than speed.",
-      "In my opinion, it is better to work for a large company.",
-      "Overall, it looks like a busy and energetic place.",
-      "That's a good question. Let me think about it for a second."
+      "The construction of the new library is expected to be completed by next spring.",
+      "All employees must wear hard hats when entering the site.",
+      "Applications must be submitted no later than October 30.",
+      "The safety inspection was postponed due to the heavy rain.",
+      "Visitors are required to sign in at the security desk.",
+      "Ms. Choi is highly qualified for the position because of her experience.",
+      "By the time the client arrived, the presentation had already started.",
+      "The elevators will be out of service for scheduled maintenance.",
+      "Experience with BIM software is preferred but not required.",
+      "Each team member is responsible for checking the equipment."
     ],
     arch: [
       "철근콘크리트 구조는 압축에 강한 콘크리트와 인장에 강한 철근을 함께 쓴다.",
@@ -120,9 +119,7 @@
       save("dongos-ddays", l); $("#dday-name").value = ""; renderDday();
     };
     D.apps.dday = renderDday;
-    // 작업 표시줄에 토스 D-day
-    var tray = $("#tray-dday");
-    if (tray) { var n0 = dleft(DDAYS[0].date); tray.textContent = "🎤 토스 " + dlabel(n0); tray.style.display = n0 < 0 ? "none" : ""; tray.onclick = function () { D.openWin("toeic"); }; }
+    // 작업 표시줄의 토익 D-day 는 toeic.js 가 시험일을 보고 표시
 
     /* =========================== 명함 (vCard) =========================== */
     $("#card-save").onclick = function () {

@@ -678,6 +678,17 @@ a { color: #0000ee; }
 .tz-text { font-family: Arial, sans-serif !important; margin-top: 4px; line-height: 1.6; }
 .tz-notes { margin: 0; padding-left: 18px; line-height: 1.7; }
 .tz-notes i { font-family: Arial, sans-serif !important; font-style: normal; color: #00006a; }
+.tz-badge { margin-top: 6px; padding: 6px 8px; background: #ffffe1; border: 1px solid #c8c88c; }
+.tz-head .tz-clock { float: right; font-family: var(--mono); }
+.tz-doc { margin-top: 6px; line-height: 1.6; font-family: Arial, sans-serif !important; }
+.tz-opts { display: grid; gap: 4px; margin: 8px 0; }
+.tz-opts button { text-align: left; min-height: 30px; padding: 4px 8px; font-family: Arial, sans-serif !important; }
+.tz-opts button.ok { background: #c8f0c8; }
+.tz-opts button.bad { background: #f8c8c8; }
+.tz-why { padding: 6px 8px; border: 1px solid; margin-bottom: 6px; }
+.tz-why.ok { background: #e6f7e6; border-color: #3a3; }
+.tz-why.bad { background: #fdeaea; border-color: #c33; }
+.tz-plan .en, .tz-panel .en { font-family: Arial, sans-serif !important; font-style: normal; color: #00006a; }
 
 /* 타자연습 */
 .ty-target { font-size: 18px; min-height: 60px; line-height: 1.6; padding: 12px; word-break: break-all; }

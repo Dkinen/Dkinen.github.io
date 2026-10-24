@@ -1,159 +1,152 @@
 /* =========================================================
-   DONG OS 98 — 토스 연습기 (TOEIC Speaking, 목표 IH~AL)
-   실제 시험 형식: 11문항 · 준비 시간 → 삐 → 답변 시간
-   녹음과 기록은 이 브라우저 안에만 남습니다.
+   DONG OS 98 — 토익 연습기 (TOEIC LC · RC)
+   토스는 IH 취득 (2026.10.16) → 이제 토익
+   Part 1·2 는 브라우저 음성(영어)으로 듣고, Part 5·7 은 읽고 푼다.
+   기록과 오답은 이 브라우저 안에만 남습니다.
    ========================================================= */
 (function () {
   "use strict";
 
-  var EXAM_DATE = "2026-10-12";   // 시험일
-  var GOAL = "IH~AL";
+  var SPEAKING = { grade: "IH", date: "2026.10.16" };   // 토익 스피킹 결과
 
   /* ---------- 문제 은행 (직접 작성한 연습 문제) ---------- */
-  var READ = [
-    "Thank you for calling Greenfield Community Center. Our facility is open from seven a.m. to ten p.m., Monday through Saturday. To register for swimming lessons, yoga classes, or our new weekend basketball program, please press one. For information about parking, events, and rental fees, press two. If you'd like to speak with a staff member, please stay on the line.",
-    "Attention, passengers. The express train to Gwangju, scheduled to depart at three fifteen, has been delayed due to heavy rain. We expect the train to arrive at platform four in approximately twenty minutes. Snacks, drinks, and newspapers are available at the kiosk near the main entrance. We apologize for any inconvenience and thank you for your patience.",
-    "Welcome to this week's edition of Business Today. On tonight's program, we'll be talking with Linda Park, the founder of a successful architecture firm. Ms. Park will share her thoughts on sustainable design, smart buildings, and the future of urban housing. Later in the show, we'll answer questions from our listeners, so stay tuned.",
-    "Are you looking for a comfortable, affordable place to stay downtown? The Riverside Hotel offers spacious rooms, a rooftop pool, and free breakfast every morning. Our hotel is just a five-minute walk from the convention center, shopping malls, and popular restaurants. Book your room online this month and receive fifteen percent off your entire stay.",
-    "Good morning, everyone, and welcome to the safety orientation. Before you enter the construction site, please make sure you are wearing a hard hat, safety boots, and a reflective vest. Heavy equipment, including cranes, excavators, and trucks, will be operating throughout the day. If you notice any hazard, report it to your supervisor immediately.",
-    "This is a reminder that the city library will be closed next Monday for building maintenance. During this time, books may be returned using the drop box located next to the front door. Our online services, including e-books, audiobooks, and research databases, will remain available. Regular hours will resume on Tuesday morning."
+  // Part 1 사진 묘사: a[0] 이 정답 (보기 순서는 매번 섞는다)
+  var P1 = [
+    { src: "../why-not/images/4-projects.jpg", a: ["A player is dunking the ball.", "The spectators are leaving the arena.", "Some people are sweeping the court.", "A net is being replaced."] },
+    { src: "../images/project-socmap.jpg", a: ["A device is being held in someone's hand.", "Workers are pouring concrete.", "A phone has been left on a table.", "Some cranes are being taken apart."] },
+    { src: "../images/project-datacenter.png", a: ["Several buildings are located near the water.", "People are swimming in the sea.", "A bridge is being constructed.", "Trees are being planted along the shore."] },
+    { src: "../why-not/images/1-hero.jpg", a: ["A man is dribbling a basketball.", "A man is tying his shoes.", "A man is holding a trophy.", "Some players are sitting on a bench."] },
+    { src: "../images/profile.jpg", a: ["A man is lying under a blanket.", "A man is packing a suitcase.", "A man is fishing by a lake.", "Some fishing rods are being repaired."] }
   ];
-  var PICS = [
-    { src: "../why-not/images/4-projects.jpg", hint: "basketball game · indoor arena · a player dunking the ball · crowd in the background · players in blue and black uniforms" },
-    { src: "../images/project-socmap.jpg", hint: "construction site · tower cranes · excavators · red and orange safety zones · green arrows · a hand holding a smartphone" },
-    { src: "../images/project-datacenter.png", hint: "aerial view · large white buildings · round storage tanks · the sea on the right · roads and an industrial area" },
-    { src: "../why-not/images/1-hero.jpg", hint: "a basketball player · dribbling the ball · white jersey with the number zero · orange arm sleeves · dark background" },
-    { src: "../images/profile.jpg", hint: "a man sleeping · lying under a mint-colored blanket · a green suitcase behind his head · fishing rods on the left" }
+  // Part 2 질의응답: a[0] 이 정답, why = 해설
+  var P2 = [
+    { q: "When will the new office building be completed?", a: ["By the end of next month.", "On the third floor.", "Yes, it's complete."], why: "When → 시점으로 답한다. 'complete'를 반복한 (C)는 소리 함정." },
+    { q: "Who's in charge of the safety inspection?", a: ["Ms. Park from the site office.", "It was inspected carefully.", "Yes, I'm sure."], why: "Who → 사람 이름·직책. 의문사 질문에 Yes/No는 바로 오답." },
+    { q: "Where should I put these blueprints?", a: ["On my desk, please.", "Print them in blue.", "Around two o'clock."], why: "Where → 장소. 'blue'는 blueprints의 소리 함정." },
+    { q: "Why was the meeting postponed?", a: ["The manager is out sick today.", "In the conference room.", "Yes, it was a long meeting."], why: "Why → 이유. because 없이 이유만 말하는 답이 자주 정답." },
+    { q: "Would you like to join us for lunch?", a: ["Sure, I'd love to.", "I had a launch party.", "It was delicious, thanks."], why: "제안·권유 → 수락/거절. 'launch'는 lunch의 소리 함정, (C)는 시제가 안 맞음." },
+    { q: "How long does it take to get to the airport?", a: ["About forty minutes by taxi.", "It's a long runway.", "Two tickets, please."], why: "How long → 걸리는 시간. 'long', 'airport' 연상 단어 함정 주의." },
+    { q: "Haven't you sent the invoice yet?", a: ["I'll do it right after this call.", "The voice was clear.", "It's very expensive."], why: "부정 의문문은 그냥 '보냈어?'로 해석. '곧 하겠다'는 우회 답변이 정답." },
+    { q: "Should we order the materials today or tomorrow?", a: ["Today would be better.", "Yes, in that order.", "They're made of steel."], why: "선택 의문문 → 둘 중 하나를 고른다. Yes/No와 'order' 반복은 함정." },
+    { q: "Can you help me move these boxes?", a: ["Of course, where do they go?", "I moved here last year.", "They're full of paper."], why: "부탁 → 수락/거절. 'move'를 반복한 (B)는 소리 함정." },
+    { q: "The elevator is out of service again.", a: ["Then let's take the stairs.", "It serves breakfast.", "Yes, again and again."], why: "평서문 → 문제에 대한 대응·해결책이 정답. 'service/serves' 함정." },
+    { q: "What time does the training session begin?", a: ["It starts at nine thirty.", "A two-day session.", "Yes, the train is late."], why: "What time → 시각. 'train'은 training의 소리 함정." },
+    { q: "Which contractor did you choose?", a: ["The one that offered the lowest price.", "Choose any color you like.", "The contract was signed."], why: "Which → 'the one ~'으로 답하는 경우가 많다. 'contract'는 contractor 함정." },
+    { q: "Isn't the report due on Friday?", a: ["It was moved to Monday.", "I reported it to the police.", "They're due for a raise."], why: "부정 의문문 → 사실 확인. 일정이 바뀌었다는 답이 자연스럽다." },
+    { q: "Do you know where the parking garage is?", a: ["It's behind the main building.", "For about two hours.", "Yes, it was a garage sale."], why: "Do you know + where → 결국 '어디?'를 묻는 질문. 장소로 답한다." },
+    { q: "Why don't we hire a few more workers for the project?", a: ["That's a good idea.", "Because it's higher.", "About fifty pages."], why: "Why don't we ~? 는 이유가 아니라 제안. Because로 시작하는 답은 함정." }
   ];
-  var RESPOND = [
-    { ctx: "Imagine that a Canadian marketing firm is doing research in your country. You have agreed to participate in a telephone interview about coffee shops.",
-      q: ["How often do you go to a coffee shop, and who do you usually go with?", "What do you usually order at a coffee shop, and why?", "If a new coffee shop opened in your neighborhood, what would make you visit it regularly? Why?"] },
-    { ctx: "Imagine that a fitness company is doing research in your area. You have agreed to participate in a telephone interview about exercise.",
-      q: ["How often do you exercise, and where do you usually do it?", "Do you prefer to exercise alone or with other people? Why?", "Which of the following would most encourage you to exercise more: a personal trainer, a gym near your home, or a fitness app? Why?"] },
-    { ctx: "Imagine that a technology magazine is writing an article about smartphone apps. You have agreed to participate in a telephone interview.",
-      q: ["What kind of app do you use most often, and why?", "How did you find out about the last app you downloaded?", "Would you be willing to pay for an app? Why or why not?"] },
-    { ctx: "Imagine that your city is doing research about public transportation. You have agreed to participate in a telephone interview.",
-      q: ["How do you usually get to school or work, and how long does it take?", "What is the most inconvenient thing about public transportation in your city?", "If the city could improve one thing about public transportation, what should it be? Why?"] },
-    { ctx: "Imagine that an online shopping company is doing research in your country. You have agreed to participate in a telephone interview about online shopping.",
-      q: ["When was the last time you bought something online, and what did you buy?", "Do you read reviews before buying something online? Why or why not?", "Some people prefer shopping in stores rather than online. What are the advantages of shopping in stores?"] },
-    { ctx: "Imagine that a travel magazine is writing an article about how people spend their weekends. You have agreed to participate in a telephone interview.",
-      q: ["What did you do last weekend?", "Do you prefer to stay at home or go out on weekends? Why?", "If you had a three-day weekend, how would you spend it? Why?"] },
-    { ctx: "Imagine that a movie company is doing research in your area. You have agreed to participate in a telephone interview about watching movies.",
-      q: ["How often do you watch movies, and where do you usually watch them?", "What kind of movies do you enjoy the most, and why?", "Do you think watching movies in a theater is better than watching them at home? Why or why not?"] },
-    { ctx: "Imagine that a food delivery company is doing research in your country. You have agreed to participate in a telephone interview about food delivery.",
-      q: ["How often do you order food for delivery, and what do you usually order?", "What is most important to you when you choose a restaurant for delivery?", "Do you think food delivery services will become more popular in the future? Why or why not?"] }
+  // Part 5 단문 빈칸: c = 정답 번호
+  var P5 = [
+    { q: "The construction of the new library is expected to be ------- by next spring.", o: ["complete", "completed", "completion", "completing"], c: 1, why: "be expected to be + p.p. (완공되다)" },
+    { q: "Ms. Kim will review the proposal ------- she returns from the conference.", o: ["during", "when", "despite", "because of"], c: 1, why: "뒤에 주어+동사(절)가 오므로 접속사 when. during·despite·because of는 전치사." },
+    { q: "All employees must wear hard hats ------- entering the site.", o: ["when", "during", "so", "or"], c: 0, why: "when + -ing (분사구문). during 뒤에는 명사만 온다." },
+    { q: "The manager asked the team to submit their reports -------.", o: ["prompt", "promptly", "prompted", "promptness"], c: 1, why: "동사 submit을 꾸미는 부사 자리." },
+    { q: "Neither the architect ------- the engineer attended the meeting.", o: ["or", "and", "nor", "but"], c: 2, why: "neither A nor B (짝 접속사)." },
+    { q: "The company has decided to ------- its office to a larger building downtown.", o: ["relocate", "relocation", "relocated", "relocating"], c: 0, why: "to 부정사 → 동사원형." },
+    { q: "Applications for the internship must be submitted no later ------- October 30.", o: ["to", "than", "by", "for"], c: 1, why: "no later than ~ (늦어도 ~까지)." },
+    { q: "Of the three proposals, Mr. Lee's was the most -------.", o: ["impress", "impression", "impressive", "impressively"], c: 2, why: "be동사 뒤 보어 자리 + the most → 형용사." },
+    { q: "The safety inspection was postponed ------- the heavy rain.", o: ["because", "due to", "although", "so that"], c: 1, why: "뒤에 명사구(the heavy rain) → 전치사 due to." },
+    { q: "Please contact the front desk if you ------- any further assistance.", o: ["require", "requires", "requiring", "to require"], c: 0, why: "주어 you + 현재시제 동사 원형." },
+    { q: "The new software allows users to analyze data more ------- than before.", o: ["efficient", "efficiency", "efficiently", "most efficient"], c: 2, why: "동사 analyze를 꾸미는 부사 (more + 부사 + than)." },
+    { q: "Mr. Park, ------- has worked here for ten years, will lead the project.", o: ["who", "which", "whose", "whom"], c: 0, why: "선행사가 사람, 뒤에 주어가 빠짐 → 주격 관계대명사 who." },
+    { q: "The budget report ------- by the finance team last week.", o: ["reviewed", "was reviewed", "has reviewed", "reviewing"], c: 1, why: "by + 행위자, last week → 과거 수동태." },
+    { q: "Visitors are ------- to sign in at the security desk.", o: ["required", "requiring", "requirement", "require"], c: 0, why: "be required to do (~해야 한다)." },
+    { q: "By the time the client arrived, the presentation ------- already started.", o: ["has", "had", "have", "having"], c: 1, why: "과거(arrived)보다 먼저 → 과거완료 had p.p." },
+    { q: "The hotel offers a free shuttle ------- the airport and the convention center.", o: ["among", "between", "across", "through"], c: 1, why: "between A and B." },
+    { q: "Ms. Choi is ------- qualified for the position because of her experience.", o: ["high", "highly", "higher", "height"], c: 1, why: "형용사 qualified를 꾸미는 부사. highly qualified는 토익 단골 표현." },
+    { q: "The workshop was so ------- that many participants asked for another session.", o: ["inform", "informative", "information", "informatively"], c: 1, why: "so + 형용사 + that." },
+    { q: "If the materials ------- earlier, we would have finished on schedule.", o: ["arrive", "arrived", "had arrived", "have arrived"], c: 2, why: "가정법 과거완료: If + had p.p., would have p.p." },
+    { q: "Each team member ------- responsible for checking the equipment.", o: ["are", "is", "be", "being"], c: 1, why: "each + 단수 명사 → 단수 동사." }
   ];
-  var INFO = [
-    { title: "Construction Technology Conference",
-      table: "<b>Construction Technology Conference</b><br>Gwangju Convention Center · Saturday, October 24<br><table><tr><th>Time</th><th>Session</th><th>Speaker</th></tr><tr><td>9:00 – 9:30</td><td>Registration</td><td>-</td></tr><tr><td>9:30 – 10:30</td><td>Keynote: Smart Construction Sites</td><td>Dr. Hana Lee, Chonnam University</td></tr><tr><td>10:45 – 11:45</td><td>Safety Management with Digital Twins</td><td>Minsu Park, Daehan Construction</td></tr><tr><td>12:00 – 1:00</td><td>Lunch (Hall B)</td><td>-</td></tr><tr><td>1:00 – 2:00</td><td>Data-Driven Building Maintenance</td><td>Prof. Jiwon Kim, Seoul University</td></tr><tr><td>2:15 – 3:00</td><td>Panel: The Future of Data Centers</td><td>Industry experts</td></tr></table>",
-      intro: "Hi, I'm planning to attend the construction technology conference, but I lost my schedule. I'd like to ask you a few questions.",
-      q: ["What time does the conference start, and where is it being held?", "I heard the session on safety management will be held in the afternoon. Is that correct?", "Could you tell me about all the sessions led by speakers from universities?"] },
-    { title: "Job Interview Schedule",
-      table: "<b>Hanbit Engineering — Interview Schedule</b><br>Monday, November 2 · Conference Room 3<br><table><tr><th>Time</th><th>Applicant</th><th>Position</th><th>Current Company</th></tr><tr><td>9:30 a.m.</td><td>Junho Kwon</td><td>Site Manager</td><td>Jeil Construction</td></tr><tr><td>10:30 a.m.</td><td>Yerin Choi</td><td>Safety Engineer</td><td>Dongbu Engineering</td></tr><tr><td>11:30 a.m.</td><td>Daniel Smith</td><td>Cost Estimator</td><td>Global Build Inc.</td></tr><tr><td>2:00 p.m.</td><td>Sora Han</td><td>Site Manager</td><td>Seoul Housing</td></tr><tr><td colspan=\"4\">* Interviews will be held online if the room is unavailable.</td></tr></table>",
-      intro: "Hello, this is Michael from the HR department. I need some information about the interviews scheduled for next Monday.",
-      q: ["Where will the interviews take place, and what time is the first interview?", "I heard Yerin Choi is applying for the cost estimator position. Is that right?", "Could you give me the details about the applicants for the site manager position?"] },
-    { title: "Business Trip Itinerary",
-      table: "<b>Business Trip Itinerary — Mr. Daniel Ahn</b><br>Destination: Singapore<br><table><tr><th>Date</th><th>Time</th><th>Schedule</th></tr><tr><td>Tue, Oct 13</td><td>8:10 a.m.</td><td>Depart Incheon (Flight SQ603)</td></tr><tr><td></td><td>2:00 p.m.</td><td>Arrive Singapore · Hotel check-in (Marina Hotel)</td></tr><tr><td>Wed, Oct 14</td><td>10:00 a.m.</td><td>Site visit: New Data Center Project</td></tr><tr><td></td><td>3:00 p.m.</td><td>Meeting with local contractors</td></tr><tr><td>Thu, Oct 15</td><td>11:00 a.m.</td><td>Presentation: Cooling System Design</td></tr><tr><td></td><td>6:30 p.m.</td><td>Depart Singapore (Flight SQ612)</td></tr></table>",
-      intro: "Hi, this is Daniel Ahn. I'm going on a business trip next week, and I'd like to check some details of my schedule.",
-      q: ["What time does my flight leave, and which airline am I flying with?", "I'll have a presentation on Wednesday afternoon, right?", "What will I be doing on Wednesday? Please give me all the details."] },
-    { title: "Community Center Classes",
-      table: "<b>Greenfield Community Center — Fall Classes</b><br>September 7 – November 27 · Registration fee: $20 per class<br><table><tr><th>Class</th><th>Day</th><th>Time</th><th>Instructor</th></tr><tr><td>Beginner Swimming</td><td>Mon / Wed</td><td>7:00 – 8:00 p.m.</td><td>Kevin Lee</td></tr><tr><td>Advanced Swimming</td><td>Tue / Thu</td><td>6:00 – 7:00 a.m.</td><td>Kevin Lee</td></tr><tr><td>Yoga for Beginners</td><td>Saturday</td><td>10:00 – 11:30 a.m.</td><td>Amy Chen</td></tr><tr><td>Basketball Club</td><td>Sunday</td><td>2:00 – 4:00 p.m.</td><td>Mark Davis</td></tr><tr><td>Photography</td><td>Friday</td><td>7:00 – 9:00 p.m.</td><td>Amy Chen <i>(canceled)</i></td></tr></table>",
-      intro: "Hi, I'm interested in taking some classes at the community center this fall. Could you help me with a few questions?",
-      q: ["When does the fall session start, and how much is the registration fee?", "I heard that I can take a photography class on Friday evenings. Is that right?", "I'm interested in swimming. Can you tell me about all the swimming classes you offer?"] }
-  ];
-  var OPINION = [
-    "Do you agree or disagree with the following statement? It is better to work for a large company than for a small company. Give specific reasons and examples to support your opinion.",
-    "Some people prefer to study alone, while others prefer to study in a group. Which do you prefer, and why? Give specific reasons and examples.",
-    "Which of the following is the most important quality for a team leader? Communication skills, a sense of responsibility, or technical knowledge. Give specific reasons and examples.",
-    "Do you agree or disagree with the following statement? Companies should allow employees to work from home. Give specific reasons and examples.",
-    "Do you think it is a good idea for university students to do internships before they graduate? Why or why not? Give specific reasons and examples.",
-    "Do you agree or disagree with the following statement? Technology has made people's lives less stressful. Give specific reasons and examples.",
-    "Your city has extra money to spend. Should it build more public parks or more parking lots? Give specific reasons and examples.",
-    "When choosing a job, which is the most important factor: salary, location, or opportunities for growth? Give specific reasons and examples.",
-    "Do you agree or disagree with the following statement? Following safety rules at work is more important than meeting deadlines. Give specific reasons and examples.",
-    "Do you agree or disagree with the following statement? People should exercise every day to stay healthy. Give specific reasons and examples."
+  // Part 7 독해: 지문 하나에 문항 여러 개
+  var P7 = [
+    { title: "Notice", text: "<b>To:</b> All Residents<br><b>From:</b> Building Management<br><b>Subject:</b> Elevator Maintenance<br><br>Please be advised that the elevators in Building B will be out of service on Tuesday, November 10, from 9 a.m. to 3 p.m. for scheduled maintenance. During this time, residents are asked to use the stairs or the elevators in Building A, which is connected to Building B on the second floor. Deliveries scheduled for that day should be rescheduled if possible. We apologize for the inconvenience. If you have any questions, please call the management office at 062-555-0147.",
+      qs: [
+        { q: "What is the purpose of the notice?", o: ["To announce scheduled work", "To introduce a new manager", "To request a payment", "To advertise a new building"], c: 0, why: "for scheduled maintenance → 예정된 작업 안내." },
+        { q: "How can residents reach Building A?", o: ["Through the parking lot", "On the second floor", "By shuttle bus", "Through the basement"], c: 1, why: "which is connected to Building B on the second floor." },
+        { q: "What are residents asked to do?", o: ["Call the office before 9 a.m.", "Move to Building A", "Reschedule deliveries if possible", "Repair the stairs"], c: 2, why: "Deliveries ... should be rescheduled if possible." }
+      ] },
+    { title: "Job Advertisement", text: "<b>Hanbit Engineering</b> is seeking a <b>Site Manager</b> for its new data center project in Gwangju. Responsibilities include managing daily schedules, coordinating subcontractors, and ensuring safety on site. Applicants must hold an engineering license and have at least two years of field experience. Experience with BIM software is preferred but not required. To apply, send a résumé and cover letter to the HR department by December 1. Only selected candidates will be contacted for an interview.",
+      qs: [
+        { q: "What is NOT mentioned as a responsibility of the position?", o: ["Managing daily schedules", "Coordinating subcontractors", "Designing the building", "Ensuring safety on site"], c: 2, why: "NOT 문제: 지문의 세 가지 업무에 '설계'는 없다." },
+        { q: "What is indicated about BIM experience?", o: ["It is required.", "It is preferred but not required.", "It will be taught on the job.", "It is not useful for the position."], c: 1, why: "preferred but not required (우대 사항)." },
+        { q: "What should applicants submit?", o: ["A design portfolio", "A résumé and cover letter", "An application fee", "Three references"], c: 1, why: "send a résumé and cover letter." }
+      ] },
+    { title: "Text Message Chain", text: "<b>Minji Seo [10:12]</b> Hi, Daniel. Are you still at the site?<br><b>Daniel Ahn [10:13]</b> Yes, I'm checking the concrete delivery. Why?<br><b>Minji Seo [10:15]</b> The client wants to move tomorrow's meeting to 2 p.m. Can you make it?<br><b>Daniel Ahn [10:16]</b> That should be fine. I'll be back at the office by noon.<br><b>Minji Seo [10:17]</b> Great. I'll let them know. Could you bring the updated schedule?<br><b>Daniel Ahn [10:18]</b> Sure thing.",
+      qs: [
+        { q: "Where most likely is Mr. Ahn?", o: ["At a construction site", "At the airport", "In a meeting room", "At a restaurant"], c: 0, why: "still at the site, checking the concrete delivery." },
+        { q: "At 10:16, what does Mr. Ahn mean when he writes, \"That should be fine\"?", o: ["The concrete is good quality.", "He can attend the meeting at 2 p.m.", "The client is satisfied.", "He will finish work at noon."], c: 1, why: "의도 파악: 바로 앞 질문 'Can you make it?'(2시 회의 가능?)에 대한 답." },
+        { q: "What will Mr. Ahn bring to the meeting?", o: ["A contract", "Concrete samples", "An updated schedule", "A new blueprint"], c: 2, why: "Could you bring the updated schedule? → Sure thing." }
+      ] }
   ];
 
-  /* ---------- 문항 구성 (실제 시험과 같은 시간) ---------- */
   var TYPES = {
-    read:    { name: "Q1-2 지문 읽기", en: "Read a text aloud", prep: 45, resp: 45, dir: "In this part of the test, you will read aloud the text on the screen. You will have 45 seconds to prepare. Then you will have 45 seconds to read the text aloud." },
-    picture: { name: "Q3-4 사진 묘사", en: "Describe a picture", prep: 45, resp: 30, dir: "In this part of the test, you will describe the picture on your screen in as much detail as you can. You will have 45 seconds to prepare your response. Then you will have 30 seconds to speak about the picture." },
-    respond: { name: "Q5-7 질문에 답하기", en: "Respond to questions", prep: 3, dir: "In this part of the test, you will answer three questions. You will have three seconds to prepare after you hear each question. You will have 15 seconds to respond to Questions 5 and 6, and 30 seconds to respond to Question 7." },
-    info:    { name: "Q8-10 정보 보고 답하기", en: "Respond using information", prep: 3, dir: "In this part of the test, you will answer three questions based on the information provided. You will have 45 seconds to read the information before the questions begin. You will have three seconds to prepare and 15 seconds to respond to Questions 8 and 9. You will hear Question 10 two times. You will have three seconds to prepare and 30 seconds to respond to Question 10." },
-    opinion: { name: "Q11 의견 말하기", en: "Express an opinion", prep: 45, resp: 60, dir: "In this part of the test, you will give your opinion about a specific topic. Be sure to say as much as you can in the time allowed. You will have 45 seconds to prepare. Then you will have 60 seconds to speak." }
+    p1: { name: "Part 1 사진 묘사", lc: true },
+    p2: { name: "Part 2 질의응답", lc: true },
+    p5: { name: "Part 5 단문 빈칸", lc: false },
+    p7: { name: "Part 7 독해", lc: false }
   };
 
-  /* ---------- 표현 노트 (IH~AL 목표) ---------- */
+  /* ---------- 공략 노트 ---------- */
   var NOTES = [
-    { t: "공통 · IH~AL로 가는 기준", items: [
-      "답변 시간을 끝까지 채우기. 침묵 3초 이상은 감점 요인입니다.",
-      "짧은 문장 여러 개보다 접속사로 이은 문장: because, so, which means, while, although",
-      "이유만 말하지 말고 <b>구체적인 예시</b>를 붙이기 → AL의 핵심",
-      "틀려도 멈추지 말고 자연스럽게 고치기: <i>I mean, ...</i> / <i>What I'm trying to say is ...</i>",
-      "음, 어 대신 쓸 연결 표현: <i>Well, let me think.</i> / <i>That's a good question.</i>" ] },
-    { t: "Q1-2 지문 읽기", items: [
-      "쉼표·마침표에서 끊고, 고유명사·숫자는 또박또박",
-      "나열(A, B, and C)은 A↗ B↗ and C↘ 억양",
-      "질문문은 끝을 올리고, 강조할 정보(시간·장소·할인율)는 힘주어",
-      "준비 45초 동안 입으로 작게 한 번 읽어 보기" ] },
-    { t: "Q3-4 사진 묘사 (30초)", items: [
-      "<i>This picture was taken at/in ...</i>  (장소)",
-      "<i>The first thing I notice is ...</i>  (가장 눈에 띄는 것)",
-      "<i>On the left side of the picture, ... / In the background, ...</i>  (위치)",
-      "<i>He is wearing ... and seems to be ...</i>  (사람: 옷차림 + 동작)",
-      "<i>Overall, it looks like a busy/peaceful ...</i>  (전체 분위기로 마무리)" ] },
-    { t: "Q5-7 질문에 답하기 (15/15/30초)", items: [
-      "질문의 단어를 그대로 받아 첫 문장 시작: <i>I go to a coffee shop about three times a week.</i>",
-      "Q5·6: 답 + 이유 한 줄로 15초 채우기",
-      "Q7(30초): 답 → 이유 1 → 예시 → 이유 2 → 정리",
-      "선택지 문제는 하나만 고르고 이유를 확실하게" ] },
-    { t: "Q8-10 정보 보고 답하기", items: [
-      "45초 동안 날짜·시간·장소·<b>취소/변경(*)</b> 표시부터 확인",
-      "Q9 정정: <i>I'm sorry, but you have the wrong information. Actually, ...</i>",
-      "Q10 요약: <i>There are two sessions ... First, ... at ... Second, ...</i>",
-      "표의 말을 문장으로 바꾸기: 9:30 → <i>starts at nine thirty</i>" ] },
-    { t: "Q11 의견 말하기 (60초)", items: [
-      "<i>I strongly agree that ... There are two main reasons.</i>",
-      "<i>First of all, ... For example, when I ...</i>",
-      "<i>Second, ... This is because ...</i>",
-      "<i>For these reasons, I believe that ...</i>",
-      "준비 45초: 의견 1줄 + 이유 2개 + 예시 1개 메모" ] },
-    { t: "나만의 만능 에피소드 (Q7·Q11에 그대로 쓰기)", items: [
-      "<b>인턴</b>: <i>Last winter, I worked as an intern at a construction company, where I was in charge of site management. I learned that clear communication can prevent accidents.</i>",
-      "<b>팀 프로젝트</b>: <i>In my capstone project, my team built a program that shows dangerous areas on a construction site. Working as a team helped me solve problems faster.</i>",
-      "<b>수상</b>: <i>Our team won an innovation award at a national construction management competition. We planned a data center that uses cold energy from LNG.</i>",
-      "<b>수영</b>: <i>I go swimming to relieve stress. After swimming, I can focus much better.</i>",
-      "<b>데이터 연구</b>: <i>I'm doing research on apartment maintenance using public data, so I use technology every day to analyze information.</i>" ] }
+    { t: "시험 구성 (총 200문항 · 990점)", items: [
+      "LC 100문항 · 약 45분: Part 1 사진(6) · Part 2 질의응답(25) · Part 3 대화(39) · Part 4 담화(30)",
+      "RC 100문항 · 75분: Part 5 단문 빈칸(30) · Part 6 장문 빈칸(16) · Part 7 독해(54)",
+      "RC 시간 배분: Part 5 약 10분 → Part 6 약 8분 → Part 7 나머지 전부",
+      "모르는 문제는 찍고 넘어가기. 오답 감점이 없으니 빈칸은 절대 남기지 않기" ] },
+    { t: "Part 1 사진 묘사", items: [
+      "사람이 있으면 <b>동작</b>, 없으면 <b>사물의 위치·상태</b>를 본다",
+      "<i>is being + p.p.</i> 는 '지금 누가 하고 있는 중' → 사람이 안 보이면 대부분 오답",
+      "사진에 없는 단어가 들리면 바로 지우기" ] },
+    { t: "Part 2 질의응답", items: [
+      "첫 단어(의문사)만 확실히 들어도 반은 맞힌다: When / Where / Who / Why / How",
+      "의문사 질문에 <i>Yes / No</i> 로 시작하는 답은 오답",
+      "질문 단어를 그대로 반복하거나 소리가 비슷한 단어(lunch/launch)는 함정",
+      "'잘 모르겠다 / 확인해 볼게' 같은 우회 답변이 정답인 경우가 많다" ] },
+    { t: "Part 3·4 대화·담화", items: [
+      "음성이 나오기 전에 문제 3개를 먼저 읽고 키워드 표시",
+      "문제 순서 = 대화 순서. 첫 문제 답은 앞부분에서 나온다",
+      "의도 파악 문제: 그 문장 <b>바로 앞뒤</b>의 흐름으로 판단" ] },
+    { t: "Part 5·6 빈칸", items: [
+      "보기가 같은 단어의 품사 변형이면 → 해석하지 말고 빈칸 자리부터 (명사·형용사·부사)",
+      "동사 자리: 수 일치 → 태(능동/수동) → 시제 순서로 확인",
+      "전치사 vs 접속사: 뒤에 명사면 전치사(during, despite, due to), 절이면 접속사(when, although, because)",
+      "Part 6은 문맥 문제(문장 넣기)가 있으니 앞뒤 문장을 꼭 읽기" ] },
+    { t: "Part 7 독해", items: [
+      "문제 먼저 → 지문에서 키워드 찾기 (지문을 처음부터 다 읽지 않기)",
+      "NOT 문제: 보기를 하나씩 지문과 대조해서 지우기",
+      "지문의 단어를 그대로 쓴 보기보다 <b>바꿔 말한(paraphrase)</b> 보기가 정답일 때가 많다",
+      "이중·삼중 지문은 두 지문의 정보를 합쳐야 풀리는 문제가 꼭 있다" ] },
+    { t: "토익 단골 어휘 (현장 버전)", items: [
+      "<i>contractor</i> 시공업체 · <i>subcontractor</i> 하도급업체 · <i>estimate / quote</i> 견적",
+      "<i>postpone / delay</i> 연기 · <i>reschedule</i> 일정 변경 · <i>out of service</i> 운행 중지",
+      "<i>inspection</i> 점검 · <i>maintenance</i> 유지보수 · <i>renovation</i> 개보수",
+      "<i>be required to</i> ~해야 한다 · <i>no later than</i> 늦어도 ~까지 · <i>highly qualified</i> 충분한 자격",
+      "<i>invoice</i> 청구서 · <i>budget</i> 예산 · <i>expense</i> 비용 · <i>reimburse</i> 환급하다" ] }
   ];
-  var FILLERS = ["uh", "um", "er", "ah", "hmm", "like", "you know"];
 
   /* ---------- 유틸 ---------- */
   var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-  var pick = function (a) { return a[Math.floor(Math.random() * a.length)]; };
-  var load = function () { try { return JSON.parse(localStorage.getItem("dongos-toeic-log") || "[]"); } catch (e) { return []; } };
-  var saveLog = function (l) { try { localStorage.setItem("dongos-toeic-log", JSON.stringify(l.slice(-300))); } catch (e) {} };
+  var shuffle = function (a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  var store = function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
+  var put = function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  var load = function () { return store("dongos-toeic-lr-log", []); };
+  var saveLog = function (l) { put("dongos-toeic-lr-log", l.slice(-500)); };
   var dayKey = function (d) { d = d || new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  var examDate = function () { return store("dongos-toeic-exam", ""); };
+  var goal = function () { return store("dongos-toeic-goal", ""); };
   var daysLeft = function () {
-    var t = new Date(EXAM_DATE + "T00:00:00"), n = new Date(dayKey() + "T00:00:00");
-    return Math.round((t - n) / 86400000);
+    var e = examDate(); if (!e) return null;
+    return Math.round((new Date(e + "T00:00:00") - new Date(dayKey() + "T00:00:00")) / 86400000);
   };
-  var fmt = function (s) { s = Math.max(0, Math.ceil(s)); return "00:" + String(s).padStart(2, "0"); };
+  var L = "ABCD";
 
-  var audioCtx = null;
-  var beep = function () {
-    try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      var o = audioCtx.createOscillator(), g = audioCtx.createGain();
-      o.frequency.value = 1000; o.connect(g); g.connect(audioCtx.destination);
-      g.gain.setValueAtTime(0.25, audioCtx.currentTime);
-      o.start(); o.stop(audioCtx.currentTime + 0.45);
-    } catch (e) {}
-  };
   var speak = function (text, done) {
-    if (!("speechSynthesis" in window)) { setTimeout(done, 1500); return; }
+    if (!("speechSynthesis" in window)) { setTimeout(done, 800); return; }
     speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US"; u.rate = 0.95;
+    u.lang = "en-US"; u.rate = 0.92;
     var v = speechSynthesis.getVoices().filter(function (x) { return /en-US/.test(x.lang); })[0];
     if (v) u.voice = v;
     var finished = false, fin = function () { if (!finished) { finished = true; done(); } };
@@ -165,259 +158,217 @@
   document.addEventListener("DOMContentLoaded", function () {
     var D = window.DONG, $ = D.$, $$ = D.$$;
     var body = $("#toeic-body"), tabs = $$("#toeic .tz-tab");
-    var stream = null, rec = null, chunks = [], recog = null, transcript = "", interim = "";
-    var timer = null, aborted = false, session = null;
+    var clock = null, aborted = false;
 
-    /* ---------- 마이크 · 음성 인식 ---------- */
-    var getMic = function () {
-      if (stream || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return Promise.resolve(stream);
-      body.innerHTML = '<div class="tz-head"><b>준비 중</b></div><p>🎙️ 마이크 권한을 확인하고 있습니다.<br>브라우저 주소창 근처에 뜬 창에서 <b>허용</b>을 눌러 주세요.</p><p class="muted">8초 동안 응답이 없으면 녹음 없이 시작합니다.</p>';
-      var ask = navigator.mediaDevices.getUserMedia({ audio: true }).then(function (s) { stream = s; return s; }).catch(function () { return null; });
-      var wait = new Promise(function (r) { setTimeout(function () { r(null); }, 8000); });   // 권한 창을 무시해도 진행
-      return Promise.race([ask, wait]);
-    };
-    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    var startCapture = function () {
-      transcript = ""; interim = ""; chunks = [];
-      if (stream && window.MediaRecorder) {
-        try { rec = new MediaRecorder(stream); rec.ondataavailable = function (e) { if (e.data.size) chunks.push(e.data); }; rec.start(); } catch (e) { rec = null; }
-      }
-      if (SR) {
-        try {
-          recog = new SR(); recog.lang = "en-US"; recog.continuous = true; recog.interimResults = true;
-          recog.onresult = function (e) {
-            interim = "";
-            for (var i = e.resultIndex; i < e.results.length; i++) {
-              if (e.results[i].isFinal) transcript += e.results[i][0].transcript + " ";
-              else interim += e.results[i][0].transcript;
-            }
-            var live = $("#tz-live"); if (live) live.textContent = (transcript + interim).trim();
-          };
-          recog.onend = function () { if (recog && recog._on) { try { recog.start(); } catch (e) {} } };   // 말이 끊겨도 계속 듣기
-          recog._on = true; recog.start();
-        } catch (e) { recog = null; }
-      }
-    };
-    var stopCapture = function () {
-      return new Promise(function (res) {
-        if (recog) { recog._on = false; try { recog.stop(); } catch (e) {} }
-        var text = (transcript + " " + interim).trim();
-        if (rec && rec.state !== "inactive") {
-          rec.onstop = function () { res({ text: text, url: chunks.length ? URL.createObjectURL(new Blob(chunks, { type: chunks[0].type })) : null }); };
-          rec.stop();
-        } else res({ text: text, url: null });
-      });
-    };
-    var analyze = function (text, secs) {
-      var t = text.toLowerCase(), words = t.match(/[a-z']+/g) || [];
-      var fill = 0;
-      FILLERS.forEach(function (f) { var m = t.match(new RegExp("\\b" + f + "\\b", "g")); if (m) fill += m.length; });
-      return { words: words.length, wpm: Math.round(words.length / (secs / 60)), fillers: fill };
-    };
-
-    /* ---------- 타이머 ---------- */
-    var countdown = function (label, secs, kind) {
-      return new Promise(function (res) {
-        var bar = $("#tz-bar"), lab = $("#tz-label"), left = secs, t0 = performance.now();
-        lab.textContent = label + "  " + fmt(left);
-        bar.className = "tz-bar " + kind;
-        clearInterval(timer);
-        timer = setInterval(function () {
-          if (aborted) { clearInterval(timer); res(false); return; }
-          left = secs - (performance.now() - t0) / 1000;
-          lab.textContent = label + "  " + fmt(left);
-          bar.style.width = Math.max(0, (left / secs) * 100) + "%";
-          if (left <= 0) { clearInterval(timer); res(true); }
-        }, 100);
-        $("#tz-skip").onclick = function () { t0 = performance.now() - secs * 1000; };
-      });
-    };
-
-    /* ---------- 문항 하나 실행 ---------- */
-    // item: { type, no, content(html), say(질문 음성), prep, resp, readFirst(초), twice }
-    var runItem = function (item) {
-      var tp = TYPES[item.type];
-      body.innerHTML =
-        '<div class="tz-head"><b>Question ' + item.no + ' of 11</b> · ' + tp.en + ' <span class="muted">(' + tp.name + ')</span></div>' +
-        '<div class="tz-stage">' + item.content + '</div>' +
-        '<div class="tz-timer"><div class="tz-bar-wrap"><div class="tz-bar" id="tz-bar"></div></div><div id="tz-label" class="tz-label">준비</div></div>' +
-        '<div class="tz-live sunken" id="tz-live"></div>' +
-        '<div class="row right"><button id="tz-skip">시간 건너뛰기 ⏭</button><button id="tz-stop">그만하기</button></div>';
-      $("#tz-stop").onclick = function () { aborted = true; speechSynthesis && speechSynthesis.cancel(); };
-      var p = Promise.resolve(true);
-      if (item.readFirst) p = p.then(function () { return countdown("정보 읽기 READING TIME", item.readFirst, "prep"); });
-      if (item.say) p = p.then(function (ok) {
-        if (!ok) return false;
-        $("#tz-label").textContent = "🔊 질문을 듣는 중...";
-        return new Promise(function (r) {
-          speak(item.say, function () {
-            if (!item.twice || aborted) { r(!aborted); return; }
-            speak(item.say, function () { r(!aborted); });
-          });
-        });
-      });
-      return p.then(function (ok) { return ok && countdown("준비 PREPARATION TIME", item.prep, "prep"); })
-        .then(function (ok) {
-          if (!ok) return null;
-          beep();
-          startCapture();
-          return countdown("🎙️ 답변 RESPONSE TIME", item.resp, "resp").then(function () {
-            beep();
-            return stopCapture().then(function (r) {
-              var a = analyze(r.text, item.resp);
-              var res = { no: item.no, type: item.type, title: tp.name, q: item.say || "", text: r.text, url: r.url, resp: item.resp, words: a.words, wpm: a.wpm, fillers: a.fillers };
-              var log = load();
-              log.push({ d: dayKey(), type: item.type, words: a.words, wpm: a.wpm, fillers: a.fillers, text: r.text.slice(0, 400) });
-              saveLog(log);
-              return res;
-            });
-          });
-        });
+    /* ---------- 작업 표시줄 D-day ---------- */
+    var updTray = function () {
+      var tray = $("#tray-dday"); if (!tray) return;
+      var n = daysLeft();
+      tray.textContent = n === null || n < 0 ? "" : "📝 토익 " + (n === 0 ? "D-DAY" : "D-" + n);
+      tray.onclick = function () { D.openWin("toeic"); };
     };
 
     /* ---------- 문항 만들기 ---------- */
+    // item: { type, id, html, say, opts(보기 글자), c(정답 번호), why, showOpts }
     var mk = {
-      read: function (no) { return { type: "read", no: no, content: '<p class="tz-dir">' + TYPES.read.dir + '</p><div class="tz-passage">' + esc(pick(READ)) + "</div>", prep: 45, resp: 45 }; },
-      picture: function (no) { var pc = pick(PICS); return { type: "picture", no: no, hint: pc.hint, content: '<p class="tz-dir">' + TYPES.picture.dir + '</p><img class="tz-pic" src="' + pc.src + '" alt="묘사할 사진">', prep: 45, resp: 30 }; },
-      respondSet: function (startNo) {
-        var s = pick(RESPOND);
-        return s.q.map(function (q, i) {
-          return { type: "respond", no: startNo + i, content: '<p class="tz-dir">' + esc(s.ctx) + '</p><div class="tz-q">' + esc(q) + "</div>", say: (i === 0 ? s.ctx + " " : "") + q, prep: 3, resp: i === 2 ? 30 : 15 };
-        });
+      p1: function (i) {
+        var s = P1[i], o = shuffle(s.a);
+        return { type: "p1", id: "p1-" + i, opts: o, c: o.indexOf(s.a[0]), showOpts: false,
+          html: '<img class="tz-pic" src="' + s.src + '" alt="Part 1 사진">',
+          say: "Look at the picture. " + o.map(function (x, k) { return L[k] + ". " + x; }).join(" "),
+          why: "사진 속 동작·상태와 맞는 문장. 사진에 없는 사물·동작이 들리면 바로 지우기." };
       },
-      infoSet: function (startNo) {
-        var s = pick(INFO);
-        return s.q.map(function (q, i) {
-          return { type: "info", no: startNo + i, content: '<div class="tz-info">' + s.table + '</div><div class="tz-q muted">(질문은 음성으로만 나옵니다)</div>',
-            readFirst: i === 0 ? 45 : 0, say: (i === 0 ? s.intro + " " : "") + q, twice: i === 2, prep: 3, resp: i === 2 ? 30 : 15, qText: q };
-        });
+      p2: function (i) {
+        var s = P2[i], o = shuffle(s.a);
+        return { type: "p2", id: "p2-" + i, opts: o, c: o.indexOf(s.a[0]), showOpts: false,
+          html: '<div class="tz-q muted">(질문과 보기는 음성으로만 나옵니다. 받아 적지 말고 들으면서 지우기)</div>',
+          say: s.q + " " + o.map(function (x, k) { return L[k] + ". " + x; }).join(" "),
+          script: s.q, why: s.why };
       },
-      opinion: function (no) { var q = pick(OPINION); return { type: "opinion", no: no, content: '<p class="tz-dir">' + TYPES.opinion.dir + '</p><div class="tz-q">' + esc(q) + "</div>", say: q, prep: 45, resp: 60 }; }
+      p5: function (i) {
+        var s = P5[i];
+        return { type: "p5", id: "p5-" + i, opts: s.o, c: s.c, showOpts: true, html: '<div class="tz-passage">' + esc(s.q) + "</div>", why: s.why };
+      },
+      p7: function (i) {
+        var s = P7[i];
+        return s.qs.map(function (q, k) {
+          return { type: "p7", id: "p7-" + i + "-" + k, opts: q.o, c: q.c, showOpts: true,
+            html: '<div class="tz-info"><b>' + esc(s.title) + '</b><div class="tz-doc">' + s.text + '</div></div><div class="tz-q"><b>' + (k + 1) + ".</b> " + esc(q.q) + "</div>", why: q.why };
+        });
+      }
+    };
+    var idx = function (n) { return Array.apply(null, Array(n)).map(function (_, i) { return i; }); };
+    var some = function (arr, n) { return shuffle(idx(arr.length)).slice(0, n); };
+    var buildType = function (t) {
+      if (t === "p7") return some(P7, 1).map(mk.p7)[0];
+      var n = { p1: 3, p2: 6, p5: 10 }[t];
+      return some({ p1: P1, p2: P2, p5: P5 }[t], n).map(mk[t]);
     };
     var buildMock = function () {
-      return [mk.read(1), mk.read(2), mk.picture(3), mk.picture(4)].concat(mk.respondSet(5), mk.infoSet(8), [mk.opinion(11)]);
+      return some(P1, 2).map(mk.p1).concat(some(P2, 5).map(mk.p2), some(P5, 8).map(mk.p5), mk.p7(some(P7, 1)[0]));
     };
-    var buildType = function (t) {
-      if (t === "read") return [mk.read(1), mk.read(2)];
-      if (t === "picture") return [mk.picture(3), mk.picture(4)];
-      if (t === "respond") return mk.respondSet(5);
-      if (t === "info") return mk.infoSet(8);
-      return [mk.opinion(11)];
+    var byId = function (id) {
+      var p = id.split("-"), t = p[0], i = +p[1];
+      if (t === "p7") return mk.p7(i)[+p[2]];
+      return mk[t](i);
     };
 
-    /* ---------- 실행 · 결과 ---------- */
-    var run = function (items, label) {
+    /* ---------- 실행 ---------- */
+    // mode: "mock" = 끝나고 채점, "practice" = 바로 해설
+    var run = function (items, label, mode) {
       aborted = false;
-      getMic().then(function (s) {
-        if (!s) D.msg("마이크", "마이크를 쓸 수 없어 녹음 없이 진행합니다.\n(브라우저 주소창의 마이크 권한을 확인하세요)", "🎙️");
-        var results = [], i = 0;
-        var next = function () {
-          if (aborted || i >= items.length) { review(results, label); return; }
-          var it = items[i++];
-          runItem(it).then(function (r) {
-            if (r) { r.hint = it.hint; r.q = it.qText || r.q; results.push(r); }
-            next();
-          });
-        };
-        next();
-      });
+      var answers = [], i = 0, t0 = Date.now();
+      clearInterval(clock);
+      var show = function () {
+        if (aborted) return;
+        if (i >= items.length) { finish(); return; }
+        var it = items[i], tp = TYPES[it.type];
+        body.innerHTML =
+          '<div class="tz-head"><b>' + esc(label) + "</b> · " + (i + 1) + " / " + items.length + ' <span class="muted">(' + tp.name + ')</span><span class="tz-clock" id="tz-clock"></span></div>' +
+          '<div class="tz-stage">' + it.html + "</div>" +
+          '<div class="tz-opts" id="tz-opts">' + it.opts.map(function (o, k) {
+            return '<button data-k="' + k + '"><b>(' + L[k] + ")</b> " + (it.showOpts ? esc(o) : "") + "</button>";
+          }).join("") + "</div>" +
+          '<div id="tz-fb"></div>' +
+          '<div class="row right">' + (tp.lc && mode === "practice" ? '<button id="tz-replay">🔊 다시 듣기</button>' : "") + '<button id="tz-stop">그만하기</button></div>';
+        tick();
+        $("#tz-stop").onclick = function () { aborted = true; if ("speechSynthesis" in window) speechSynthesis.cancel(); finish(); };
+        var rp = $("#tz-replay"); if (rp) rp.onclick = function () { speak(it.say, function () {}); };
+        if (tp.lc) speak(it.say, function () {});
+        $$("#tz-opts button").forEach(function (b) {
+          b.onclick = function () {
+            var k = +b.dataset.k, ok = k === it.c;
+            if ("speechSynthesis" in window) speechSynthesis.cancel();
+            answers.push({ it: it, k: k, ok: ok });
+            if (mode === "mock") { i++; show(); return; }
+            $$("#tz-opts button").forEach(function (x, j) {
+              x.disabled = true;
+              if (!it.showOpts) x.innerHTML = "<b>(" + L[j] + ")</b> " + esc(it.opts[j]);
+              if (j === it.c) x.classList.add("ok"); else if (j === k) x.classList.add("bad");
+            });
+            $("#tz-fb").innerHTML = '<div class="tz-why ' + (ok ? "ok" : "bad") + '">' + (ok ? "⭕ 정답!" : "❌ 오답 · 정답 (" + L[it.c] + ")") + " — " + esc(it.why) + '</div><div class="row right"><button id="tz-next">' + (i + 1 < items.length ? "다음 ▶" : "결과 보기") + "</button></div>";
+            $("#tz-next").onclick = function () { i++; show(); };
+          };
+        });
+      };
+      var tick = function () {
+        clearInterval(clock);
+        clock = setInterval(function () {
+          var c = $("#tz-clock"); if (!c) { clearInterval(clock); return; }
+          var s = Math.floor((Date.now() - t0) / 1000);
+          c.textContent = "⏱ " + String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+        }, 500);
+      };
+      var finish = function () {
+        clearInterval(clock);
+        if (!answers.length) { showTab("home"); return; }
+        var log = load(), wrong = store("dongos-toeic-wrong", []), today = dayKey();
+        answers.forEach(function (a) {
+          log.push({ d: today, type: a.it.type, id: a.it.id, ok: a.ok });
+          var w = wrong.indexOf(a.it.id);
+          if (!a.ok && w < 0) wrong.push(a.it.id);
+          if (a.ok && w >= 0) wrong.splice(w, 1);   // 다시 맞히면 오답 노트에서 뺀다
+        });
+        saveLog(log); put("dongos-toeic-wrong", wrong);
+        review(answers, label, Math.floor((Date.now() - t0) / 1000), items, mode);
+      };
+      show();
     };
-    var review = function (results, label) {
-      clearInterval(timer);
-      if (!results.length) { showTab("home"); return; }
-      var html = '<div class="tz-head"><b>' + esc(label) + ' 결과</b> · ' + results.length + '문항</div>';
-      if (!SR) html += '<p class="muted">이 브라우저는 음성 인식을 지원하지 않아 말한 내용이 글자로 나오지 않습니다. Chrome이나 Edge를 쓰세요.</p>';
-      results.forEach(function (r) {
-        var short = r.wpm < 90 && r.type !== "read";
-        html += '<fieldset class="tz-res"><legend>Q' + r.no + " · " + esc(r.title) + "</legend>" +
-          (r.q ? '<p class="muted">' + esc(r.q) + "</p>" : "") +
-          (r.url ? '<audio controls src="' + r.url + '"></audio>' : '<p class="muted">(녹음 없음)</p>') +
-          '<div class="tz-stats"><span>단어 <b>' + r.words + "</b></span><span>분당 <b>" + r.wpm + "</b>단어</span><span>군말 <b>" + r.fillers + "</b>회</span>" +
-          (short ? '<span class="warn">⚠️ 말이 적어요 (IH 이상은 분당 100단어 이상 권장)</span>' : "") + "</div>" +
-          '<div class="tz-text sunken">' + (r.text ? esc(r.text) : '<span class="muted">(인식된 말이 없습니다)</span>') + "</div>" +
-          (r.hint ? '<p class="muted">💡 묘사 포인트: ' + esc(r.hint) + "</p>" : "") +
-          "</fieldset>";
-      });
-      html += '<fieldset><legend>스스로 점검 (IH~AL)</legend>' +
-        ["답변 시간을 끝까지 채웠다", "3초 이상 멈춘 적이 없다", "이유와 구체적인 예시를 말했다", "접속사로 문장을 이어 말했다", "틀린 부분을 멈추지 않고 고쳐 말했다"].map(function (c, k) {
-          return '<div class="field-row"><input type="checkbox" id="tz-c' + k + '"><label for="tz-c' + k + '">' + c + "</label></div>";
-        }).join("") + "</fieldset>" +
-        '<div class="row right" style="margin-top: 8px;"><button id="tz-again">같은 유형 다시</button><button id="tz-home">처음으로</button></div>';
-      body.innerHTML = html;
+
+    var review = function (answers, label, secs, items, mode) {
+      var right = answers.filter(function (a) { return a.ok; }).length;
+      var html = '<div class="tz-dday"><div class="big">' + right + " / " + answers.length + '</div><div>' + esc(label) + " · 정답률 " + Math.round(right / answers.length * 100) + "% · " + Math.floor(secs / 60) + "분 " + (secs % 60) + "초</div></div>";
+      html += '<table class="tz-plan" style="margin-top: 8px;"><tr><th>#</th><th>파트</th><th>내 답</th><th>정답</th><th>해설</th></tr>' + answers.map(function (a, n) {
+        return '<tr><td>' + (n + 1) + "</td><td>" + TYPES[a.it.type].name.split(" ").slice(0, 2).join(" ") + '</td><td class="' + (a.ok ? "" : "warn") + '">' + L[a.k] + (a.ok ? " ⭕" : " ❌") + "</td><td>" + L[a.it.c] + "</td><td>" +
+          (a.it.script ? '<i class="en">' + esc(a.it.script) + "</i><br>" : "") + (a.it.showOpts ? "" : '<span class="en">' + esc(a.it.opts[a.it.c]) + "</span><br>") + esc(a.it.why) + "</td></tr>";
+      }).join("") + "</table>";
+      html += '<div class="row right" style="margin-top: 8px;"><button id="tz-again">한 번 더</button><button id="tz-home">처음으로</button></div>';
+      body.innerHTML = html; body.scrollTop = 0;
       $("#tz-home").onclick = function () { showTab("home"); };
-      $("#tz-again").onclick = function () { var t = results[0].type; run(label === "실전 모의고사" ? buildMock() : buildType(t), label); };
+      $("#tz-again").onclick = function () {
+        if (label === "미니 모의고사") run(buildMock(), label, "mock");
+        else if (label === "오답 다시 풀기") runWrong();
+        else run(buildType(items[0].type), label, mode);
+      };
+    };
+    var runWrong = function () {
+      var w = store("dongos-toeic-wrong", []);
+      if (!w.length) { D.msg("오답 노트", "다시 풀 오답이 없습니다. 🎉", "📝"); showTab("log"); return; }
+      run(shuffle(w).slice(0, 15).map(byId), "오답 다시 풀기", "practice");
     };
 
     /* ---------- 탭 화면 ---------- */
     var homeHtml = function () {
-      var left = daysLeft(), log = load(), today = dayKey();
+      var left = daysLeft(), log = load(), today = dayKey(), ex = examDate(), g = goal();
       var days = {}; log.forEach(function (l) { days[l.d] = true; });
       var streak = 0, d = new Date();
       if (!days[today]) d.setDate(d.getDate() - 1);
       while (days[dayKey(d)]) { streak++; d.setDate(d.getDate() - 1); }
-      var todayCnt = log.filter(function (l) { return l.d === today; }).length;
+      var todayLog = log.filter(function (l) { return l.d === today; });
+      var acc = log.length ? Math.round(log.filter(function (l) { return l.ok; }).length / log.length * 100) + "%" : "-";
       var plan = [
-        ["D-7", "진단 모의고사 1회 → 녹음 다시 듣고 약한 유형 체크"],
-        ["D-6", "Q1-2 낭독(끊어 읽기·억양) + Q3-4 사진 묘사 틀 외우기"],
-        ["D-5", "Q5-7: 15초·30초를 이유+예시로 꽉 채우기"],
-        ["D-4", "Q8-10: 표 읽기, Q9 정정 문장, Q10 요약 연습"],
-        ["D-3", "Q11: 만능 에피소드 3개를 입에 붙이기"],
-        ["D-2", "실전 모의고사 1회 + 약점 유형 집중"],
-        ["D-1", "가벼운 모의고사 + 표현 노트 소리 내어 복습 · 일찍 자기 (INTP 주의)"],
-        ["D-day", "시험장 일찍 도착 · 낭독 지문 하나로 목 풀기"]
+        ["1주차", "실전 모의고사 1회로 현재 점수 확인 · LC/RC 약한 파트 찾기"],
+        ["2주차", "Part 2 의문사 듣기 + Part 5 품사·동사 문법 매일 30문제"],
+        ["3주차", "Part 3·4 문제 먼저 읽기 연습 · Part 7 단일 지문 시간 재고 풀기"],
+        ["4주차", "실전 모의고사 2회 (시간 지키기) · 오답 노트 반복 · 시험 전날 일찍 자기 (INTP 주의)"]
       ];
-      var cur = left > 7 ? -1 : 7 - left;
-      return '<div class="tz-dday"><div class="big">' + (left > 0 ? "D-" + left : left === 0 ? "D-DAY" : "시험 끝!") + '</div><div>토익 스피킹 · ' + EXAM_DATE.replace(/-/g, ".") + ' · 목표 <b>' + GOAL + '</b></div></div>' +
-        '<div class="tz-stats" style="margin: 8px 0;"><span>오늘 푼 문항 <b>' + todayCnt + '</b></span><span>연속 <b>' + streak + '</b>일 🔥</span><span>전체 <b>' + log.length + '</b>문항</span></div>' +
-        '<fieldset><legend>7일 완성 계획</legend><table class="tz-plan">' + plan.map(function (p, i) {
+      var cur = left === null || left > 28 ? -1 : left < 0 ? 4 : 3 - Math.floor(left / 7);
+      return '<div class="tz-dday"><div class="big">' + (left === null ? "D-?" : left > 0 ? "D-" + left : left === 0 ? "D-DAY" : "시험 끝!") + '</div><div>토익 · ' + (ex ? ex.replace(/-/g, ".") : "시험일 미정") + " · 목표 <b>" + (g ? esc(g) : "?") + "</b></div></div>" +
+        '<div class="tz-badge">🎤 토익 스피킹 <b>' + SPEAKING.grade + "</b> 취득 (" + SPEAKING.date + ") ✅ 다음 퀘스트: 토익</div>" +
+        '<fieldset><legend>시험 정보</legend><div class="row"><label for="tz-exam">시험일</label><input type="date" id="tz-exam" value="' + esc(ex) + '"><label for="tz-goal">목표 점수</label><input type="text" id="tz-goal" size="6" placeholder="예: 850" value="' + esc(g) + '"><button id="tz-save">저장</button></div></fieldset>' +
+        '<div class="tz-stats" style="margin: 8px 0;"><span>오늘 푼 문항 <b>' + todayLog.length + '</b></span><span>연속 <b>' + streak + '</b>일 🔥</span><span>전체 <b>' + log.length + "</b>문항 · 정답률 <b>" + acc + "</b></span></div>" +
+        '<fieldset><legend>4주 완성 계획</legend><table class="tz-plan">' + plan.map(function (p, i) {
           return '<tr class="' + (i === cur ? "now" : i < cur ? "past" : "") + '"><td>' + p[0] + "</td><td>" + p[1] + "</td></tr>";
         }).join("") + "</table></fieldset>" +
-        '<div class="tz-start"><button id="tz-mock">🎧 실전 모의고사 (11문항 · 약 20분)</button></div>' +
-        '<fieldset><legend>유형별 연습</legend><div class="tz-types">' + Object.keys(TYPES).map(function (k) {
-          return '<button data-type="' + k + '">' + TYPES[k].name + "</button>";
+        '<div class="tz-start"><button id="tz-mock">📝 미니 모의고사 (LC 7 + RC 11문항)</button></div>' +
+        '<fieldset><legend>파트별 연습 (바로 해설)</legend><div class="tz-types">' + Object.keys(TYPES).map(function (k) {
+          return '<button data-type="' + k + '">' + (TYPES[k].lc ? "🎧 " : "📖 ") + TYPES[k].name + "</button>";
         }).join("") + "</div></fieldset>" +
-        '<p class="muted">🎙️ 마이크 권한을 허용하면 답변이 녹음되고, Chrome·Edge에서는 말한 내용이 글자로 나옵니다. 녹음은 이 브라우저 밖으로 나가지 않습니다.</p>';
+        '<p class="muted">🎧 LC 문제는 브라우저의 영어 음성으로 읽어 줍니다. 소리를 켜 두세요. 문제는 직접 만든 연습용이라 실제 시험보다 쉬울 수 있습니다.</p>';
     };
     var notesHtml = function () {
       return NOTES.map(function (n) { return "<fieldset><legend>" + n.t + "</legend><ul class=\"tz-notes\">" + n.items.map(function (i) { return "<li>" + i + "</li>"; }).join("") + "</ul></fieldset>"; }).join("");
     };
     var logHtml = function () {
-      var log = load();
-      if (!log.length) return '<p class="muted">아직 기록이 없습니다. 한 문항이라도 풀어 보세요.</p>';
-      var by = {}; log.forEach(function (l) { (by[l.type] = by[l.type] || []).push(l); });
-      var html = '<table class="tz-plan"><tr><th>유형</th><th>문항</th><th>평균 분당 단어</th><th>평균 군말</th></tr>';
+      var log = load(), wrong = store("dongos-toeic-wrong", []);
+      if (!log.length) return '<p class="muted">아직 기록이 없습니다. 한 문제라도 풀어 보세요.</p>';
+      var html = '<table class="tz-plan"><tr><th>파트</th><th>푼 문항</th><th>정답률</th></tr>';
       Object.keys(TYPES).forEach(function (k) {
-        var a = by[k]; if (!a) return;
-        var avg = function (f) { return Math.round(a.reduce(function (s, x) { return s + x[f]; }, 0) / a.length * 10) / 10; };
-        html += "<tr><td>" + TYPES[k].name + "</td><td>" + a.length + "</td><td>" + avg("wpm") + "</td><td>" + avg("fillers") + "</td></tr>";
+        var a = log.filter(function (l) { return l.type === k; }); if (!a.length) return;
+        var r = Math.round(a.filter(function (l) { return l.ok; }).length / a.length * 100);
+        html += "<tr><td>" + TYPES[k].name + "</td><td>" + a.length + '</td><td class="' + (r < 70 ? "warn" : "") + '">' + r + "%</td></tr>";
       });
-      html += "</table><fieldset><legend>최근 답변</legend>" + log.slice(-8).reverse().map(function (l) {
-        return '<p><b>' + l.d + " · " + TYPES[l.type].name + "</b> (" + l.words + "단어)<br><span class=\"muted\">" + esc(l.text || "(인식 없음)") + "</span></p>";
-      }).join("") + '</fieldset><div class="row right"><button id="tz-clear">기록 지우기</button></div>';
+      html += '</table><fieldset><legend>오답 노트 (' + wrong.length + "문항 · 다시 맞히면 빠집니다)</legend>" +
+        (wrong.length ? wrong.slice(-10).reverse().map(function (id) {
+          var it = byId(id);
+          return "<p><b>" + TYPES[it.type].name + "</b> · " + (it.script ? '<span class="en">' + esc(it.script) + "</span> → " : "") + '<span class="en">' + esc(it.opts[it.c]) + '</span><br><span class="muted">' + esc(it.why) + "</span></p>";
+        }).join("") : '<p class="muted">오답이 없습니다.</p>') +
+        '</fieldset><div class="row right"><button id="tz-wrong"' + (wrong.length ? "" : " disabled") + '>오답 다시 풀기</button><button id="tz-clear">기록 지우기</button></div>';
       return html;
     };
     var showTab = function (name) {
-      aborted = true; clearInterval(timer); if ("speechSynthesis" in window) speechSynthesis.cancel();
+      aborted = true; clearInterval(clock); if ("speechSynthesis" in window) speechSynthesis.cancel();
       tabs.forEach(function (t) { t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false"); });
       if (name === "home") {
         body.innerHTML = homeHtml();
-        $("#tz-mock").onclick = function () { run(buildMock(), "실전 모의고사"); };
-        $$("#toeic-body [data-type]").forEach(function (b) { b.onclick = function () { run(buildType(b.dataset.type), TYPES[b.dataset.type].name + " 연습"); }; });
+        $("#tz-save").onclick = function () { put("dongos-toeic-exam", $("#tz-exam").value); put("dongos-toeic-goal", $("#tz-goal").value.trim()); updTray(); showTab("home"); };
+        $("#tz-mock").onclick = function () { run(buildMock(), "미니 모의고사", "mock"); };
+        $$("#toeic-body [data-type]").forEach(function (b) { b.onclick = function () { run(buildType(b.dataset.type), TYPES[b.dataset.type].name + " 연습", "practice"); }; });
       } else if (name === "notes") body.innerHTML = notesHtml();
       else {
         body.innerHTML = logHtml();
-        var c = $("#tz-clear"); if (c) c.onclick = function () { saveLog([]); showTab("log"); };
+        var c = $("#tz-clear"); if (c) c.onclick = function () { saveLog([]); put("dongos-toeic-wrong", []); showTab("log"); };
+        var w = $("#tz-wrong"); if (w) w.onclick = runWrong;
       }
       body.scrollTop = 0;
     };
     tabs.forEach(function (t) { t.addEventListener("click", function (e) { e.preventDefault(); showTab(t.dataset.tab); }); });
     D.apps.toeic = function () { showTab("home"); };
     D.closers.toeic = function () {
-      aborted = true; clearInterval(timer);
+      aborted = true; clearInterval(clock);
       if ("speechSynthesis" in window) speechSynthesis.cancel();
-      if (recog) { recog._on = false; try { recog.stop(); } catch (e) {} }
-      if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }   // 마이크 끄기
     };
+    updTray();
     window.DONG.toeicDaysLeft = daysLeft;
   });
 })();
