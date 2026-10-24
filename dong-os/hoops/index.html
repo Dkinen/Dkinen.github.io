@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>The Basketball 00</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #1f1f20; overflow: hidden; }
+      #unity-canvas { display: block; width: 100%; height: 100%; background: #1f1f20; outline: none; }
+      #loading { position: fixed; inset: 0; display: grid; place-content: center; gap: 12px; color: #eee; font: 15px "Malgun Gothic", sans-serif; text-align: center; background: #1f1f20; }
+      #loading b { font-size: 22px; letter-spacing: 1px; }
+      #bar { width: 260px; height: 12px; border: 2px solid #eee; margin: 0 auto; }
+      #fill { width: 0; height: 100%; background: #f08a24; }
+      #loading small { color: #aaa; max-width: 320px; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="loading">
+      <b>🏀 The Basketball 00</b>
+      <div id="bar"><div id="fill"></div></div>
+      <span id="msg">불러오는 중... 0%</span>
+      <small>PC 키보드 또는 게임패드로 플레이해요. 화면을 한 번 클릭하면 키 입력이 들어가요.<br>노트북은 Esc → 노트북 배치를 고르세요.</small>
+    </div>
+    <script src="Build/hoops-build.loader.js"></script>
+    <script>
+      var canvas = document.querySelector("#unity-canvas"), loading = document.querySelector("#loading");
+      var msg = document.querySelector("#msg"), fill = document.querySelector("#fill");
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      createUnityInstance(canvas, {
+        arguments: [],
+        dataUrl: "Build/hoops-build.data.unityweb",
+        frameworkUrl: "Build/hoops-build.framework.js.unityweb",
+        codeUrl: "Build/hoops-build.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DongGOAT",
+        productName: "The Basketball 00",
+        productVersion: "1.0",
+        autoSyncPersistentDataPath: true, // 세이브(MyCAREER·키 설정 등)를 브라우저에 바로 저장
+      }, function (p) {
+        fill.style.width = Math.round(p * 100) + "%";
+        msg.textContent = "불러오는 중... " + Math.round(p * 100) + "%";
+      }).then(function () {
+        loading.remove();
+        canvas.focus();
+      }).catch(function (e) {
+        msg.textContent = "게임을 불러오지 못했어요: " + e;
+      });
+    </script>
+  </body>
+</html>

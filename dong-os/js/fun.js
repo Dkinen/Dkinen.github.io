@@ -1,5 +1,5 @@
 /* =========================================================
-   DONG OS 98 — D-day · 명함 · 할 일 · 트리플더블 챌린지 · 타자연습
+   DONG OS 98 — D-day · 명함 · 할 일 · 타자연습
                 · 오늘 뭐 마시지? · 화면 보호기 · INTP 오늘의 운세
    ========================================================= */
 (function () {
@@ -237,126 +237,6 @@
     });
     D.apps.typing = function () { $("#ty-best").textContent = load("dongos-typing-best", 0); tyMode(); };
 
-    /* =========================== 트리플더블 챌린지 =========================== */
-    (function () {
-      var cv = $("#td-canvas"), ctx = cv.getContext("2d"), W = cv.width, H = cv.height;
-      var EMOJI = '"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif', PIXEL = '"Galmuri11","Malgun Gothic",sans-serif';
-      var st, raf = null, last = 0;
-      var KINDS = { shot: "🏀 슛! 초록 구간에서 멈추세요", reb: "🙌 리바운드! 공이 손에 올 때 잡으세요", ast: "🤝 어시스트! 비어 있는 동료에게 패스" };
-      var reset = function () {
-        st = { phase: "ready", t: 60, pts: 0, reb: 0, ast: 0, task: null, msg: "", msgT: 0 };
-        var b = load("dongos-td-best", null);
-        $("#td-best").textContent = b ? "최고 " + b.pts + "점 " + b.reb + "리 " + b.ast + "어시" : "최고 기록 -";
-        $("#td-status").textContent = "시작 버튼 또는 Space";
-      };
-      var newTask = function () {
-        var r = Math.random(), k = r < 0.45 ? "shot" : r < 0.75 ? "reb" : "ast";
-        var t = { kind: k, p: 0, dir: 1, speed: 1.2 + Math.random() * 0.9 + (60 - st.t) / 60 };
-        if (k === "shot") { t.zone = [0.42 + Math.random() * 0.25, 0]; t.zone[1] = t.zone[0] + 0.12; }
-        if (k === "reb") { t.zone = [0.78, 0.92]; }
-        if (k === "ast") { t.open = Math.floor(Math.random() * 3); t.left = 1.3; }
-        st.task = t;
-      };
-      var say = function (m) { st.msg = m; st.msgT = 0.7; };
-      var act = function (choice) {
-        if (st.phase === "ready" || st.phase === "done") {
-          if (st.phase === "done" && performance.now() - st.doneAt < 1000) return;
-          reset(); st.phase = "play"; newTask(); $("#td-status").textContent = "경기 중"; return;
-        }
-        var t = st.task; if (!t) return;
-        if (t.kind === "ast") {
-          if (choice === undefined) return;
-          if (choice === t.open) { st.ast++; st.pts += Math.random() < 0.5 ? 2 : 0; say("어시스트! 🤝"); } else say("패스 미스...");
-        } else {
-          var ok = t.p >= t.zone[0] && t.p <= t.zone[1];
-          if (t.kind === "shot") { if (ok) { var three = Math.random() < 0.3; st.pts += three ? 3 : 2; say(three ? "3점슛! 🔥" : "득점! 🏀"); } else say("에어볼..."); }
-          else { if (ok) { st.reb++; say("리바운드! 🙌"); } else say("놓쳤다..."); }
-        }
-        newTask();
-      };
-      var finish = function () {
-        st.phase = "done"; st.doneAt = performance.now();
-        var td = st.pts >= 10 && st.reb >= 10 && st.ast >= 10;
-        var cats = [st.pts >= 10, st.reb >= 10, st.ast >= 10].filter(Boolean).length;
-        var title = td ? "🏆 트리플더블! 웨스트브룩 인증" : cats === 2 ? "더블더블. 웨스트브룩까지 한 걸음" : "평범한 하루. Why not 한 판 더?";
-        var b = load("dongos-td-best", null), score = st.pts + st.reb * 2 + st.ast * 2;
-        if (!b || score > b.pts + b.reb * 2 + b.ast * 2) save("dongos-td-best", { pts: st.pts, reb: st.reb, ast: st.ast });
-        $("#td-status").textContent = st.pts + "점 " + st.reb + "리바운드 " + st.ast + "어시스트";
-        D.msg("트리플더블 챌린지", st.pts + "점 · " + st.reb + "리바운드 · " + st.ast + "어시스트\n" + title + "\n\n다시 하려면 게임 화면이나 [시작]을 누르세요.", td ? "🏆" : "🏀");
-      };
-      var update = function (dt) {
-        if (st.phase !== "play") return;
-        st.t -= dt; st.msgT -= dt;
-        if (st.t <= 0) { st.t = 0; finish(); return; }
-        var t = st.task;
-        if (t.kind === "ast") { t.left -= dt; if (t.left <= 0) { say("턴오버..."); newTask(); } }
-        else { t.p += t.dir * t.speed * dt; if (t.p > 1) { t.p = 1; t.dir = -1; } if (t.p < 0) { t.p = 0; t.dir = 1; } }
-      };
-      var draw = function () {
-        ctx.fillStyle = "#c8833f"; ctx.fillRect(0, 0, W, H);
-        ctx.strokeStyle = "rgba(255,255,255,0.8)"; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.arc(W / 2, 40, 150, 0, Math.PI); ctx.stroke();
-        ctx.strokeRect(W / 2 - 60, 0, 120, 150);
-        // 골대: 백보드 + 림 + 그물
-        ctx.fillStyle = "#fff"; ctx.fillRect(W / 2 - 40, 6, 80, 6);
-        ctx.strokeStyle = "#ff5a00"; ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.ellipse(W / 2, 26, 18, 6, 0, 0, Math.PI * 2); ctx.stroke();
-        ctx.strokeStyle = "rgba(255,255,255,0.9)"; ctx.lineWidth = 1;
-        for (var nx = -15; nx <= 15; nx += 6) { ctx.beginPath(); ctx.moveTo(W / 2 + nx, 30); ctx.lineTo(W / 2 + nx * 0.6, 50); ctx.stroke(); }
-        ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        // 점수판
-        ctx.fillStyle = "rgba(0,0,0,0.75)"; ctx.fillRect(0, H - 50, W, 50);
-        ctx.font = "16px " + PIXEL; ctx.fillStyle = "#fff";
-        var cell = function (label, v, x) { ctx.fillStyle = v >= 10 ? "#7CFC00" : "#fff"; ctx.fillText(label + " " + v, x, H - 25); };
-        cell("득점", st.pts, W * 0.17); cell("리바운드", st.reb, W * 0.43); cell("어시스트", st.ast, W * 0.7);
-        ctx.fillStyle = "#ff0"; ctx.fillText("⏱ " + Math.ceil(st.t), W * 0.92, H - 25);
-        var t = st.task;
-        if (st.phase === "play" && t) {
-          ctx.font = "15px " + PIXEL; ctx.fillStyle = "#fff"; ctx.fillText(KINDS[t.kind], W / 2, 190);
-          if (t.kind === "ast") {
-            for (var i = 0; i < 3; i++) {
-              var x = W * (0.2 + i * 0.3);
-              ctx.font = "40px " + EMOJI; ctx.fillText(i === t.open ? "🙋" : "🙅", x, 270);
-              ctx.font = "13px " + PIXEL; ctx.fillStyle = "#fff"; ctx.fillText(["1", "2", "3"][i] + "번", x, 310);
-            }
-            ctx.fillStyle = "#fff"; ctx.fillRect(W * 0.2, 335, W * 0.6 * Math.max(0, t.left / 1.3), 8);
-          } else {
-            var bx = 40, bw = W - 80, by = 250;
-            ctx.fillStyle = "#222"; ctx.fillRect(bx, by, bw, 26);
-            ctx.fillStyle = "#3c3"; ctx.fillRect(bx + bw * t.zone[0], by, bw * (t.zone[1] - t.zone[0]), 26);
-            ctx.font = "26px " + EMOJI; ctx.fillText(t.kind === "shot" ? "🏀" : "🙌", bx + bw * t.p, by + 13);
-          }
-        }
-        var big = st.phase === "ready" ? "시작 버튼 / Space · 60초 안에 10-10-10!" : st.msgT > 0 ? st.msg : null;
-        if (big) {
-          ctx.font = "18px " + PIXEL; ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.fillRect(20, 370, W - 40, 40);
-          ctx.fillStyle = "#fff"; ctx.fillText(big, W / 2, 390);
-        }
-        ctx.textAlign = "left";
-      };
-      var loop = function (ts) {
-        var dt = last ? Math.max(0, Math.min(0.05, (ts - last) / 1000)) : 0; last = ts;
-        if (!$("#triple").classList.contains("minimized")) update(dt);
-        draw(); raf = requestAnimationFrame(loop);
-      };
-      document.addEventListener("keydown", function (e) {
-        var w = $("#triple"); if (!(w.classList.contains("open") && w.classList.contains("active"))) return;
-        if (e.code === "Space") { e.preventDefault(); act(); }
-        else if (["1", "2", "3"].indexOf(e.key) !== -1) { e.preventDefault(); act(+e.key - 1); }
-      });
-      cv.addEventListener("pointerdown", function (e) {
-        var r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width;
-        if (st.phase === "play" && st.task && st.task.kind === "ast") act(x < 0.35 ? 0 : x < 0.65 ? 1 : 2);
-        else act();
-      });
-      $$("#triple .pad").forEach(function (b) {
-        b.addEventListener("pointerdown", function (e) { e.preventDefault(); var k = b.dataset.key; if (k === "act") act(); else act(+k); });
-      });
-      D.apps.triple = function () { reset(); last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); };
-      D.closers.triple = function () { cancelAnimationFrame(raf); raf = null; };
-      reset();
-    })();
-
     /* =========================== 화면 보호기 =========================== */
     (function () {
       var saver = $("#saver"), cv = $("#saver-canvas"), ctx = cv.getContext("2d");
@@ -389,7 +269,7 @@
       ["mousemove", "keydown", "pointerdown", "touchstart", "wheel"].forEach(function (ev) { document.addEventListener(ev, stopSaver, { passive: true }); });
       setInterval(function () {
         idle++;
-        var playing = $$(".app.open.active").some(function (w) { return ["toeic", "media", "swim", "kart", "triple"].indexOf(w.id) !== -1; });
+        var playing = $$(".app.open.active").some(function (w) { return ["toeic", "media", "swim", "kart", "hoops"].indexOf(w.id) !== -1; });
         if (cfg.on && idle >= cfg.wait && !playing && !document.hidden) startSaver();
       }, 1000);
       // 제어판 설정

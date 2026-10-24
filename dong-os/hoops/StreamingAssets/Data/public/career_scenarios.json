@@ -1,0 +1,1918 @@
+{
+ "scenarios": [
+  {
+   "id": "hs_rookie",
+   "title": "그림자와 빛: 고교 3년",
+   "route": "1학년 입부 → 3학년 마지막 윈터컵 → NBA 드래프트",
+   "description": "중학 시절 전국을 휩쓴 다섯 천재 '오성 세대'가 각기 다른 명문고로 흩어진 해. {me}는 {school} 농구부에 입부한다. 목표는 단 하나 — 오성 세대를 쓰러뜨리고 전국 정상에 서는 것.",
+   "startRatio": 0.66,
+   "startStock": 15,
+   "ending": "draft",
+   "chooseSchool": true,
+   "defaultSchool": "CHR",
+   "stages": [
+    {
+     "id": "tryout",
+     "title": "1학년 1장. 입부 테스트",
+     "level": "1학년 · 교내 연습경기",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "{school} 농구부 체육관. 신입생 열두 명이 줄지어 서 있다."
+      },
+      {
+       "speaker": "주장",
+       "text": "1학년 대 2학년 미니게임. 이기라곤 안 한다. 하지만 한 명도 고개 숙이지 마."
+      },
+      {
+       "speaker": "해설",
+       "text": "구석에서 이미 땀에 젖은 1학년 하나가 조용히 공을 받아 든다. 아무도 그가 언제 왔는지 모른다."
+      },
+      {
+       "speaker": "주장",
+       "text": "신입, 테스트 전에 각오 한마디 해 봐.",
+       "choices": [
+        {
+         "text": "오성 세대를 전부 쓰러뜨리겠습니다!",
+         "reply": [
+          {
+           "speaker": "주장",
+           "text": "하하, 크게 나오네. …마음에 든다."
+          }
+         ],
+         "fame": 5,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": -2
+        },
+        {
+         "text": "팀에 도움이 되는 선수가 되겠습니다.",
+         "reply": [
+          {
+           "speaker": "감독",
+           "text": "좋은 대답이다. 농구는 다섯 명이 하는 거니까."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 8,
+         "grade": 3
+        },
+        {
+         "text": "…말보다 플레이로 보여 드리죠.",
+         "reply": [
+          {
+           "speaker": "주장",
+           "text": "건방진데? 좋아, 기대하지."
+          }
+         ],
+         "fame": 0,
+         "sp": 3,
+         "chemistry": 0,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B- 이상으로 입부 합격."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 68
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "감독",
+       "text": "합격이다, {me}. 오늘부터 너도 {school}의 일원이야."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "같이 오성 세대를 이겨요. …제가 그 사람들을 제일 잘 아니까요."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "기록은 아쉽지만 근성은 봤다. 입부는 허락한다. 대신 내일부터 새벽 훈련이다."
+      }
+     ],
+     "stockGood": 5,
+     "stockBad": 0,
+     "oppTier": 60,
+     "opponents": [
+      "2학년 선배팀"
+     ]
+    },
+    {
+     "id": "practice",
+     "title": "1학년 2장. 오성 세대와의 첫 만남",
+     "level": "1학년 · 연습시합",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "{team:HNS}와의 연습시합. 상대 벤치에 초록 머리의 선수가 손가락 테이핑을 하고 있다."
+      },
+      {
+       "speaker": "{ace:HNS}",
+       "text": "오늘 아침 슛 3천 개를 채웠다. 너희에게 질 이유가 없다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "슛은 들어가요. 하지만 공이 그 손에 가지 않으면 못 던지죠."
+      },
+      {
+       "speaker": "{ace:HNS}",
+       "text": "{me}라고 했나. 너는 하루에 슛 몇 개 던지지?",
+       "choices": [
+        {
+         "text": "3천 개? 난 그 이상 던질 거야.",
+         "reply": [
+          {
+           "speaker": "{ace:HNS}",
+           "text": "…말로는 누구나 할 수 있다."
+          }
+         ],
+         "fame": 2,
+         "sp": 4,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "(대답 대신 {ace:CHR}에게) 오늘 패스 잘 부탁해.",
+         "reply": [
+          {
+           "speaker": "{ace:CHR}",
+           "text": "네. 제가 {me}를 보이게 만들게요."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 10,
+         "grade": 0
+        },
+        {
+         "text": "오늘 네 슛, 전부 막아 주지.",
+         "reply": [
+          {
+           "speaker": "{ace:HNS}",
+           "text": "흥. 해 보던가."
+          }
+         ],
+         "fame": 4,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": -2
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 승리 또는 평점 B+ 이상."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 1
+      },
+      {
+       "type": "avgGrade",
+       "value": 75
+      }
+     ],
+     "goalMode": "any",
+     "outroGood": [
+      {
+       "speaker": "{ace:HNS}",
+       "text": "…다음엔 진심으로 던지겠다. {me}, 이름 기억해 두지."
+      },
+      {
+       "speaker": "감독",
+       "text": "오성 세대 상대로 이 정도면 됐다. 인터하이 예선이 다음 달이다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "{ace:HNS}",
+       "text": "예상대로다. 연습량이 다르면 결과도 다르다. 그게 전부야."
+      },
+      {
+       "speaker": "{me}",
+       "text": "…다음엔 안 진다."
+      }
+     ],
+     "stockGood": 6,
+     "stockBad": 1,
+     "oppTier": 60,
+     "opponentIds": [
+      "HNS"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "interhigh",
+     "title": "1학년 3장. 인터하이 지역 예선",
+     "level": "1학년 · 인터하이 예선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 3,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "전국 대회 인터하이로 가는 길. 지역 예선은 한 번 지면 끝이다."
+      },
+      {
+       "speaker": "감독",
+       "text": "1회전 {team:HDO}. 거친 팀이다. 다치지 마라. 그리고 이겨라."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 2승 이상 (지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 2
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "지역 예선 돌파. 창단 2년 차 {school}의 이름이 처음으로 신문 구석에 실렸다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "여기까지다. …울지 마. 우리에겐 겨울이 남았다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "윈터컵에서 갚아요. 전부."
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": -2,
+     "oppTier": 60,
+     "opponentIds": [
+      "HDO",
+      "NOU",
+      "BKH"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "camp",
+     "title": "1학년 4장. 여름 합숙",
+     "level": "1학년 · 합숙 연습시합",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 2,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "바닷가 합숙소. 낮에는 모래사장 대시, 밤에는 같은 체육관을 쓰는 강호들과 연습시합."
+      },
+      {
+       "speaker": "{ace:SDA}",
+       "text": "합숙까지 와서 연습시합이라니… 귀찮지만, 질 생각은 없어."
+      },
+      {
+       "speaker": "{ace:GMS}",
+       "text": "{me}라고 했지? 방금 그 드리블, 재밌던데. 나도 한번 해 볼까?"
+      },
+      {
+       "speaker": "{ace:GMS}",
+       "text": "네 드리블, 다음 경기에서 내가 쓰면 어떡할래?",
+       "choices": [
+        {
+         "text": "따라 할 수 있으면 해 봐. 원본은 이길 수 없어.",
+         "reply": [
+          {
+           "speaker": "{ace:GMS}",
+           "text": "하하, 그 말 기억해 둘게."
+          }
+         ],
+         "fame": 3,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "그럼 같이 연습하자. 나도 네 기술 배우게.",
+         "reply": [
+          {
+           "speaker": "{ace:GMS}",
+           "text": "…너 재밌는 녀석이네. 좋아."
+          }
+         ],
+         "fame": 0,
+         "sp": 5,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "(무시하고 묵묵히 대시를 계속한다)",
+         "reply": [
+          {
+           "speaker": "감독",
+           "text": "좋다. 지금은 몸을 만드는 시간이다."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 3
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평균 15득점 이상 또는 평점 A- 이상."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgPoints",
+       "value": 15
+      },
+      {
+       "type": "avgGrade",
+       "value": 80
+      }
+     ],
+     "goalMode": "any",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "합숙이 끝날 무렵, {me}의 플레이는 확실히 달라져 있었다. 스카우트 노트에 이름이 적히기 시작한다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "벽을 느꼈나? 좋다. 벽을 아는 놈이 벽을 넘는다."
+      }
+     ],
+     "stockGood": 7,
+     "stockBad": 1,
+     "oppTier": 60,
+     "opponentIds": [
+      "SDA",
+      "GMS"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "wintercup",
+     "title": "1학년 5장. 윈터컵",
+     "level": "1학년 · 윈터컵 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "겨울, 전국 고교 농구의 정점 윈터컵. 오성 세대가 있는 학교가 전부 모였다."
+      },
+      {
+       "speaker": "{ace:NOU}",
+       "text": "요즘 농구가 좀 지루했거든. 너희는 다르길 바란다."
+      },
+      {
+       "speaker": "{ace:BKH}",
+       "text": "페인트존은 내 영역이다. 한 발짝도 못 들어온다."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "(전술 노트를 덮으며) 너희 패턴은 전부 분석했다. 남은 건 확인뿐이다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "{me}, 오성 세대 다섯 명이 전부 한 코트에 모일 일은 없어요. 그러니까 한 명씩 쓰러뜨리면 돼요."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "결승까지 가면… 그 사람과 다시 만나요. {me}는 어떻게 할 거예요?",
+       "choices": [
+        {
+         "text": "{ace:CHR}, 네 패스만 믿는다.",
+         "reply": [
+          {
+           "speaker": "{ace:CHR}",
+           "text": "…네. 반드시 닿게 할게요."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 10,
+         "grade": 0
+        },
+        {
+         "text": "다섯 명 전부 내가 쓰러뜨린다.",
+         "reply": [
+          {
+           "speaker": "{ace:CHR}",
+           "text": "{me}다운 대답이네요."
+          }
+         ],
+         "fame": 6,
+         "sp": 0,
+         "chemistry": -5,
+         "grade": 0
+        },
+        {
+         "text": "이기든 지든, 이 팀으로 끝까지 간다.",
+         "reply": [
+          {
+           "speaker": "감독",
+           "text": "그걸로 충분하다."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 5,
+         "grade": 4
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "16강 → 8강 → 4강 → 결승. 목표: 결승 진출 이상 (3승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 3
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "윈터컵이 끝났다. 전국이 {school}과 {me}의 이름을 기억한다."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "…분석이 틀렸군. 숫자에 없는 게 있었어. {me}, 다음엔 다른 무대에서 보자."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "고개 들어라. 우리가 여기까지 올 거라고 믿은 사람은 이 체육관 안에만 있었다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "그 사람들 중에 {me}가 제일 먼저 믿었어요."
+      }
+     ],
+     "stockGood": 14,
+     "stockBad": 3,
+     "oppTier": 60,
+     "opponentIds": [
+      "GMS",
+      "NOU",
+      "BKH",
+      "JWL"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "dream1",
+     "title": "특별편. 드림 매치 — NBA 초청 경기",
+     "level": "초청 친선 경기",
+     "team": {
+      "leagueId": "$ALLSTAR",
+      "name": "고교 선발팀",
+      "abbr": "ALL",
+      "primary": "#1A1A1A",
+      "secondary": "#F2C14E",
+      "arena": "국립 체육관",
+      "tier": 80
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "겨울방학. NBA 팀이 아시아 투어 중 고교 선발팀과 친선 경기를 연다는 소식이 날아들었다."
+      },
+      {
+       "speaker": "해설",
+       "text": "선발팀 명단에 오성 세대 전원 — 그리고 {me}의 이름이 있다."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "적이었던 놈들과 한 팀이라. …오늘만은 내 지시를 따라라."
+      },
+      {
+       "speaker": "{ace:NOU}",
+       "text": "드디어 재밌는 상대가 왔네."
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "Kids, have fun. (애들아, 즐기고 가.)"
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "Hey kid. You nervous? (긴장되냐, 꼬마?)",
+       "choices": [
+        {
+         "text": "We're not here to have fun. We're here to win. (이기러 왔습니다.)",
+         "reply": [
+          {
+           "speaker": "상대 NBA 선수",
+           "text": "Ha! I like this kid. (하, 이 녀석 마음에 드는데.)"
+          }
+         ],
+         "fame": 8,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "(고개 숙여 정중하게 인사한다)",
+         "reply": [
+          {
+           "speaker": "상대 NBA 선수",
+           "text": "Respect. Let's play. (예의 바르군. 해 보자.)"
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 3
+        },
+        {
+         "text": "…엄청 긴장돼요. 그래도 전력으로 갑니다.",
+         "reply": [
+          {
+           "speaker": "{ace:NOU}",
+           "text": "솔직하네. 나도 좀 떨린다."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 6,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B 이상 (승패보다 한계를 보여 줄 것)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 72
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "점수 차는 컸다. 하지만 경기 후 NBA 선수 한 명이 {me}에게 다가와 유니폼을 내밀었다."
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "Keep going. See you someday. (계속해. 언젠가 보자.)"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "세계의 벽은 높았다. 라커룸에서 오성 세대 누구도 말을 하지 않았다."
+      },
+      {
+       "speaker": "{ace:HNS}",
+       "text": "…연습량을 두 배로 늘린다. 너도 그래라, {me}."
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": 2,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "nba:OKC",
+      "nba:DEN"
+     ]
+    },
+    {
+     "id": "mentor_zero",
+     "title": "특별편. 전속력의 전설",
+     "level": "초청 경기 · 은퇴 레전드의 팀",
+     "team": {
+      "leagueId": "$ALLSTAR",
+      "name": "고교 선발팀",
+      "abbr": "ALL",
+      "primary": "#1A1A1A",
+      "secondary": "#F2C14E",
+      "arena": "국립 체육관",
+      "tier": 82
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "은퇴한 지 반년. 시즌 평균 트리플더블, 정규시즌 MVP — 전설의 포인트가드가 자신만의 팀 {team:nba:WHY}을(를) 이끌고 고교 선발팀에 도전장을 내밀었다."
+      },
+      {
+       "speaker": "해설",
+       "text": "경기 전 몸풀기. 그는 혼자 코트 끝에서 끝까지 전속력으로 왕복하고 있었다. 한 번도 걷지 않았다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "Full speed. Every possession. That's the only way I know. (전속력. 매 포제션. 내가 아는 방법은 그것뿐이다.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "Kid. You scared? (꼬마, 겁나?)",
+       "choices": [
+        {
+         "text": "Why not? 붙어 봅시다.",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "(씩 웃는다) …I like that. (마음에 드는군.)"
+          }
+         ],
+         "fame": 6,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "리바운드부터 따내겠습니다.",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "Good. Guards who rebound win games. (좋아. 리바운드하는 가드가 이긴다.)"
+          }
+         ],
+         "fame": 0,
+         "sp": 3,
+         "chemistry": 0,
+         "grade": 3
+        },
+        {
+         "text": "(말없이 신발 끈을 다시 묶는다)",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "That's it. Talk is cheap. (그거야. 말은 싸지.)"
+          }
+         ],
+         "fame": 0,
+         "sp": 4,
+         "chemistry": 3,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B- 이상. 그는 경기 내내 당신을 지켜볼 것이다."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 70
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "경기 후. 라커룸 문이 열리고, {ace:nba:WHY}이(가) 땀도 닦지 않은 채 들어왔다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "You play like me. You never stop. (넌 나처럼 뛰는군. 절대 멈추지 않아.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "From today, I'm your mentor. Every summer, you train with me. …Why not? (오늘부터 내가 네 멘토다. 여름마다 나랑 훈련한다. …안 될 거 있어?)"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "경기 후. 졌다. 고개를 숙인 당신 앞에 {ace:nba:WHY}이(가) 섰다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "You lost. But you never stopped running. That's enough for me. (졌지. 하지만 넌 끝까지 뛰었다. 난 그거면 충분해.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "I'll teach you the rest. From today, I'm your mentor. (나머지는 내가 가르쳐 주지. 오늘부터 내가 네 멘토다.)"
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": 4,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "nba:WHY"
+     ],
+     "mentor": "{ace:nba:WHY}",
+     "rewardSkill": "why_not|full_throttle",
+     "rewardAttrs": "speed:3,dunk:3,defRebound:4,stamina:3"
+    },
+    {
+     "id": "y2_rookies",
+     "title": "2학년 1장. 새로운 후배들",
+     "level": "2학년 · 교내 연습경기",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "봄. 작년 윈터컵 소식을 듣고 {school}에 신입 부원이 몰려왔다."
+      },
+      {
+       "speaker": "감독",
+       "text": "{me}, 이번엔 네가 선배다. 1학년들한테 우리가 어떤 팀인지 보여줘."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B+ 이상."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 75
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "1학년 후배",
+       "text": "선배… 저도 저렇게 되고 싶어요!"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "선배가 됐다고 힘이 들어갔군. 원래대로 해."
+      }
+     ],
+     "stockGood": 4,
+     "stockBad": 0,
+     "oppTier": 55,
+     "opponents": [
+      "1학년 신입팀"
+     ]
+    },
+    {
+     "id": "y2_interhigh",
+     "title": "2학년 2장. 인터하이 본선",
+     "level": "2학년 · 인터하이 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 3,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "작년엔 예선에서 떨어졌던 인터하이. 올해는 본선 무대다."
+      },
+      {
+       "speaker": "{ace:SDA}",
+       "text": "작년 합숙 때 그 녀석이네. 귀찮게 컸구나."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 2승 이상 (지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 2
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "인터하이 4강. {school}은 이제 '돌풍'이 아니라 '강호'로 불린다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "괜찮다. 겨울이 있다. 늘 그랬듯이."
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": -2,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "SDA",
+      "HNS",
+      "JWL"
+     ]
+    },
+    {
+     "id": "y2_wintercup",
+     "title": "2학년 3장. 윈터컵 — 설욕전",
+     "level": "2학년 · 윈터컵 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "다시 겨울. 작년 결승에서 만났던 팀들이 이번엔 모두 {school}을 노린다."
+      },
+      {
+       "speaker": "{ace:BKH}",
+       "text": "작년엔 방심했다. 올해 페인트존엔 한 발짝도 못 들어온다."
+      },
+      {
+       "speaker": "{ace:GMS}",
+       "text": "작년에 본 네 무브, 1년 동안 연습했어. 이번엔 내가 더 잘해."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 결승 진출 이상 (3승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 3
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "윈터컵 결승 진출. 전국 고교 농구 잡지 표지에 {me}의 얼굴이 실렸다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "{ace:CHR}",
+       "text": "내년이 마지막이에요. 그때는 꼭."
+      }
+     ],
+     "stockGood": 12,
+     "stockBad": 2,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "NOU",
+      "BKH",
+      "GMS",
+      "JWL"
+     ]
+    },
+    {
+     "id": "y3_interhigh",
+     "title": "3학년 1장. 마지막 여름",
+     "level": "3학년 · 인터하이 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "3학년. 다섯 천재도, {me}도 마지막 여름이다."
+      },
+      {
+       "speaker": "감독",
+       "text": "주장 {me}. 이 팀의 마지막 여름을 네가 이끌어라."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 인터하이 우승 (4승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 4
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "인터하이 우승. 창단 4년 차 {school}이 처음으로 전국 정상에 섰다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "여름은 또 끝났다. 하지만 이번엔 아무도 고개를 숙이지 않았다. 겨울이 남았으니까."
+      }
+     ],
+     "stockGood": 12,
+     "stockBad": 0,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "BKH",
+      "HNS",
+      "SDA",
+      "JWL"
+     ]
+    },
+    {
+     "id": "dream2",
+     "title": "특별편. 엑스트라 게임 — NBA 정예와의 재대결",
+     "level": "초청 친선 경기",
+     "team": {
+      "leagueId": "$ALLSTAR",
+      "name": "고교 선발팀",
+      "abbr": "ALL",
+      "primary": "#1A1A1A",
+      "secondary": "#F2C14E",
+      "arena": "국립 체육관",
+      "tier": 80
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "2년 전 고교 선발팀을 크게 이겼던 NBA 팀이 다시 찾아왔다. 이번엔 정예 멤버다."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "2년 전과는 다르다. 이번엔 이긴다. …{me}, 너도 같은 생각이지?"
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "다섯 명의 천재가 처음으로 '팀'이 되는 경기예요."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 승리 또는 평점 A- 이상."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 1
+      },
+      {
+       "type": "avgGrade",
+       "value": 80
+      }
+     ],
+     "goalMode": "any",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "종료 버저. 체육관이 무너질 듯한 함성. 고교생들이 NBA 정예를 상대로 기적을 썼다."
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "...Unbelievable. Who ARE these kids? (말도 안 돼. 이 애들 대체 누구야?)"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "졌지만 2년 전과는 달랐다. 마지막까지 점수 차는 한 자릿수였다."
+      }
+     ],
+     "stockGood": 10,
+     "stockBad": 3,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "nba:BOS",
+      "nba:OKC"
+     ]
+    },
+    {
+     "id": "y3_wintercup",
+     "title": "3학년 2장. 마지막 겨울, 윈터컵",
+     "level": "3학년 · 윈터컵 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "고교 농구 마지막 대회. 대진표의 끝, 결승에서 기다리는 건 오성 세대의 주장."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "3년 동안 기다렸다. 오늘 끝을 내자, {me}."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "이게 우리의 마지막 경기예요. …후회 없이 뛰어요."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "마지막이다. 하고 싶은 말은?",
+       "choices": [
+        {
+         "text": "끝을 내자. 오늘 이기는 건 우리다.",
+         "reply": [
+          {
+           "speaker": "{ace:JWL}",
+           "text": "…좋다. 전력으로 상대해 주지."
+          }
+         ],
+         "fame": 5,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "3년 동안 고마웠다, 라이벌.",
+         "reply": [
+          {
+           "speaker": "{ace:JWL}",
+           "text": "(잠시 놀란 얼굴) …나도다."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 5,
+         "grade": 3
+        },
+        {
+         "text": "(말없이 손을 내민다)",
+         "reply": [
+          {
+           "speaker": "해설",
+           "text": "두 사람은 짧게 악수했다. 관중석이 술렁인다."
+          }
+         ],
+         "fame": 3,
+         "sp": 0,
+         "chemistry": 3,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 우승 (4승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 4
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "윈터컵 우승. {me}는 대회 MVP로 뽑혔다. 시상대에서 바라본 관중석에, 3년 전 텅 비어 있던 체육관의 기억이 겹쳤다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "준우승. 눈물이 멈추지 않았다. 하지만 3년 전 그 체육관에서 이 자리까지 올 거라고 믿은 사람은 아무도 없었다."
+      }
+     ],
+     "stockGood": 14,
+     "stockBad": 4,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "GMS",
+      "SDA",
+      "NOU",
+      "JWL"
+     ]
+    }
+   ],
+   "epilogue": [
+    {
+     "speaker": "해설",
+     "text": "졸업식 날. 텅 빈 {school} 체육관에 마지막으로 혼자 서 본다."
+    },
+    {
+     "speaker": "{ace:CHR}",
+     "text": "{me}, 고마웠어요. 3년 동안 제 패스를 받아 줘서."
+    },
+    {
+     "speaker": "감독",
+     "text": "넌 이 체육관을 바꿨다. 이제 네 농구로 세상을 바꿔 봐라."
+    },
+    {
+     "speaker": "해설",
+     "text": "— 그림자와 빛: 고교 3년, 끝."
+    }
+   ]
+  },
+  {
+   "id": "hs_prodigy",
+   "title": "오성 세대: 천재의 3년",
+   "route": "명문고 에이스 1학년 → 3학년 마지막 결승 → NBA 드래프트",
+   "description": "{me}는 오성 세대와 같은 중학교에서 뛴 또 하나의 천재. 명문 {school}에 입학해 1학년부터 주전을 꿰찼다. 모두가 우승을 당연하게 여긴다. 그 기대가 무게가 되기 전에 증명하라.",
+   "startRatio": 0.8,
+   "startStock": 62,
+   "ending": "draft",
+   "chooseSchool": true,
+   "defaultSchool": "JWL",
+   "schoolOptions": [
+    "BKH",
+    "JWL",
+    "HNS",
+    "SDA",
+    "NOU",
+    "GMS"
+   ],
+   "stages": [
+    {
+     "id": "debut",
+     "title": "1학년 1장. 왕의 데뷔",
+     "level": "1학년 · 지역 리그",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 2,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "{school} 체육관에 신입생 데뷔전을 보러 온 관중이 2층 난간까지 들어찼다."
+      },
+      {
+       "speaker": "감독",
+       "text": "{school}에 '1학년'이란 핑계는 없다. 이기는 게 기본이다."
+      },
+      {
+       "speaker": "감독",
+       "text": "{school}의 1학년 에이스. 기자들이 소감을 묻는다.",
+       "choices": [
+        {
+         "text": "전부 이기겠습니다. 당연한 결과죠.",
+         "reply": [
+          {
+           "speaker": "기자",
+           "text": "자신감이 대단하군요! 내일 1면입니다."
+          }
+         ],
+         "fame": 8,
+         "sp": 0,
+         "chemistry": -4,
+         "grade": 0
+        },
+        {
+         "text": "선배들 덕분입니다. 팀원들 이름부터 외우겠습니다.",
+         "reply": [
+          {
+           "speaker": "주장",
+           "text": "…얘 생각보다 괜찮은 놈이네."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 10,
+         "grade": 3
+        },
+        {
+         "text": "소감은 없습니다. 경기로 보여 드리죠.",
+         "reply": [
+          {
+           "speaker": "기자",
+           "text": "…짧군요."
+          }
+         ],
+         "fame": 0,
+         "sp": 4,
+         "chemistry": 0,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평균 22득점 이상 + 2승."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgPoints",
+       "value": 22
+      },
+      {
+       "type": "wins",
+       "value": 2
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "압도적인 데뷔. 월간 농구 잡지 표지에 {me}의 얼굴이 실린다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "감독",
+       "text": "이겨도 기록이 그거면 의미가 없다. 우리 학교의 기준은 높아."
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": -6,
+     "oppTier": 60,
+     "opponentIds": [
+      "HDO",
+      "NOU"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "interhigh",
+     "title": "1학년 2장. 인터하이 — 오성 세대 맞대결",
+     "level": "1학년 · 인터하이 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 3,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "여름의 전국 대회. 대진표에 오성 세대의 학교 이름이 줄지어 있다."
+      },
+      {
+       "speaker": "{ace:HNS}",
+       "text": "중학교 이후 처음이군. 이번엔 같은 편이 아니다."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 우승 (3승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 3
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "인터하이 우승. 하지만 결승이 끝난 뒤 {ace:CHR}가 관중석에서 조용히 지켜보고 있었다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "겨울에 만나요. 그땐 우리가 이길 거예요."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "충격의 탈락. 신문은 '오성 세대 시대의 균열'이라고 썼다."
+      }
+     ],
+     "stockGood": 10,
+     "stockBad": -8,
+     "oppTier": 60,
+     "opponentIds": [
+      "CHR",
+      "HNS",
+      "JWL",
+      "BKH"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "wintercup",
+     "title": "1학년 3장. 윈터컵 — 그림자의 반격",
+     "level": "1학년 · 윈터컵 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 3,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "윈터컵. 여름 대회에서 무명이던 {team:CHR}가 돌풍을 일으키며 올라오고 있다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "오성 세대의 농구는 혼자서 이기는 농구예요. 우리는 다섯 명이 이기는 농구를 할 거예요."
+      },
+      {
+       "speaker": "{me}",
+       "text": "…증명해 봐. 내가 틀렸다면."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "오성 세대의 농구로, 정말 행복했어요?",
+       "choices": [
+        {
+         "text": "이기면 그걸로 충분하다.",
+         "reply": [
+          {
+           "speaker": "{ace:CHR}",
+           "text": "그럼 오늘, 그 답을 바꿔 드릴게요."
+          }
+         ],
+         "fame": 4,
+         "sp": 0,
+         "chemistry": -3,
+         "grade": 0
+        },
+        {
+         "text": "…솔직히 모르겠다.",
+         "reply": [
+          {
+           "speaker": "{ace:CHR}",
+           "text": "그럼 오늘 같이 찾아봐요. 코트 위에서."
+          }
+         ],
+         "fame": 0,
+         "sp": 0,
+         "chemistry": 8,
+         "grade": 0
+        },
+        {
+         "text": "(대답하지 않고 공을 튀긴다)",
+         "reply": [
+          {
+           "speaker": "해설",
+           "text": "드리블 소리만 체육관에 울렸다."
+          }
+         ],
+         "fame": 0,
+         "sp": 3,
+         "chemistry": 0,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 우승 (3승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 3
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "윈터컵 우승. 고교 농구의 왕은 {me}였다. 시상대 위에서, 처음으로 팀원들의 얼굴이 보였다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "{ace:CHR}",
+       "text": "좋은 경기였어요. …이제 같이 뛰는 것도 재밌지 않아요?"
+      },
+      {
+       "speaker": "{me}",
+       "text": "(처음으로 웃는다) 다음엔 같은 편으로 뛰어 보고 싶군."
+      }
+     ],
+     "stockGood": 14,
+     "stockBad": 0,
+     "oppTier": 60,
+     "opponentIds": [
+      "SDA",
+      "NOU",
+      "CHR"
+     ],
+     "opponents": [
+      "연습 상대"
+     ]
+    },
+    {
+     "id": "dream_p",
+     "title": "특별편. 드림 매치 — NBA 초청 경기",
+     "level": "초청 친선 경기",
+     "team": {
+      "leagueId": "$ALLSTAR",
+      "name": "고교 선발팀",
+      "abbr": "ALL",
+      "primary": "#1A1A1A",
+      "secondary": "#F2C14E",
+      "arena": "국립 체육관",
+      "tier": 80
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "겨울방학. NBA 팀이 아시아 투어 중 고교 선발팀과 친선 경기를 연다는 소식이 날아들었다."
+      },
+      {
+       "speaker": "해설",
+       "text": "선발팀 명단에 오성 세대 전원 — 그리고 {me}의 이름이 있다."
+      },
+      {
+       "speaker": "{ace:JWL}",
+       "text": "적이었던 놈들과 한 팀이라. …오늘만은 내 지시를 따라라."
+      },
+      {
+       "speaker": "{ace:NOU}",
+       "text": "드디어 재밌는 상대가 왔네."
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "Kids, have fun. (애들아, 즐기고 가.)"
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B 이상 (승패보다 한계를 보여 줄 것)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 72
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "점수 차는 컸다. 하지만 경기 후 NBA 선수 한 명이 {me}에게 다가와 유니폼을 내밀었다."
+      },
+      {
+       "speaker": "상대 NBA 선수",
+       "text": "Keep going. See you someday. (계속해. 언젠가 보자.)"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "세계의 벽은 높았다. 라커룸에서 오성 세대 누구도 말을 하지 않았다."
+      },
+      {
+       "speaker": "{ace:HNS}",
+       "text": "…연습량을 두 배로 늘린다. 너도 그래라, {me}."
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": 2,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "nba:OKC",
+      "nba:DEN"
+     ]
+    },
+    {
+     "id": "mentor_zero",
+     "title": "특별편. 전속력의 전설",
+     "level": "초청 경기 · 은퇴 레전드의 팀",
+     "team": {
+      "leagueId": "$ALLSTAR",
+      "name": "고교 선발팀",
+      "abbr": "ALL",
+      "primary": "#1A1A1A",
+      "secondary": "#F2C14E",
+      "arena": "국립 체육관",
+      "tier": 82
+     },
+     "games": 1,
+     "elimination": false,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "은퇴한 지 반년. 시즌 평균 트리플더블, 정규시즌 MVP — 전설의 포인트가드가 자신만의 팀 {team:nba:WHY}을(를) 이끌고 고교 선발팀에 도전장을 내밀었다."
+      },
+      {
+       "speaker": "해설",
+       "text": "경기 전 몸풀기. 그는 혼자 코트 끝에서 끝까지 전속력으로 왕복하고 있었다. 한 번도 걷지 않았다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "Full speed. Every possession. That's the only way I know. (전속력. 매 포제션. 내가 아는 방법은 그것뿐이다.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "Kid. You scared? (꼬마, 겁나?)",
+       "choices": [
+        {
+         "text": "Why not? 붙어 봅시다.",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "(씩 웃는다) …I like that. (마음에 드는군.)"
+          }
+         ],
+         "fame": 6,
+         "sp": 0,
+         "chemistry": 0,
+         "grade": 0
+        },
+        {
+         "text": "리바운드부터 따내겠습니다.",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "Good. Guards who rebound win games. (좋아. 리바운드하는 가드가 이긴다.)"
+          }
+         ],
+         "fame": 0,
+         "sp": 3,
+         "chemistry": 0,
+         "grade": 3
+        },
+        {
+         "text": "(말없이 신발 끈을 다시 묶는다)",
+         "reply": [
+          {
+           "speaker": "{ace:nba:WHY}",
+           "text": "That's it. Talk is cheap. (그거야. 말은 싸지.)"
+          }
+         ],
+         "fame": 0,
+         "sp": 4,
+         "chemistry": 3,
+         "grade": 0
+        }
+       ]
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 평점 B- 이상. 그는 경기 내내 당신을 지켜볼 것이다."
+      }
+     ],
+     "goals": [
+      {
+       "type": "avgGrade",
+       "value": 70
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "경기 후. 라커룸 문이 열리고, {ace:nba:WHY}이(가) 땀도 닦지 않은 채 들어왔다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "You play like me. You never stop. (넌 나처럼 뛰는군. 절대 멈추지 않아.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "From today, I'm your mentor. Every summer, you train with me. …Why not? (오늘부터 내가 네 멘토다. 여름마다 나랑 훈련한다. …안 될 거 있어?)"
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "경기 후. 졌다. 고개를 숙인 당신 앞에 {ace:nba:WHY}이(가) 섰다."
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "You lost. But you never stopped running. That's enough for me. (졌지. 하지만 넌 끝까지 뛰었다. 난 그거면 충분해.)"
+      },
+      {
+       "speaker": "{ace:nba:WHY}",
+       "text": "I'll teach you the rest. From today, I'm your mentor. (나머지는 내가 가르쳐 주지. 오늘부터 내가 네 멘토다.)"
+      }
+     ],
+     "stockGood": 8,
+     "stockBad": 4,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "nba:WHY"
+     ],
+     "mentor": "{ace:nba:WHY}",
+     "rewardSkill": "why_not|full_throttle",
+     "rewardAttrs": "speed:3,dunk:3,defRebound:4,stamina:3"
+    },
+    {
+     "id": "p_y2",
+     "title": "2학년. 왕좌를 지켜라",
+     "level": "2학년 · 인터하이·윈터컵 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "1학년의 패배 이후, {me}는 처음으로 팀원들의 이름을 외웠다."
+      },
+      {
+       "speaker": "감독",
+       "text": "혼자 이기는 농구는 작년에 끝났다. 올해는 다섯이 이긴다."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 결승 진출 이상 (3승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 3
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "다시 정상권. 이번엔 패스로 만든 득점이 더 많았다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "또 한 번의 패배. 하지만 경기 후 팀원들이 먼저 {me}의 어깨를 두드렸다."
+      }
+     ],
+     "stockGood": 10,
+     "stockBad": 0,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "HNS",
+      "CHR",
+      "SDA",
+      "JWL"
+     ]
+    },
+    {
+     "id": "p_y3",
+     "title": "3학년. 다섯 천재의 마지막 결승",
+     "level": "3학년 · 윈터컵 본선 (토너먼트)",
+     "team": {
+      "leagueId": "$MY",
+      "name": "내 학교",
+      "abbr": "MY",
+      "primary": "#1F4E9C",
+      "secondary": "#FFFFFF",
+      "arena": "학교 체육관",
+      "tier": 64
+     },
+     "games": 4,
+     "elimination": true,
+     "intro": [
+      {
+       "speaker": "해설",
+       "text": "마지막 윈터컵. 결승 대진표에 그림자의 학교, 청람고의 이름이 다시 보인다."
+      },
+      {
+       "speaker": "{ace:CHR}",
+       "text": "3년 전, 당신은 혼자였어요. 지금은요?"
+      },
+      {
+       "speaker": "{me}",
+       "text": "(뒤를 돌아본다. 팀원 네 명이 서 있다) …지금은 다섯이다."
+      },
+      {
+       "speaker": "해설",
+       "text": "목표: 우승 (4승, 지면 탈락)."
+      }
+     ],
+     "goals": [
+      {
+       "type": "wins",
+       "value": 4
+      }
+     ],
+     "goalMode": "all",
+     "outroGood": [
+      {
+       "speaker": "해설",
+       "text": "우승. 천재는 마지막에 팀을 얻었다."
+      }
+     ],
+     "outroBad": [
+      {
+       "speaker": "해설",
+       "text": "준우승. 하지만 {me}는 처음으로 지고도 웃었다."
+      }
+     ],
+     "stockGood": 14,
+     "stockBad": 4,
+     "oppTier": 60,
+     "opponents": [
+      "연습 상대"
+     ],
+     "opponentIds": [
+      "NOU",
+      "BKH",
+      "GMS",
+      "CHR"
+     ]
+    }
+   ],
+   "epilogue": [
+    {
+     "speaker": "해설",
+     "text": "졸업식. {me}의 사물함에는 트로피 대신 팀원들과 찍은 사진 한 장이 붙어 있었다."
+    },
+    {
+     "speaker": "{ace:CHR}",
+     "text": "다음엔 같은 편에서 뛰어요."
+    },
+    {
+     "speaker": "해설",
+     "text": "— 오성 세대: 천재의 3년, 끝."
+    }
+   ]
+  }
+ ],
+ "nba": {
+  "debut": [
+   {
+    "speaker": "해설",
+    "text": "NBA 데뷔전. 라커룸 내 자리 위에 내 이름이 적힌 유니폼이 걸려 있다."
+   },
+   {
+    "speaker": "감독",
+    "text": "루키, 오늘 네 역할은 간단하다. 실수해도 좋으니 겁먹지 마. 그리고 팀메이트 등급은 매 경기 내가 본다."
+   }
+  ],
+  "starter": [
+   {
+    "speaker": "감독",
+    "text": "다음 경기부터 주전이다. 그 자리는 지키는 게 더 어렵다."
+   }
+  ],
+  "benched": [
+   {
+    "speaker": "감독",
+    "text": "요즘 플레이 선택이 좋지 않다. 당분간 벤치에서 시작한다. 다시 증명해."
+   }
+  ],
+  "seasonEnd": [
+   {
+    "speaker": "해설",
+    "text": "정규 시즌이 끝났다. 한 시즌의 기록이 당신의 다음 계약을 말해 줄 것이다."
+   }
+  ]
+ }
+}
