@@ -368,7 +368,7 @@
             body.innerHTML = '<div class="certs">' +
               '<div class="cert"><div>2026.08.12</div><div class="t">혁 신 상</div><div>제11회 전국대학생<br>CM·시공 경진대회</div><div class="muted" style="margin-top: 6px;">무영CM건축사사무소<br>광양 동호안 LNG 냉열 데이터센터</div></div>' +
               '<div class="cert"><div>2026.07.01</div><div class="t">우 수 상</div><div>2026 건축학부<br>졸업작품전</div><div class="muted" style="margin-top: 6px;">한국건설관리학회 호남지회</div></div>' +
-              '<div class="cert"><div>2025</div><div class="t">최우수상</div><div>한국건설관리학회<br>전국대학생 학술발표대회</div><div class="muted" style="margin-top: 6px;">경진대회 부문 (원가관리)</div></div>' +
+              '<div class="cert"><div>2025.11.20</div><div class="t">최우수상</div><div>한국건설관리학회<br>전국대학생 학술발표대회</div><div class="muted" style="margin-top: 6px;">경진대회 부문 (원가관리)</div></div>' +
               '</div><p style="margin-top: 10px;" class="muted">압축 해제 완료. 겸손.dll은 압축 파일에 포함되어 있지 않습니다.</p>';
           }
         }, 120);
