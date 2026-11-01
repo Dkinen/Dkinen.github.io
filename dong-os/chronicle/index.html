@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>크로니클 워즈</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #14110f; overflow: hidden; }
+      #unity-canvas { display: block; width: 100%; height: 100%; background: #14110f; outline: none; }
+      #loading { position: fixed; inset: 0; display: grid; place-content: center; gap: 12px; color: #eee; font: 15px "Malgun Gothic", sans-serif; text-align: center; background: #14110f; }
+      #loading b { font-size: 22px; letter-spacing: 1px; }
+      #bar { width: 260px; height: 12px; border: 2px solid #eee; margin: 0 auto; }
+      #fill { width: 0; height: 100%; background: #c9a227; }
+      #loading small { color: #aaa; max-width: 340px; line-height: 1.5; }
+    </style>
+  </head>
+  <body>
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="loading">
+      <b>⚔️ 크로니클 워즈</b>
+      <div id="bar"><div id="fill"></div></div>
+      <span id="msg">불러오는 중... 0%</span>
+      <small>용량이 큰 게임이라 처음 열 때 조금 기다려야 해요.<br>마우스로 플레이하고, 화면을 한 번 클릭하면 키 입력이 들어가요.</small>
+    </div>
+    <script src="Build/WebGL.loader.js"></script>
+    <script>
+      var canvas = document.querySelector("#unity-canvas"), loading = document.querySelector("#loading");
+      var msg = document.querySelector("#msg"), fill = document.querySelector("#fill");
+      canvas.addEventListener("pointerdown", function () { canvas.focus(); });
+      createUnityInstance(canvas, {
+        arguments: [],
+        dataUrl: "Build/WebGL.data",
+        frameworkUrl: "Build/WebGL.framework.js",
+        codeUrl: "Build/WebGL.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Capstone2",
+        productName: "크로니클 워즈",
+        productVersion: "1.0.0",
+        autoSyncPersistentDataPath: true, // 세이브(chronicle_save.json)를 브라우저에 바로 저장
+      }, function (p) {
+        fill.style.width = Math.round(p * 100) + "%";
+        msg.textContent = "불러오는 중... " + Math.round(p * 100) + "%";
+      }).then(function () {
+        loading.remove();
+        canvas.focus();
+      }).catch(function (e) {
+        msg.textContent = "게임을 불러오지 못했어요: " + e;
+      });
+    </script>
+  </body>
+</html>

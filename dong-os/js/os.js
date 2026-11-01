@@ -287,7 +287,7 @@
     { q: "오늘 한잔한다면?", a: ["🥃 위스키", "🍺 맥주"], answer: 0, c: "위스키. W: 드라이브가 괜히 있는 게 아닙니다." },
     { q: "김동현의 좌우명은?", a: ["\"Why?\"", "\"Why not?\""], answer: 1, c: "INTP인데 좌우명은 Why not. 본인도 이 모순을 설명하지 못합니다." },
     { q: "치킨을 시킨다면?", a: ["양념", "후라이드"], answer: 1, c: "후라이드. 본연의 맛을 분석하는 INTP의 선택." },
-    { q: "2023년 탕후루 알바 시절 직급은?", a: ["견습생", "마스터"], answer: 1, c: "시럽 온도와 코팅 두께를 모두 정복했습니다. 탕후루마스터.exe로 검증해 보세요." },
+    { q: "2023년 탕후루 알바 시절 직급은?", a: ["견습생", "마스터"], answer: 1, c: "시럽 온도와 코팅 두께를 모두 정복했습니다." },
     { q: "탕후루 마스터가 고르는 과일은?", a: ["샤인머스캣", "🍓 딸기"], answer: 1, c: "딸기. 마스터는 기본에 충실합니다." },
     { q: "김동현은 몇 시에 살아 있을까?", a: ["🌙 새벽형", "🌅 아침형"], answer: 1, c: "의외로 아침형. INTP라고 다 밤새지는 않습니다." },
     { q: "김동현이 진심인 운동은?", a: ["수영", "골프"], answer: 0, c: "물에서는 조용히 빠릅니다." },
@@ -376,61 +376,6 @@
     };
   }
 
-  /* ---------- 탕후루마스터 ---------- */
-  function initTanghulu() {
-    var MIN = 20, MAX = 200, LOW = 150, HIGH = 155;
-    var temp = MIN, timer = null, round = 0, wins = 0;
-    var fill = $("#th-fill"), zone = $("#th-zone"), tEl = $("#th-temp"), log = $("#th-log");
-    var startBtn = $("#th-start"), dipBtn = $("#th-dip");
-    var pct = function (t) { return ((t - MIN) / (MAX - MIN)) * 100; };
-    zone.style.bottom = pct(LOW) + "%";
-    zone.style.height = (pct(HIGH) - pct(LOW)) + "%";
-    var draw = function () { fill.style.height = pct(temp) + "%"; tEl.textContent = Math.round(temp) + "℃"; };
-    var rankOf = function (w) { return ["설탕만 녹임", "견습생", "알바생", "마스터 🏅"][w]; };
-    var status = function () {
-      $("#th-round").textContent = "도전 " + round + "/3";
-      $("#th-rank").textContent = "직급: " + (round === 3 ? rankOf(wins) : "수습 중");
-    };
-    var stop = function () { clearInterval(timer); timer = null; startBtn.disabled = round >= 3; dipBtn.disabled = true; };
-    var judge = function (burnt) {
-      stop();
-      round++;
-      var t = Math.round(temp), line;
-      if (!burnt && t >= LOW && t <= HIGH) { wins++; line = "✅ " + t + "℃ 완벽! 바삭하게 코팅됐습니다."; }
-      else if (!burnt && t < LOW) line = "❌ " + t + "℃ 덜 끓었습니다. 이로 깨물면 끈적...";
-      else line = "🔥 " + t + "℃ 탔습니다. 가게에 탄내가 납니다.";
-      log.textContent = line;
-      if (round >= 3) {
-        log.textContent += "\n결과: " + wins + "/3 성공 → 직급 [" + rankOf(wins) + "]";
-        startBtn.textContent = "다시 하기";
-        startBtn.disabled = false;
-      }
-      status();
-    };
-    startBtn.addEventListener("click", function () {
-      if (round >= 3) { round = 0; wins = 0; startBtn.textContent = "불 켜기"; }
-      temp = MIN; draw();
-      log.textContent = "보글보글... 지금이다 싶을 때 담그세요.";
-      startBtn.disabled = true;
-      dipBtn.disabled = false;
-      var speed = 1.6 + Math.random() * 1.4;
-      timer = setInterval(function () {
-        temp += speed + temp / 160;
-        if (temp >= MAX) { temp = MAX; draw(); judge(true); return; }
-        draw();
-      }, 40);
-      status();
-    });
-    dipBtn.addEventListener("click", function () { if (timer) judge(false); });
-    apps.tanghulu = function () {
-      stop(); round = 0; wins = 0; temp = MIN; draw();
-      startBtn.textContent = "불 켜기"; startBtn.disabled = false;
-      log.textContent = "불을 켜면 시럽이 끓기 시작합니다.";
-      status();
-    };
-    closers.tanghulu = stop;
-  }
-
   /* ---------- 작업 관리자 ---------- */
   function initTaskmgr() {
     var procs = [
@@ -440,7 +385,7 @@
       { n: "수영가야하는데.exe", base: 6 },
       { n: "웨스트브룩_하이라이트.exe", base: 7 },
       { n: "졸업날짜_계산.exe", base: 0, hang: true },
-      { n: "탕후루_시럽온도.exe", base: 1 },
+      { n: "크로니클워즈_밸런스패치.exe", base: 1 },
       { n: "단톡방_답장_숙고.exe", base: 5 }
     ];
     var timer = null, history = [], sel = null, hangKills = 0;
@@ -606,7 +551,6 @@
     initMbti();
     initQuiz();
     initAwards();
-    initTanghulu();
     initTaskmgr();
     initTrash();
     initDiary();

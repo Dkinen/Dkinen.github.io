@@ -31,6 +31,10 @@
     var hf = $("#hoops-frame");
     D.apps.hoops = function () { hf.setAttribute("src", hf.dataset.src); setTimeout(function () { hf.focus(); }, 300); };
     D.closers.hoops = function () { hf.removeAttribute("src"); };
+    /* ---------- 크로니클 워즈 (chronicle/, Unity 웹 빌드) ---------- */
+    var cwf = $("#chronicle-frame");
+    D.apps.chronicle = function () { cwf.setAttribute("src", cwf.dataset.src); setTimeout(function () { cwf.focus(); }, 300); };
+    D.closers.chronicle = function () { cwf.removeAttribute("src"); };
     // 메모장 속 링크(a[data-open])도 새 페이지 대신 OS 창으로 열기
     $$("a[data-open]").forEach(function (a) {
       a.addEventListener("click", function (e) { e.preventDefault(); D.openWin(a.dataset.open); });

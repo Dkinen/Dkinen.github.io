@@ -81,7 +81,7 @@
         <div class="group-icons">
           <button class="icon" data-open="quiz"><span class="glyph">❓</span><span class="name">김동현 맞추기.exe</span></button>
           <button class="icon" data-open="mines"><span class="glyph">🦺</span><span class="name">안전사고 찾기.exe</span></button>
-          <button class="icon" data-open="tanghulu"><span class="glyph">🍡</span><span class="name">탕후루마스터.exe</span></button>
+          <button class="icon" data-open="chronicle"><span class="glyph">⚔️</span><span class="name">크로니클워즈.exe</span></button>
           <button class="icon" data-open="swim"><span class="glyph">🏊</span><span class="name">50m 자유형.exe</span></button>
           <button class="icon" data-open="kart"><span class="glyph">🏎️</span><span class="name">현장 카트 GP.exe</span></button>
 
@@ -267,27 +267,19 @@ LNG가 기화할 때 바다로 그냥 버려지던 냉기를
       <div class="window-body" id="awards-body"></div>
     </div>
 
-    <!-- ===== 탕후루마스터 ===== -->
-    <div class="window app" id="tanghulu" style="width: 440px;" data-title="탕후루마스터.exe">
+    <!-- ===== 크로니클 워즈 (Unity 웹 빌드: chronicle/) ===== -->
+    <div class="window app" id="chronicle" style="width: 1000px; height: 660px;" data-title="크로니클워즈.exe">
       <div class="title-bar">
-        <div class="title-bar-text">🍡 탕후루마스터.exe</div>
-        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Close"></button></div>
+        <div class="title-bar-text">⚔️ 크로니클워즈.exe</div>
+        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
       </div>
-      <div class="window-body">
-        <p>2023년 2월, 탕후루 마스터의 기술을 전수합니다.<br>시럽이 <b>150~155℃</b>일 때 <b>[담그기!]</b>를 누르세요. 3번 도전.</p>
-        <div class="thermo-wrap">
-          <div class="thermo"><div class="zone" id="th-zone"></div><div class="fill" id="th-fill"></div></div>
-          <div class="thermo-info">
-            <div class="temp" id="th-temp">20℃</div>
-            <div class="row" style="margin: 10px 0;">
-              <button id="th-start">불 켜기</button>
-              <button id="th-dip" disabled>담그기!</button>
-            </div>
-            <div class="game-log sunken" id="th-log">불을 켜면 시럽이 끓기 시작합니다.</div>
-          </div>
+      <div class="window-body" style="display: flex; flex-direction: column;">
+        <div class="row" style="margin-bottom: 6px;">
+          <a href="chronicle/" target="_blank" rel="noopener"><button>새 탭에서 열기</button></a>
+          <span class="muted">직접 만든 Unity 전략 게임 · 유닛 103종 · 영웅 6명 · 마우스로 플레이 · 용량이 커서 처음 로딩은 조금 걸려요</span>
         </div>
+        <div class="doc-frame"><iframe id="chronicle-frame" title="크로니클 워즈" data-src="chronicle/" allow="fullscreen; gamepad" allowfullscreen></iframe></div>
       </div>
-      <div class="status-bar"><p class="status-bar-field" id="th-round">도전 0/3</p><p class="status-bar-field" id="th-rank">직급: 대기 중</p></div>
     </div>
 
     <!-- ===== 작업 관리자 ===== -->
@@ -841,7 +833,7 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li class="cat"><span class="e">🎮</span> 게임</li>
       <li><button data-open="quiz"><span>❓</span>김동현 맞추기.exe</button></li>
       <li><button data-open="mines"><span>🦺</span>안전사고 찾기.exe</button></li>
-      <li><button data-open="tanghulu"><span>🍡</span>탕후루마스터.exe</button></li>
+      <li><button data-open="chronicle"><span>⚔️</span>크로니클워즈.exe</button></li>
       <li><button data-open="swim"><span>🏊</span>50m 자유형.exe</button></li>
       <li><button data-open="kart"><span>🏎️</span>현장 카트 GP.exe</button></li>
       <li><button data-open="hoops"><span>🏀</span>The Basketball 00.exe</button></li>
