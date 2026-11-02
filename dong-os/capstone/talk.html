@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>진행 발표 11월</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
+<style>
+/* Layout: 연구노트와 같은 DONG OS 98 창. 발표용으로 창 하나 = 화면 하나, 글자를 키우고 슬라이드처럼 위에서 아래로 넘긴다.
+   Deliberately single-theme (same look as the other pages), every color set explicitly. */
+:root {
+  color-scheme: light;
+  --desk: #008080;
+  --face: #c0c0c0;
+  --hi: #ffffff;
+  --lite: #dfdfdf;
+  --shade: #808080;
+  --dark: #0a0a0a;
+  --title-a: #000080;
+  --title-b: #1084d0;
+  --ink: #111111;
+  --ink2: #444444;
+  --paper: #ffffff;
+  --link: #0000c8;
+  --tip: #ffffe1;
+  --ok: #007a00;
+  --warn: #9a5b00;
+  --bad: #a00000;
+  --ui: "Gulim", "굴림", "Nanum Gothic", "Apple SD Gothic Neo", sans-serif;
+  --body: "Nanum Gothic", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --mono: "Nanum Gothic Coding", "D2Coding", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { background: var(--desk); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.65; margin: 0;
+  padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--link); }
+a:focus-visible { outline: 1px dotted var(--dark); outline-offset: 2px; }
+
+.raised { background: var(--face); box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--lite), inset -2px -2px var(--shade), inset 2px 2px var(--hi); }
+.sunken { box-shadow: inset -1px -1px var(--hi), inset 1px 1px var(--shade), inset -2px -2px var(--lite), inset 2px 2px var(--dark); }
+
+.stack { max-width: 1040px; margin: 0 auto; display: grid; gap: 22px; }
+.win { padding: 3px; min-width: 0; }
+.titlebar { display: flex; align-items: center; gap: 8px; padding: 3px 4px 3px 8px; color: var(--hi);
+  background: linear-gradient(90deg, var(--title-a), var(--title-b)); font: 700 13px/1.4 var(--ui); }
+.titlebar .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.titlebar .no { font-family: var(--mono); opacity: .85; }
+.titlebar .ctl { display: flex; gap: 2px; }
+.titlebar .ctl span { width: 18px; height: 16px; display: grid; place-items: center; color: var(--ink); font: 700 11px/1 var(--mono); }
+.pages { display: flex; flex-wrap: wrap; gap: 2px; padding: 4px 6px 0; font-family: var(--ui); font-size: 13px; }
+.pages a { color: var(--ink); text-decoration: none; padding: 4px 12px 3px; background: var(--face);
+  box-shadow: inset -1px 0 var(--dark), inset 1px 1px var(--hi), inset -2px 0 var(--shade); }
+.pages a[aria-current="page"] { font-weight: 700; }
+.pages a:hover { background: var(--lite); }
+.pane { background: var(--paper); margin: 3px; padding: clamp(18px, 3.5vw, 36px); min-width: 0; }
+
+h1 { font-size: clamp(26px, 4.4vw, 40px); line-height: 1.3; margin: 0 0 10px; font-weight: 800; text-wrap: balance; letter-spacing: -0.015em; }
+h2 { font-size: clamp(21px, 3vw, 27px); line-height: 1.35; margin: 0 0 6px; font-weight: 800; text-wrap: balance; }
+h3 { font-size: 16px; margin: 0 0 4px; }
+.say { font-size: clamp(16px, 1.9vw, 18px); color: var(--ink2); margin: 0 0 20px; max-width: 62ch; }
+p { margin: 0; max-width: 66ch; }
+.small { font-size: 13.5px; color: var(--ink2); }
+.mono, code { font-family: var(--mono); }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* 표지 숫자 */
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+.tile { padding: 12px 14px; display: grid; gap: 2px; align-content: start; }
+.tile .k { font: 12.5px/1.4 var(--ui); color: var(--ink2); }
+.tile .v { font-size: clamp(28px, 4vw, 38px); font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile .v small { font-size: 15px; font-weight: 700; }
+.tile .d { font-size: 13px; color: var(--ink2); line-height: 1.45; }
+.order { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; font: 13px/1.4 var(--ui); }
+.order span { padding: 3px 10px; background: var(--face); }
+.order b { font-family: var(--mono); margin-right: 4px; }
+
+/* 한 일: 날짜 줄 */
+.days { display: grid; gap: 12px; }
+.day { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 16px; padding: 14px 16px; background: var(--face); }
+.day .when { font: 700 14px/1.4 var(--mono); }
+.day .when span { display: block; font: 400 12.5px/1.4 var(--ui); color: var(--ink2); margin-top: 2px; }
+.day ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 3px; }
+.day li { max-width: 68ch; font-size: 15px; }
+.day .q { font-weight: 700; }
+
+/* 표 */
+.tbl { overflow-x: auto; margin: 6px 0 0; }
+table { border-collapse: collapse; font-size: 15px; width: 100%; }
+th, td { border: 1px solid var(--shade); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--face); font: 700 13px/1.4 var(--ui); white-space: nowrap; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.good { color: var(--ok); font-weight: 700; }
+td.bad { color: var(--bad); font-weight: 700; }
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
+.cols > div { min-width: 0; }
+.callout { padding: 12px 16px; background: var(--tip); border: 1px solid var(--dark); font-size: 15px; margin-top: 18px; max-width: 72ch; }
+
+/* 바뀐 것 */
+.changes { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.changes li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; font-size: 15px; max-width: none; }
+.tag { font: 700 11.5px/1.3 var(--ui); padding: 2px 0; text-align: center; border: 1px solid currentColor; align-self: start; }
+.tag.fix { color: var(--warn); } .tag.drop { color: var(--bad); } .tag.keep { color: var(--ok); }
+
+/* 앱 범위 막대 */
+.range { margin-top: 10px; }
+.range svg { display: block; width: 100%; height: auto; }
+.range text { font-family: var(--ui); font-size: 12px; fill: var(--ink2); }
+
+/* 남은 일 */
+.todo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 4px; }
+.todo > div { padding: 14px 16px; background: var(--face); min-width: 0; }
+.todo ol { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; }
+.todo li { max-width: none; }
+.todo .id { font: 700 12px var(--mono); color: var(--ink2); margin-left: 4px; }
+.qa { display: grid; gap: 10px; margin-top: 8px; }
+.qa div { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--lite); }
+.qa div:first-child { border-top: 0; }
+.qa b { font-size: 15px; }
+.qa p { font-size: 15px; }
+
+@media (max-width: 820px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .todo { grid-template-columns: 1fr; }
+  .cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .day { grid-template-columns: 1fr; gap: 4px; }
+  .qa div { grid-template-columns: 1fr; gap: 4px; }
+  .titlebar .ctl { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="stack">
+
+  <!-- 0. 표지 -->
+  <article class="win raised" id="cover">
+    <div class="titlebar"><span class="no">0/4</span><span class="t">발표.htm - 10월 20일 이후 진행</span><span class="ctl" aria-hidden="true"><span class="raised">_</span><span class="raised">□</span><span class="raised">×</span></span></div>
+    <nav class="pages" aria-label="페이지">
+      <a href="./">연구노트</a><a href="detail.html">세부 기록</a><a href="brief.html">한눈에 보기</a><a href="dashboard.html">대시보드</a><a href="gaps.html">보완 과제</a><a href="talk.html" aria-current="page">발표</a><a href="https://claude.ai/artifact/NdaGA79wryZvrLjjJ9zrYJ" target="_blank" rel="noopener">장충금 진단 앱 ↗</a>
+    </nav>
+    <div class="pane sunken">
+      <h1>법령 주기 나이에 실제로 교체하는 단지는 소수다</h1>
+      <p class="say">10월 20일 이후 2주 동안 이 결론을 기록 · 돈 · 미래 예측 세 방향으로 다시 확인했습니다. 결론은 그대로이고 숫자는 더 보수적으로 바뀌었습니다. 남은 일은 승강기 금액 보정, 앱 표시 방식, 논문 마무리입니다.</p>
+      <div class="tiles">
+        <div class="tile raised"><span class="k">승강기 · 법령 15년</span><span class="v tnum">0.5<small>%</small></span><span class="d">15년까지 기계장치를 통째로 바꾼 단지</span></div>
+        <div class="tile raised"><span class="k">지붕 방수 · 법령 15년</span><span class="v tnum">13.8<small>%</small></span><span class="d">범위 12.1–15.6%</span></div>
+        <div class="tile raised"><span class="k">외부 도장 · 2024판 8년</span><span class="v tnum">6.5<small>%</small></span><span class="d">2019판 기준은 5년</span></div>
+        <div class="tile raised"><span class="k">30년 세 부위 교체비</span><span class="v tnum">5.3<small>배</small></span><span class="d">법령 60.5조 vs 실측 11.4조 원</span></div>
+      </div>
+      <div class="order" aria-label="발표 순서">
+        <span><b>1</b>한 일</span><span><b>2</b>지금 결론</span><span><b>3</b>앱이 말하는 것</span><span><b>4</b>남은 일 · 예상 질문</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 1. 한 일 -->
+  <article class="win raised" id="done">
+    <div class="titlebar"><span class="no">1/4</span><span class="t">한 일 - 10월 20일 – 10월 26일</span></div>
+    <div class="pane sunken">
+      <h2>기록을 믿을 수 있나, 돈이 실제로 나갔나, 앞으로를 맞히나</h2>
+      <p class="say">질문 하나에 작업 묶음 하나씩입니다.</p>
+      <div class="days">
+        <div class="day">
+          <div class="when">10/20–21<span>기록 검증</span></div>
+          <div>
+            <p class="q">이력의 '전면교체'는 진짜 전면 교체인가</p>
+            <ul>
+              <li>검증 표본 2차 판정. 부품 입찰만 연결된 '전면' 기록은 승강기 11/11, 방수 9/9가 부분 공사 → 상한에서 뺌 (승강기 15년 상한 28.6 → 23.9%)</li>
+              <li>Cox 비례위험모형을 사건 정의 4가지로 적합. 방수는 준공연도 · 층수 효과가 일관, 승강기는 정의마다 엇갈려 보류</li>
+            </ul>
+          </div>
+        </div>
+        <div class="day">
+          <div class="when">10/22<span>돈으로 확인</span></div>
+          <div>
+            <p class="q">기록에 있는 교체에 실제로 돈이 나갔나</p>
+            <ul>
+              <li>장기수선충당금 13,906곳 × 4시점(2016 · 19 · 22 · 25) 수집, 오류 0건</li>
+              <li>잔액 변화로 지출을 역산해 입찰 없는 '전면' 기록 중 진짜 교체 비율 p 추정: 승강기 ≈ 0, 방수 0.16, 도장 0.76 → <b>주결과로 채택</b></li>
+              <li>충당금이 적은 단지는 교체를 미룬다(승강기 위험 0.71배). 다만 잔액 많은 단지도 법령 주기에 크게 못 미침</li>
+              <li>30년 교체비 모의실험, 대시보드, 장충금 진단 앱, 사람 간 라벨 일치도 κ 0.84</li>
+            </ul>
+          </div>
+        </div>
+        <div class="day">
+          <div class="when">10/22<span>검증 강화</span></div>
+          <div>
+            <p class="q">모형이 처음 보는 기간 · 지역 · 단지도 맞히나</p>
+            <ul>
+              <li>시간 분할: 2021년까지로 학습 → 2022–2026 교체 예측</li>
+              <li>지역 분할, 이력 미등록 단지 역확률 가중, 두 번째 교체 점검</li>
+              <li>앱을 실제 단지 2,000곳에 돌려 '다른 공사 몫'을 50 → 70%로 다시 정함</li>
+            </ul>
+          </div>
+        </div>
+        <div class="day">
+          <div class="when">10/26<span>앱 신뢰도</span></div>
+          <div>
+            <p class="q">앱이 말하는 금액은 얼마나 믿을 수 있나</p>
+            <ul>
+              <li>불확실성 분해: 가정을 하나씩 바꿔 권장 부과액이 얼마나 흔들리는지 측정</li>
+              <li>돈 흐름 백테스트: 2022년에 앱을 썼다면 다음 3년 지출을 맞혔을지 확인</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- 2. 지금 결론 -->
+  <article class="win raised" id="now">
+    <div class="titlebar"><span class="no">2/4</span><span class="t">지금 결론 - 검증을 거친 뒤</span></div>
+    <div class="pane sunken">
+      <h2>실측 모형은 맞히고, 법령 주기는 4–17배 과대 예측한다</h2>
+      <p class="say">같은 시험을 실측 모형과 법령 주기에 똑같이 치르게 했습니다. 1에 가까울수록 실제와 맞습니다.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>검증</th><th>무엇을 비교</th><th class="n">실측 모형</th><th class="n">법령 주기</th></tr></thead>
+        <tbody>
+          <tr><td>시간 분할</td><td>2021년까지로 학습, 2022–2026 교체 수 (실제/예측)</td><td class="n good">0.88–1.14</td><td class="n bad">0.06–0.25</td></tr>
+          <tr><td>지역 분할</td><td>다른 지역으로 학습해 예측 (실제/예측)</td><td class="n good">0.74–1.26</td><td class="n bad">0.05–0.25</td></tr>
+          <tr><td>돈 흐름</td><td>2022.7–2025.6 세 부위 예측액 / 실제 낙찰액</td><td class="n">0.46</td><td class="n bad">6.1</td></tr>
+          <tr><td>표본 선택</td><td>이력 미등록 단지까지 가중했을 때 변화</td><td class="n good">0.2%p 이내</td><td class="n">–</td></tr>
+        </tbody>
+      </table></div>
+      <div class="cols">
+        <div>
+          <h3>부위별 실제 수명</h3>
+          <div class="tbl"><table>
+            <thead><tr><th>부위</th><th class="n">법령</th><th class="n">중위 수명</th><th class="n">25%가 교체하는 나이</th></tr></thead>
+            <tbody>
+              <tr><td>승강기 기계장치</td><td class="n">15년</td><td class="n">35년</td><td class="n">15–30년</td></tr>
+              <tr><td>지붕 방수</td><td class="n">15년</td><td class="n">33년</td><td class="n">16–23년</td></tr>
+              <tr><td>외부 도장</td><td class="n">5 → 8년</td><td class="n">19년</td><td class="n">14–15년</td></tr>
+            </tbody>
+          </table></div>
+          <p class="small" style="margin-top:6px">중위 수명은 법령 주기의 2.2–3.8배. 오른쪽 열은 대안 주기 후보입니다.</p>
+        </div>
+        <div>
+          <h3>검증하면서 바뀐 것</h3>
+          <ul class="changes">
+            <li><span class="tag fix">수정</span><span>실측 30년 교체비 21.7 → 11.4조 원. 젊은 단지로 맞춘 와이블을 오래된 단지에 넓히면 과대 예측이라, 기록 없는 단지는 나이별 위험률로 바꿈</span></li>
+            <li><span class="tag drop">철회</span><span>"1994년 이전 단지가 가장 취약하다"는 외삽이 만든 결과</span></li>
+            <li><span class="tag fix">수정</span><span>앱 기본 '다른 공사 몫' 50 → 70% (실제 충당금 사용액 중 세 부위 18–39%)</span></li>
+            <li><span class="tag keep">유지</span><span>법령 주기 대비 실제 교체가 훨씬 늦다는 결론. 어느 검증에서도 뒤집히지 않음</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- 3. 앱 -->
+  <article class="win raised" id="app">
+    <div class="titlebar"><span class="no">3/4</span><span class="t">장충금 진단 앱 - 숫자를 얼마나 믿을 수 있나</span></div>
+    <div class="pane sunken">
+      <h2>앱은 '어느 단지가 많이 쓸지'는 맞히고, 금액은 범위로 읽어야 한다</h2>
+      <p class="say">실제 단지 2,000곳에 앱을 돌린 결과입니다. 기본 가정의 권장 부과액 중앙값은 세대당 월 21,800원이고, 지금 실제로 걷는 중앙값은 26,655원입니다.</p>
+      <figure class="range" style="margin:0">
+        <svg viewBox="0 0 640 132" role="img" aria-label="가정에 따른 권장 부과액 범위, 13,200원에서 47,700원">
+          <!-- 축: 10,000 → 50,000원 을 x 40 → 600 -->
+          <line x1="40" y1="70" x2="600" y2="70" stroke="#808080" stroke-width="1"/>
+          <g fill="#444444">
+            <text x="40" y="92" text-anchor="middle">1만</text>
+            <text x="180" y="92" text-anchor="middle">2만</text>
+            <text x="320" y="92" text-anchor="middle">3만</text>
+            <text x="460" y="92" text-anchor="middle">4만</text>
+            <text x="600" y="92" text-anchor="middle">5만 원</text>
+          </g>
+          <!-- 범위 13,200–47,700 → x 84.8–567.8 -->
+          <rect x="84.8" y="58" width="483" height="24" fill="#c0c0c0" stroke="#0a0a0a" stroke-width="1"/>
+          <!-- 추정 p 95% 21,400–22,200 → x 199.6–210.8 -->
+          <rect x="199.6" y="58" width="11.2" height="24" fill="#000080"/>
+          <!-- 지금 부과 26,655 → x 273.2 -->
+          <line x1="273.2" y1="50" x2="273.2" y2="90" stroke="#a00000" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="205" y="44" text-anchor="middle" fill="#000080" font-weight="700">기본 21,800</text>
+          <text x="280" y="22" fill="#a00000">지금 부과 중앙값 26,655</text>
+          <text x="84.8" y="120" fill="#444444">13,200 (부족 위험 20%)</text>
+          <text x="567.8" y="120" text-anchor="end" fill="#444444">47,700 (사건 정의 합집합)</text>
+        </svg>
+        <figcaption class="small">회색 막대는 가정을 하나씩 바꿨을 때의 범위, 남색 띠는 추정 p의 통계 오차(21,400–22,200원)입니다. 흔들림은 대부분 통계 오차가 아니라 설계 선택에서 옵니다.</figcaption>
+      </figure>
+      <div class="cols">
+        <div>
+          <h3>권장액을 크게 흔드는 가정</h3>
+          <div class="tbl"><table>
+            <thead><tr><th>가정</th><th class="n">바꾸면 (원)</th></tr></thead>
+            <tbody>
+              <tr><td>무엇을 교체로 보나 (합집합)</td><td class="n">47,700</td></tr>
+              <tr><td>공사비 물가 연 3%</td><td class="n">40,700</td></tr>
+              <tr><td>첫 교체를 와이블만으로</td><td class="n">34,850</td></tr>
+              <tr><td>다른 공사 몫 80% / 60%</td><td class="n">32,700 / 16,400</td></tr>
+              <tr><td>부족 위험 5% / 20%</td><td class="n">29,650 / 13,200</td></tr>
+              <tr><td>단가 +20% / −20%</td><td class="n">30,800 / 13,500</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div>
+          <h3>2022년에 앱을 썼다면 (백테스트)</h3>
+          <div class="tbl"><table>
+            <tbody>
+              <tr><td>지출 상위 10% 단지를 가려내는 AUC</td><td class="n">0.75</td></tr>
+              <tr><td>실제 충당금 지출과 순위상관</td><td class="n">0.44</td></tr>
+              <tr><td>예측 하위 10% → 상위 10% 세대당 실제 지출</td><td class="n">40 → 112만 원</td></tr>
+              <tr><td>예측액 / 실제 세 부위 낙찰액</td><td class="n">0.46 (보수적)</td></tr>
+              <tr><td>법령 주기 예측액 / 실제 낙찰액</td><td class="n">6.1</td></tr>
+            </tbody>
+          </table></div>
+          <p class="small" style="margin-top:6px">0.46은 일부가 자료 탓입니다. 승강기 교체공사는 2023년 이후 낙찰 결과가 거의 등록되지 않아 실제 쪽 금액이 빠져 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4. 남은 일 -->
+  <article class="win raised" id="next">
+    <div class="titlebar"><span class="no">4/4</span><span class="t">남은 일 · 예상 질문</span></div>
+    <div class="pane sunken">
+      <h2>분석 하나, 앱 하나, 그리고 마무리</h2>
+      <p class="say">남은 보완 과제는 세 개입니다. 논문은 이것들을 끝낸 뒤 한 번에 씁니다.</p>
+      <div class="todo">
+        <div class="raised">
+          <h3>분석</h3>
+          <ol>
+            <li>승강기 결과 미등록 공고에 '대수 × 대당 단가'로 금액을 채워 백테스트 · 30년 교체비 다시 내기 <span class="id">G19</span></li>
+            <li>입찰 상태 코드(4 · 6 · 7 · 9) 뜻을 공공데이터포털에 문의 <span class="id">G11</span></li>
+          </ol>
+        </div>
+        <div class="raised">
+          <h3>앱</h3>
+          <ol>
+            <li>권장 부과액을 '보수적 – 기본 – 여유' 범위와 그 가정으로 표시, 판정이 바뀌는 단지는 '경계' <span class="id">G20</span></li>
+            <li>실제 휴대폰에서 앱 · 대시보드 확인</li>
+          </ol>
+        </div>
+        <div class="raised">
+          <h3>마무리</h3>
+          <ol>
+            <li>run_all.py에 새 분석 두 단계 추가</li>
+            <li>논문에 불확실성 분해 · 백테스트 절, 한계 · 결론 반영</li>
+            <li>그림 정리, 학과 서식 변환, 서지 3건 확인</li>
+          </ol>
+        </div>
+      </div>
+
+      <h3 style="margin-top:28px">예상 질문</h3>
+      <div class="qa">
+        <div><b>교체 안 한 단지는 돈이 없어서 못 바꾼 것 아닌가?</b><p>일부는 맞습니다. 충당금 하위 단지는 승강기 교체 위험이 0.71배입니다. 하지만 잔액이 많은 단지도 법령 주기에 크게 못 미쳐 결론은 같습니다.</p></div>
+        <div><b>수선 기록 자체를 믿을 수 있나?</b><p>그대로 믿지 않았습니다. 입찰 공고와 충당금 지출 두 독립 자료로 확인했고, 승강기 '전면교체' 기록 대부분은 돈이 나가지 않은 기록이었습니다.</p></div>
+        <div><b>앱이 권하는 금액은 확정값인가?</b><p>아닙니다. 가정에 따라 13,200–47,700원까지 움직여서, 범위와 가정을 함께 보여 주도록 고칠 예정입니다(G20).</p></div>
+        <div><b>그럼 법령 주기를 몇 년으로 바꾸자는 건가?</b><p>단지 25%가 교체하는 나이를 후보로 제시합니다. 도장 14–15년, 방수 16–23년, 승강기 15–30년. 그리고 다음 기간을 맞히는지 함께 보고하는 절차를 제안합니다.</p></div>
+      </div>
+    </div>
+  </article>
+
+</div>
+</body>
+</html>

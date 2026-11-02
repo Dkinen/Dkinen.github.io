@@ -110,15 +110,18 @@
             <p class="label">No. 03 · In Progress</p>
             <h3>공동주택 유지관리 이력 데이터의 생존분석을 통한 장기수선계획 수선주기의 실증적 보정</h3>
             <p class="meta">2026.09 – 진행 중 · 캡스톤 디자인 2 · 개인 연구</p>
-            <p class="desc">장기수선계획은 법령 별표의 수선주기(승강기 15년, 지붕 방수 15년, 외부 도장 5년)를 그대로 옮겨 적어 세워지지만, 이 숫자가 실제 교체 시점과 맞는지 전국 단위로 검증된 적은 거의 없습니다. 공동주택관리정보시스템에 공개된 유지관리 이력을 모으고, 아직 교체하지 않은 단지까지 "최소 이만큼은 버텼다"는 정보로 계산에 넣는 생존분석으로 부위별 실제 교체 주기를 추정합니다. 최종 목표는 그 주기로 30년 수선비를 계산해 단지별 장기수선충당금 부족 위험을 진단하는 것입니다.</p>
+            <p class="desc">장기수선계획은 법령 별표의 수선주기(승강기 15년, 지붕 방수 15년, 외부 도장 5년)를 그대로 옮겨 적어 세워지지만, 이 숫자가 실제 교체 시점과 맞는지 전국 단위로 검증된 적은 거의 없습니다. 공동주택관리정보시스템에 공개된 유지관리 이력을 모으고, 아직 교체하지 않은 단지까지 "최소 이만큼은 버텼다"는 정보로 계산에 넣는 생존분석으로 부위별 실제 교체 주기를 추정합니다. 추정한 주기로 30년 수선비를 시뮬레이션해 법령 주기와의 차이를 금액으로 환산하고, 단지별 장기수선충당금 부족 위험을 진단하는 것이 목표입니다.</p>
             <ul class="spec facts">
               <li><span class="key">Data</span><span>전국 1만 3천여 단지의 유지관리 이력 · 입찰결과 · 단지 기본정보</span></li>
               <li><span class="key">Method</span><span>Kaplan–Meier · Cox 비례위험모형 (준공연도 · 세대수 · 난방방식 · 지역)</span></li>
-              <li><span class="key">Interim</span><span>승강기 기계장치 추정 중위 교체 시점 약 22년, 법령 주기 15년보다 늦음 (중간 분석)</span></li>
+              <li><span class="key">Interim</span><span>승강기 기계장치 추정 중위 교체 시점 약 22년, 법령 주기 15년보다 늦음 · 실측이 지지하는 주기는 외벽 도장 14–15년, 지붕 방수 16–23년 (2차 결과, 확정 아님)</span></li>
+              <li><span class="key">Cost</span><span>3개 부위 30년 수선비 시뮬레이션 — 법령 주기대로 전국 60.5조 원 vs 실제 교체 패턴 11.4조 원</span></li>
+              <li><span class="key">Validation</span><span>이력의 ‘전면교체’ 기록을 낙찰공고로 교차 검증 (사람이 라벨링한 골드셋 400건 + 새 입찰 100건 외부 채점) · 충당금 지출 역산으로 미확인 기록의 실제 교체 비율 추정</span></li>
             </ul>
             <p class="stack"><span>Python</span><span>pandas</span><span>lifelines</span><span>공공데이터 API</span></p>
             <div class="links">
               <a href="https://github.com/Dkinen/apt-repair-cycle" class="text-link" target="_blank" rel="noopener">GitHub</a>
+              <a href="dong-os/capstone/" class="text-link" target="_blank" rel="noopener">연구노트</a>
             </div>
           </div>
         </article>
