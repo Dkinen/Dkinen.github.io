@@ -11,8 +11,7 @@
     { name: "졸업 (8월이라면)", date: "2027-08-20", icon: "🎓", note: "날짜 추정 · 아마도" }
   ];
 
-  /* ---------- 술로그 사본 (서버가 이 사이트를 허용하면 실시간 목록 사용) ---------- */
-  var SOOL_API = "https://sool-log.onrender.com/api/drinks";
+  /* ---------- 술 목록 ---------- */
   var DRINKS = [
     { name: "라프로익 10년", en: "Laphroaig 10", cat: "위스키 · 싱글몰트", where: "아일라, 스코틀랜드" },
     { name: "글렌드로낙 12년", en: "GlenDronach 12", cat: "위스키 · 싱글몰트", where: "하이랜드, 스코틀랜드" },
@@ -26,7 +25,6 @@
     { name: "샤토 라그랑주", en: "Château Lagrange", cat: "와인 · 레드", where: "보르도 생쥘리앙, 프랑스" },
     { name: "클라우디 베이 소비뇽 블랑", en: "Cloudy Bay Sauvignon Blanc", cat: "와인 · 화이트", where: "말보로, 뉴질랜드" }
   ];
-  var CAT_KO = { WHISKY: "위스키", WINE: "와인", BEER: "맥주", KOREAN: "전통주", SPIRITS: "스피릿" };
 
   /* ---------- INTP 오늘의 운세 ---------- */
   var FORTUNES = [
@@ -164,13 +162,6 @@
 
     /* =========================== 오늘 뭐 마시지? =========================== */
     var rouletteBusy = false;
-    var fetchDrinks = function () {
-      return fetch(SOOL_API).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (d) {
-        var items = Array.isArray(d) ? d : d.items;
-        var list = items.map(function (x) { return { name: x.name, en: x.nameEn || "", cat: (CAT_KO[x.category] || x.category), where: [x.region, x.country].filter(Boolean).join(", ") }; });
-        if (list.length) { DRINKS = list; $("#roul-src").textContent = "술로그 실시간 목록 · " + list.length + "종"; }
-      }).catch(function () { $("#roul-src").textContent = "술로그 저장본 · " + DRINKS.length + "종"; });
-    };
     $("#roul-spin").onclick = function () {
       if (rouletteBusy) return;
       rouletteBusy = true;
@@ -185,7 +176,7 @@
       };
       step();
     };
-    D.apps.roulette = function () { $("#roul-name").textContent = "?"; $("#roul-detail").textContent = ""; fetchDrinks(); };
+    D.apps.roulette = function () { $("#roul-name").textContent = "?"; $("#roul-detail").textContent = ""; $("#roul-src").textContent = "주인장 목록 · " + DRINKS.length + "종"; };
 
     /* =========================== 타자연습 =========================== */
     var ty = { list: [], i: 0, start: 0, typed: 0, errs: 0 };

@@ -70,8 +70,6 @@
         <h6><span class="e">📔</span> 기록</h6>
         <div class="group-icons">
           <button class="icon" data-open="diary"><span class="glyph">📔</span><span class="name">일기장</span></button>
-          <button class="icon" data-open="whisky"><span class="glyph">🥃</span><span class="name">위스키 저장소 (W:)</span></button>
-
           <button class="icon" data-open="roulette"><span class="glyph">🎰</span><span class="name">오늘 뭐 마시지.exe</span></button>
           <button class="icon" data-open="todo"><span class="glyph">✅</span><span class="name">할 일.txt</span></button>          <button class="icon" data-open="guestbook"><span class="glyph">💬</span><span class="name">방명록.exe</span></button>
         </div>
@@ -304,48 +302,6 @@ LNG가 기화할 때 바다로 그냥 버려지던 냉기를
         <div class="row right" style="margin-top: 8px;"><button id="kill-btn">작업 끝내기</button></div>
       </div>
       <div class="status-bar"><p class="status-bar-field" id="proc-count">프로세스: 0</p><p class="status-bar-field" id="cpu-total">CPU 사용: 0%</p></div>
-    </div>
-
-    <!-- ===== 위스키 저장소 ===== -->
-    <div class="window app" id="whisky" style="width: 400px;" data-title="위스키 저장소 (W:)">
-      <div class="title-bar">
-        <div class="title-bar-text">🥃 W:\ 네트워크 드라이브 연결</div>
-        <div class="title-bar-controls"><button aria-label="Close"></button></div>
-      </div>
-      <div class="window-body">
-        <div class="row" style="align-items: flex-start; gap: 14px; flex-wrap: nowrap;">
-          <div class="big-emoji">🔒</div>
-          <div>
-            <p><b>W:\ 위스키 저장소는 보호된 드라이브입니다.</b></p>
-            <p>접근 권한 확인:<br>· 만 19세 이상입니까?<br>· 내일 1교시가 없습니까?<br>· 캠벨타운부터 아일라까지 이야기할 시간이 있습니까?</p>
-          </div>
-        </div>
-        <div class="row right"><button id="w-yes">예, 전부 해당</button><button id="w-no">아니오</button></div>
-      </div>
-    </div>
-
-    <div class="window app" id="soollog" style="width: 920px; height: 640px;" data-title="술로그 (W:)">
-      <div class="title-bar">
-        <div class="title-bar-text">🥃 W:\ 술로그 - 김동현의 위스키 지도</div>
-        <div class="title-bar-controls"><button aria-label="Minimize"></button><button aria-label="Maximize"></button><button aria-label="Close"></button></div>
-      </div>
-      <div class="window-body sool">
-        <div class="row" style="margin-bottom: 6px;">
-          <span>주소:</span>
-          <input type="text" value="https://sool-log.onrender.com" readonly style="flex: 1;">
-          <a href="https://sool-log.onrender.com" target="_blank" rel="noopener"><button>새 창에서 열기</button></a>
-        </div>
-        <div class="sool-frame">
-          <div class="sool-wait" id="sool-wait">
-            <div class="big-emoji">🥃</div>
-            <p><b>W:\ 드라이브에 연결하는 중...</b></p>
-            <p class="muted">저장소 서버가 자고 있으면 깨우는 데 최대 1분 걸립니다.<br>위스키는 원래 기다림의 술입니다.</p>
-            <div class="progress-indicator"><span class="progress-indicator-bar" id="sool-bar" style="width: 0%"></span></div>
-          </div>
-          <iframe id="sool-iframe" title="술로그" allow="geolocation" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-      <div class="status-bar"><p class="status-bar-field" id="sool-status">연결 중</p><p class="status-bar-field">읽기 전용 · 기록은 주인장만</p></div>
     </div>
 
     <!-- ===== 증명사진 ===== -->
@@ -679,8 +635,8 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       </div>
       <div class="window-body">
         <div class="roul-box"><div class="roul-name" id="roul-name">?</div><div class="roul-detail" id="roul-detail"></div></div>
-        <div class="row" style="justify-content: center; margin-top: 10px;"><button id="roul-spin" style="min-width: 140px; height: 34px;">🎰 돌리기</button><button data-open="soollog">W: 술로그 열기</button></div>
-        <p class="muted" style="margin: 8px 0 0; text-align: center;"><span id="roul-src">목록 불러오는 중...</span><br>만 19세 이상 · 과음 금지 · 마셨으면 운전 금지</p>
+        <div class="row" style="justify-content: center; margin-top: 10px;"><button id="roul-spin" style="min-width: 140px; height: 34px;">🎰 돌리기</button></div>
+        <p class="muted" style="margin: 8px 0 0; text-align: center;"><span id="roul-src"></span><br>만 19세 이상 · 과음 금지 · 마셨으면 운전 금지</p>
       </div>
     </div>
 
@@ -833,7 +789,6 @@ GitHub : <a href="https://github.com/Dkinen" target="_blank" rel="noopener">gith
       <li><button data-open="dday"><span>📅</span>D-day</button></li>
       <li class="cat"><span class="e">📔</span> 기록</li>
       <li><button data-open="diary"><span>📔</span>일기장</button></li>
-      <li><button data-open="whisky"><span>🥃</span>위스키 저장소 (W:)</button></li>
       <li><button data-open="roulette"><span>🎰</span>오늘 뭐 마시지.exe</button></li>
       <li><button data-open="todo"><span>✅</span>할 일.txt</button></li>
       <li><button data-open="guestbook"><span>💬</span>방명록.exe</button></li>

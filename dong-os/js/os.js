@@ -215,7 +215,6 @@
       ["INTP 경고", "생각이 너무 많습니다. 정리하시겠습니까? (정리 기능 없음)"],
       ["Why not?", "안 될 이유가 감지되지 않았습니다. 일단 해 보세요."],
       ["졸업일자.cfg", "졸업일 확인 중... 아직도 2월인지 8월인지 모릅니다."],
-      ["위스키 저장소", "W: 드라이브가 당신을 기다리고 있습니다. (만 19세 이상)"],
       ["시스템", "김동현 맞추기.exe를 실행해 보셨나요? 찐친 인증서가 걸려 있습니다."],
       ["안전 알림", "산업안전기사 보유 시스템입니다. 안전모 착용을 권장합니다. 🦺"]
     ];
@@ -284,7 +283,7 @@
     { q: "김동현의 최애 농구선수는?", a: ["러셀 웨스트브룩", "스테판 커리"], answer: 0, c: "Why not? 당연히 웨스트브룩." },
     { q: "치킨 vs 피자, 김동현의 선택은?", a: ["🍕 피자", "🍗 치킨"], answer: 1, c: "치킨. 고민하는 사이에 이미 주문했습니다." },
     { q: "김동현의 MBTI는?", a: ["INTP", "ESTJ"], answer: 0, c: "논리적인 사색가. 계획표보다 생각이 먼저입니다." },
-    { q: "오늘 한잔한다면?", a: ["🥃 위스키", "🍺 맥주"], answer: 0, c: "위스키. W: 드라이브가 괜히 있는 게 아닙니다." },
+    { q: "오늘 한잔한다면?", a: ["🥃 위스키", "🍺 맥주"], answer: 0, c: "위스키. 천천히 마시는 쪽을 고릅니다." },
     { q: "김동현의 좌우명은?", a: ["\"Why?\"", "\"Why not?\""], answer: 1, c: "INTP인데 좌우명은 Why not. 본인도 이 모순을 설명하지 못합니다." },
     { q: "치킨을 시킨다면?", a: ["양념", "후라이드"], answer: 1, c: "후라이드. 본연의 맛을 분석하는 INTP의 선택." },
     { q: "2023년 탕후루 알바 시절 직급은?", a: ["견습생", "마스터"], answer: 1, c: "시럽 온도와 코팅 두께를 모두 정복했습니다." },
@@ -338,7 +337,7 @@
     var result = function () {
       status();
       var n = QUIZ.length, rank, desc;
-      if (score === n) { rank = "🏅 찐친 인증"; desc = "김동현을 김동현보다 잘 아십니다. 위스키 저장소 접근 권한을 신청해 보세요."; }
+      if (score === n) { rank = "🏅 찐친 인증"; desc = "김동현을 김동현보다 잘 아십니다. 방명록에 한마디 남기고 가세요."; }
       else if (score >= n - 3) { rank = "🤝 꽤 친한 사이"; desc = "거의 다 왔습니다. 후라이드 한 마리 같이 먹으면 만점입니다."; }
       else if (score >= Math.ceil(n / 2)) { rank = "👋 아는 사람"; desc = "내 컴퓨터와 프로젝트 폴더를 열어 보고 다시 도전하세요."; }
       else { rank = "🙇 처음 뵙겠습니다"; desc = "반갑습니다. 김동현입니다. 바탕화면부터 천천히 둘러보세요."; }
@@ -439,13 +438,6 @@
       $("h3", view).textContent = p.title || "(제목 없음)";
       $(".meta", view).textContent = p.date + "  ·  기분 " + (p.mood || "-") + "  ·  날씨 " + (p.weather || "-");
       $(".content", view).innerHTML = p.content;   // 주인장이 Commit한 글만 들어옴
-      if ((p.mood || "").indexOf("🥃") !== -1) {
-        var sb = document.createElement("button");
-        sb.className = "diary-sool";
-        sb.textContent = "🥃 이날 마신 술 보기 (W: 술로그)";
-        sb.addEventListener("click", function () { openWin("soollog"); });
-        view.appendChild(sb);
-      }
       view.scrollTop = 0;
     };
     var load = function () {
@@ -502,45 +494,6 @@
     });
   }
 
-  /* ---------- 위스키 저장소 (술로그 연동) ---------- */
-  var SOOL_URL = "https://sool-log.onrender.com";
-  function initWhisky() {
-    $("#w-no").addEventListener("click", function () {
-      closeWin($("#whisky"));
-      msg("W:\\ 액세스 거부", "조건을 모두 만족하는 사용자만 열 수 있습니다.\n내일 1교시 끝나고 다시 오세요.", "🔒");
-    });
-    $("#w-yes").addEventListener("click", function () {
-      closeWin($("#whisky"));
-      openWin("soollog");
-    });
-    var frame = $("#sool-iframe"), wait = $("#sool-wait"), bar = $("#sool-bar"), status = $("#sool-status");
-    var loaded = false, timer = null;
-    var ready = function () {
-      if (loaded) return;
-      loaded = true;
-      clearInterval(timer);
-      wait.classList.add("hide");
-      status.textContent = "연결됨 · W:\\";
-    };
-    frame.addEventListener("load", function () { if (frame.getAttribute("src")) ready(); });
-    apps.soollog = function () {
-      if (loaded || frame.getAttribute("src")) return;
-      var t = 0;
-      status.textContent = "연결 중";
-      frame.setAttribute("src", SOOL_URL);
-      // 서버가 응답하면(깨어나면) 지도 타일을 다 받기 전이라도 안내 화면을 걷음
-      fetch(SOOL_URL + "/api/auth/status", { mode: "no-cors", cache: "no-store" })
-        .then(function () { setTimeout(ready, 1500); })
-        .catch(function () {});
-      // Render 무료 서버가 깨어나는 동안 진행 표시 (최대 약 60초)
-      timer = setInterval(function () {
-        t++;
-        bar.style.width = Math.min(95, t * 1.6) + "%";
-        if (t === 75) status.textContent = "응답이 늦습니다 · [새 창에서 열기]를 눌러 보세요";
-      }, 1000);
-    };
-  }
-
   window.DONG = { openWin: openWin, closeWin: closeWin, msg: msg, apps: apps, closers: closers, $: $, $$: $$, isMobile: isMobile, isTouch: isTouch };
 
   /* ---------- 시작 ---------- */
@@ -554,7 +507,6 @@
     initTaskmgr();
     initTrash();
     initDiary();
-    initWhisky();
     boot();
     // 처음 방문하면 내 컴퓨터를 열어 둠
     setTimeout(function () { if (!$(".app.open")) openWin("mycomputer"); }, 2800);

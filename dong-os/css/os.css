@@ -389,26 +389,6 @@ a { color: #0000ee; }
 .win-logo i:nth-child(3) { background: #05a6f0; }
 .win-logo i:nth-child(4) { background: #ffba08; }
 
-/* 술로그 (W: 드라이브) */
-.window-body.sool { display: flex; flex-direction: column; }
-.sool-frame { position: relative; flex: 1; min-height: 360px; background: #121014; border: 2px solid; border-color: grey #fff #fff grey; }
-.sool-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #121014; }
-.sool-wait {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: var(--face);
-  padding: 20px;
-}
-.sool-wait .progress-indicator { width: 260px; }
-.sool-wait.hide { display: none; }
-.sool-wait .big-emoji { margin-bottom: 12px; }
-
 /* =========================================================
    v2: 카테고리별 바탕화면 + 새 프로그램
    ========================================================= */
@@ -570,9 +550,6 @@ a { color: #0000ee; }
 .bsod-title { display: table; margin: 0 auto 22px; background: #aaa; color: #0000aa; padding: 0 10px; }
 .bsod-blink { text-align: center; margin-top: 22px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-
-/* 일기장 → 술로그 */
-.diary-sool { margin-top: 16px; }
 
 /* 모바일: 그룹을 세로로 쌓기 */
 @media (max-width: 700px) {
