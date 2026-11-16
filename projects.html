@@ -126,6 +126,33 @@
           </div>
         </article>
 
+        <!-- 프로젝트 4: 일조 배치 최적화 대결 -->
+        <article class="project reveal" id="layout-duel">
+          <figure class="project-media">
+            <div class="project-thumb contain">
+              <img src="images/project-layout-loop.svg" alt="AI 제안 · 평가 엔진 M1–M6 · 결과 · AI 해석이 반복되는 루프 구성도">
+            </div>
+            <figcaption>평가 엔진을 공유하는 AI 에이전트와 유전 알고리즘의 대결 구조</figcaption>
+          </figure>
+          <div>
+            <p class="label">No. 04 · In Progress</p>
+            <h3>일조 배치 최적화 대결<br><small>(AI 에이전트 vs 다목적 유전 알고리즘)</small></h3>
+            <p class="meta">2026.11 – 진행 중 · 캡스톤 디자인 2 · 개인 연구</p>
+            <p class="desc">아파트 단지 배치는 법규, 사업성, 일조·조망·바람길, 보행 동선을 한꺼번에 맞춰야 하는 문제입니다. 지금 실무와 연구에서는 Grasshopper의 Galapagos·Wallacei 같은 유전 알고리즘으로 풉니다. 이 연구는 네 기준을 점수로 바꾸는 평가 엔진을 만들고, 그 엔진을 공유하는 두 방식 — 이유를 대며 안을 고치는 AI 에이전트와 NSGA-II — 을 같은 평가 횟수(200회)로 겨루게 합니다. 실제 준공 단지의 배치도 같은 엔진으로 평가해 기준선으로 씁니다.</p>
+            <ul class="spec facts">
+              <li><span class="key">Question</span><span>AI는 법규를 지키며 사업성과 쾌적성을 함께 맞춘 배치를 유전 알고리즘보다 빨리 찾는가 (RQ1–RQ5)</span></li>
+              <li><span class="key">Engine</span><span>M1 법규 · M2 사업성 · M3 일조 · M4 조망 · M5 바람길 · M6 동선 — 법규는 필수 조건, 나머지는 점수로 겨루는 목표</span></li>
+              <li><span class="key">Baseline</span><span>NSGA-II · 랜덤 탐색 · AI→NSGA-II 혼합 · 실제 준공 단지, 모두 같은 평가 예산</span></li>
+              <li><span class="key">Measure</span><span>AI가 수정 전에 적은 득실 예측을 실제 평가와 대조해 채점 — 설명이 그럴듯한지가 아니라 맞는지를 잼</span></li>
+              <li><span class="key">Status</span><span>M1 법규 검사기 완성, 법령 원문 7종과 대조 · 검사 항목 17종 · 검증 단지(래미안 라클래시) 자료 수집 중</span></li>
+            </ul>
+            <p class="stack"><span>Python</span><span>shapely</span><span>numpy</span><span>Anthropic SDK</span><span>NSGA-II</span></p>
+            <div class="links">
+              <a href="sunlight-layout/" class="text-link" target="_blank" rel="noopener">연구 계획 · 진행 상황</a>
+            </div>
+          </div>
+        </article>
+
       </div>
     </section>
   </main>

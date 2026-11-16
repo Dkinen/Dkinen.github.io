@@ -26,6 +26,9 @@
     /* ---------- 캡스톤 연구노트 (capstone/index.html) ---------- */
     var cf = $("#capstone-frame");
     D.apps.capstone = function () { if (!cf.getAttribute("src")) cf.setAttribute("src", cf.dataset.src); };
+    /* ---------- 일조 배치 최적화 대결 (../sunlight-layout/) ---------- */
+    var ldf = $("#layoutduel-frame");
+    D.apps.layoutduel = function () { if (!ldf.getAttribute("src")) ldf.setAttribute("src", ldf.dataset.src); };
     /* ---------- The Basketball 00 (hoops/, Unity 웹 빌드) ---------- */
     // 열 때 불러오고, 닫으면 비워서 게임 소리·메모리를 끈다
     var hf = $("#hoops-frame");

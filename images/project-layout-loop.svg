@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" width="640" height="480" role="img" aria-label="AI 제안, 평가 엔진, 결과, AI 해석이 반복되는 루프. NSGA-II와 랜덤 탐색은 같은 평가 엔진을 같은 횟수만큼 쓴다.">
+  <style>
+    text { font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; fill: #1b2420; }
+    .t-sun { fill: #b46400; }
+    .t-ga { fill: #2c5b8a; }
+    .t-muted { fill: #59665f; }
+    .box { fill: #ffffff; stroke: #1b2420; stroke-width: 1.2; }
+    .box-sun { fill: #fbefdc; stroke: #b46400; stroke-width: 1.5; }
+    .box-ga { fill: #e6eef6; stroke: #2c5b8a; stroke-width: 1.2; stroke-dasharray: 5 4; }
+    .arrow { stroke: #1b2420; stroke-width: 1.5; fill: none; }
+    .ah { fill: #1b2420; }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ah"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="640" height="480" fill="#f2f4f3"/>
+
+  <text x="30" y="40" font-size="15" font-weight="700" class="t-muted">평가 엔진을 가운데 두고 AI와 유전 알고리즘이 같은 예산으로 겨룬다</text>
+
+  <g transform="translate(0,46)">
+    <rect class="box-sun" x="30" y="24" width="250" height="96" rx="4"/>
+    <text x="46" y="52" font-size="15" font-weight="700" class="t-sun">① 제안 · AI</text>
+    <text x="46" y="76" font-size="13.5">배치안 5개와 전략,</text>
+    <text x="46" y="98" font-size="13.5">기준별 예상 득실을 적는다</text>
+
+    <rect class="box" x="360" y="24" width="250" height="96" rx="4"/>
+    <text x="376" y="52" font-size="15" font-weight="700">② 평가 엔진 M1–M6</text>
+    <text x="376" y="76" font-size="13.5">법규 · 사업성 · 일조</text>
+    <text x="376" y="98" font-size="13.5">조망 · 바람길 · 동선</text>
+
+    <rect class="box" x="360" y="200" width="250" height="96" rx="4"/>
+    <text x="376" y="228" font-size="15" font-weight="700">③ 결과</text>
+    <text x="376" y="252" font-size="13.5">위반 목록과 기준별 점수,</text>
+    <text x="376" y="274" font-size="13.5">모든 지표를 겹친 배치도</text>
+
+    <rect class="box-sun" x="30" y="200" width="250" height="96" rx="4"/>
+    <text x="46" y="228" font-size="15" font-weight="700" class="t-sun">④ 해석 · AI</text>
+    <text x="46" y="252" font-size="13.5">위반 원인과 득실을 판단하고</text>
+    <text x="46" y="274" font-size="13.5">지난 예측이 맞았는지 기록</text>
+
+    <path class="arrow" d="M280,72 L356,72" marker-end="url(#ah)"/>
+    <path class="arrow" d="M485,120 L485,196" marker-end="url(#ah)"/>
+    <path class="arrow" d="M360,248 L284,248" marker-end="url(#ah)"/>
+    <path class="arrow" d="M155,200 L155,124" marker-end="url(#ah)"/>
+
+    <text x="320" y="156" font-size="13" text-anchor="middle" class="t-muted">평가 200회가 될 때까지 반복</text>
+    <text x="320" y="176" font-size="13" text-anchor="middle" class="t-muted">모든 판단은 설계 일지에 저장</text>
+
+    <rect class="box-ga" x="30" y="330" width="580" height="44" rx="4"/>
+    <text x="46" y="357" font-size="13.5" class="t-ga">NSGA-II와 랜덤 탐색은 같은 평가 엔진을 같은 200회만 쓴다. 한 세대에 5개씩.</text>
+  </g>
+</svg>

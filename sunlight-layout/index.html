@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>일조 배치 최적화 대결</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: 배치도 시트 한 단. 태양색(AI)과 청색(GA) 두 선이 페이지 전체의 비교 축을 이룬다. */
+:root {
+  --paper: #f2f4f3;
+  --sheet: #ffffff;
+  --ink: #1b2420;
+  --muted: #59665f;
+  --rule: #d2dad6;
+  --sun: #b46400;
+  --sun-bg: #fbefdc;
+  --ga: #2c5b8a;
+  --ga-bg: #e6eef6;
+  --hy: #2b7a56;
+  --rnd: #8b9590;
+  --body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --mono: "IBM Plex Mono", "D2Coding", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101513; --sheet: #172019; --ink: #e2e9e5; --muted: #98a69f; --rule: #2b3631;
+    --sun: #f0a63a; --sun-bg: #33271a; --ga: #84b4e0; --ga-bg: #1b2735; --hy: #6cc79a; --rnd: #77827d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #101513; --sheet: #172019; --ink: #e2e9e5; --muted: #98a69f; --rule: #2b3631;
+  --sun: #f0a63a; --sun-bg: #33271a; --ga: #84b4e0; --ga-bg: #1b2735; --hy: #6cc79a; --rnd: #77827d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.7; margin: 0;
+  padding-block: 40px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 880px; margin: 0 auto; display: grid; gap: 60px; }
+section { display: grid; gap: 16px; min-width: 0; }
+.eyebrow { font: 500 12.5px/1.4 var(--mono); letter-spacing: .06em; color: var(--muted); }
+h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.3; margin: 0; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+h2 { font-size: 22px; line-height: 1.35; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 16px; margin: 0; font-weight: 700; }
+p { margin: 0; max-width: 66ch; }
+.lead { font-size: 18px; color: var(--muted); max-width: 62ch; }
+.caption { font-size: 13.5px; color: var(--muted); }
+.sun { color: var(--sun); } .ga { color: var(--ga); }
+.mono { font-family: var(--mono); font-size: .88em; }
+
+.titleblock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--ink); background: var(--sheet); }
+.titleblock div { padding: 10px 14px; border-right: 1px solid var(--ink); min-width: 0; }
+.titleblock div:last-child { border-right: 0; }
+.titleblock .k { display: block; font: 500 11.5px/1.4 var(--mono); letter-spacing: .05em; color: var(--muted); }
+.titleblock .v { font-weight: 700; font-size: 15px; }
+
+.versus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--rule); background: var(--sheet); }
+.versus > div { padding: 18px 20px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.versus > div + div { border-left: 1px solid var(--rule); }
+.versus .tag { font: 700 12px/1.4 var(--mono); letter-spacing: .05em; }
+.versus ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+
+.log { background: var(--sheet); border: 1px solid var(--rule); border-top: 3px solid var(--sun); }
+.log .head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 18px; border-bottom: 1px solid var(--rule); font: 500 12.5px/1.4 var(--mono); color: var(--muted); }
+.log dl { margin: 0; display: grid; grid-template-columns: 72px minmax(0, 1fr); }
+.log dt, .log dd { margin: 0; padding: 10px 18px; border-bottom: 1px solid var(--rule); font-size: 15px; }
+.log dt { font: 700 13px/1.9 var(--mono); color: var(--sun); padding-right: 0; }
+.log dl > :nth-last-child(-n+2) { border-bottom: 0; }
+.log .hit { background: var(--sun-bg); }
+
+.points { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.points li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding-top: 14px; border-top: 1px solid var(--rule); }
+.points li:first-child { border-top: 0; padding-top: 0; }
+.points .k { font-weight: 700; }
+
+.tbl { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--sheet); }
+th, td { border: 1px solid var(--rule); padding: 8px 12px; text-align: left; vertical-align: top; }
+th { font: 700 12.5px/1.4 var(--mono); letter-spacing: .03em; color: var(--muted); white-space: nowrap; }
+td.w { white-space: nowrap; font-family: var(--mono); font-size: 13px; font-weight: 700; }
+tr.must td { background: var(--sun-bg); }
+.pill { display: inline-block; font: 700 11.5px/1.6 var(--mono); padding: 0 7px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.must { color: var(--sun); }
+.pill.goal { color: var(--ga); }
+.chip { display: inline-block; font: 700 12px/1.6 var(--mono); padding: 1px 8px; margin: 0 4px 4px 0; background: var(--ga-bg); color: var(--ga); white-space: nowrap; }
+.prec { font: 700 12px/1.6 var(--mono); white-space: nowrap; }
+.prec.hi { color: var(--sun); } .prec.lo { color: var(--muted); }
+
+.fig { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); padding: 12px; }
+.fig svg { display: block; width: 100%; min-width: 560px; height: auto; }
+svg text { font-family: var(--body); fill: var(--ink); }
+svg .t-muted { fill: var(--muted); }
+svg .t-sun { fill: var(--sun); } svg .t-ga { fill: var(--ga); }
+svg .box { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
+svg .box-sun { fill: var(--sun-bg); stroke: var(--sun); stroke-width: 1.5; }
+svg .box-ga { fill: var(--ga-bg); stroke: var(--ga); stroke-width: 1.2; stroke-dasharray: 5 4; }
+svg .arrow { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+svg .grid { stroke: var(--rule); stroke-width: 1; }
+svg .axis { stroke: var(--muted); stroke-width: 1; }
+svg .real { stroke: var(--muted); stroke-width: 1.4; stroke-dasharray: 6 5; }
+svg .l-ai { stroke: var(--sun); stroke-width: 2.6; fill: none; }
+svg .l-ga { stroke: var(--ga); stroke-width: 2.6; fill: none; }
+svg .l-hy { stroke: var(--hy); stroke-width: 2.6; fill: none; }
+svg .l-rnd { stroke: var(--rnd); stroke-width: 2; fill: none; stroke-dasharray: 3 4; }
+svg .ah { fill: var(--ink); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13.5px; }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 22px; height: 0; border-top: 3px solid; display: inline-block; }
+
+.rq { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.rq li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 12px; }
+.rq .id { font: 700 14px/1.7 var(--mono); color: var(--sun); }
+
+.uses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.uses > div { background: var(--sheet); padding: 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.uses p { font-size: 15px; color: var(--muted); }
+.uses .wide { grid-column: 1 / -1; }
+.note { border-left: 3px solid var(--ga); background: var(--ga-bg); padding: 12px 16px; display: grid; gap: 6px; font-size: 15px; }
+.note b { color: var(--ga); }
+ol.cut { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 15px; }
+ul.plain { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 66ch; }
+table.adv { min-width: 760px; }
+.adv td { font-size: 14px; }
+.adv th.gac { color: var(--ga); }
+.adv th.ai { color: var(--sun); }
+.adv td.ai { background: var(--sun-bg); }
+.adv td.k { font-weight: 700; white-space: nowrap; }
+.adv td.v { color: var(--muted); font-size: 13px; }
+.honest { display: grid; gap: 8px; border: 1px solid var(--rule); border-left: 3px solid var(--ga); background: var(--sheet); padding: 14px 18px; }
+.honest h3 { color: var(--ga); }
+.honest ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+
+/* 보기 전환 탭: 도면 시트 가장자리의 인덱스 탭 */
+.tabs { max-width: 880px; margin: 0 auto 36px; display: flex; gap: 0; border-bottom: 1px solid var(--ink); }
+.tabs a { font: 700 13.5px/1.4 var(--mono); letter-spacing: .03em; color: var(--muted); text-decoration: none; padding: 9px 16px; border: 1px solid transparent; border-bottom: 0; margin-bottom: -1px; }
+.tabs a:hover { color: var(--ink); }
+.tabs a[aria-current="page"] { color: var(--ink); background: var(--sheet); border-color: var(--ink); }
+.tabs a:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+
+/* 진행 상황 */
+.track { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); border: 1px solid var(--ink); background: var(--sheet); }
+.track > div { padding: 10px 10px 12px; border-right: 1px solid var(--rule); display: grid; gap: 4px; align-content: start; min-width: 0; }
+.track > div:last-child { border-right: 0; }
+.track .bar { height: 6px; background: var(--rule); }
+.track .done .bar { background: var(--hy); }
+.track .next .bar { background: linear-gradient(90deg, var(--sun) 35%, var(--rule) 35%); }
+.track .id { font: 700 13px/1.3 var(--mono); }
+.track .nm { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+.st { display: inline-block; font: 700 11.5px/1.6 var(--mono); padding: 0 7px; border: 1px solid currentColor; white-space: nowrap; }
+.st.done { color: var(--hy); } .st.next { color: var(--sun); } .st.todo { color: var(--muted); }
+.term { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); border-top: 3px solid var(--ink); }
+.term pre { margin: 0; padding: 14px 18px; font: 400 13px/1.65 var(--mono); white-space: pre; tab-size: 4; }
+.term .bad { color: var(--sun); font-weight: 700; }
+.term .dim { color: var(--muted); }
+.fixes { margin: 0; padding: 0; list-style: none; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.fixes li { background: var(--sheet); padding: 14px 18px; display: grid; gap: 4px; }
+.fixes .was { font-size: 14px; color: var(--muted); }
+.site { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.site > div { background: var(--sheet); padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.site dl { margin: 0; display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 4px 12px; font-size: 14.5px; }
+.site dt { color: var(--muted); font: 500 12.5px/1.9 var(--mono); }
+.site dd { margin: 0; }
+.site ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14.5px; }
+.todo-list { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 66ch; }
+.talk { margin: 0; padding: 0; list-style: none; counter-reset: talk; display: grid; gap: 0; border-top: 1px solid var(--ink); }
+.talk li { counter-increment: talk; display: grid; grid-template-columns: 44px minmax(0, 1fr) 64px; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.talk li::before { content: counter(talk, decimal-leading-zero); font: 700 14px/1.7 var(--mono); color: var(--sun); }
+.talk .say { font-size: 15px; }
+.talk .say b { display: block; font-size: 16px; margin-bottom: 2px; }
+.talk .show { font-size: 13.5px; color: var(--muted); margin-top: 4px; }
+.talk .min { font: 500 12.5px/1.9 var(--mono); color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.key { border: 1px solid var(--sun); background: var(--sun-bg); padding: 16px 20px; font-size: 17px; font-weight: 700; line-height: 1.6; }
+.qa { margin: 0; display: grid; gap: 0; }
+.qa dt { font-weight: 700; padding-top: 12px; border-top: 1px solid var(--rule); }
+.qa dt:first-child { border-top: 0; padding-top: 0; }
+.qa dd { margin: 4px 0 12px; color: var(--muted); font-size: 15px; max-width: 66ch; }
+
+@media (max-width: 680px) {
+  .track { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .track > div:nth-child(4) { border-right: 0; }
+  .track > div:nth-child(-n+4) { border-bottom: 1px solid var(--rule); }
+  .site { grid-template-columns: 1fr; }
+  .talk li { grid-template-columns: 36px minmax(0, 1fr); }
+  .talk .min { grid-column: 2; text-align: left; }
+  .titleblock { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .titleblock div:nth-child(2) { border-right: 0; }
+  .titleblock div:nth-child(-n+2) { border-bottom: 1px solid var(--ink); }
+  .versus, .uses { grid-template-columns: 1fr; }
+  .versus > div + div { border-left: 0; border-top: 1px solid var(--rule); }
+  .points li { grid-template-columns: 1fr; gap: 2px; }
+  .log dl { grid-template-columns: 1fr; }
+  .log dt { border-bottom: 0; padding-bottom: 0; }
+}
+</style>
+
+<nav class="tabs" aria-label="보기 전환">
+  <a href="#plan" id="tab-plan" aria-current="page">연구 계획</a>
+  <a href="#progress" id="tab-progress">진행 상황 · 발표</a>
+</nav>
+
+<div class="wrap" id="view-plan">
+
+  <header style="display:grid; gap:18px;">
+    <div class="eyebrow">캡스톤 디자인 2 · 선정 주제 · 2026.11.09</div>
+    <h1>AI는 법규를 지키며 사업성과 쾌적성을 함께 맞춘 단지 배치를 유전 알고리즘보다 빨리 찾는가</h1>
+    <p class="lead">아파트 단지 배치를 법규, 사업성, 일조·조망·바람길, 보행 동선의 네 가지 기준으로 평가하는 엔진을 만들고, 이유를 대며 안을 고치는 AI 에이전트와 다목적 유전 알고리즘을 같은 평가 횟수로 겨룹니다. 실제 준공 단지의 배치도 같은 엔진으로 평가해 기준선으로 씁니다.</p>
+    <div class="titleblock">
+      <div><span class="k">분야</span><span class="v">환경 · 단지계획</span></div>
+      <div><span class="k">대상</span><span class="v">공동주택 단지 배치</span></div>
+      <div><span class="k">기간</span><span class="v">6주</span></div>
+      <div><span class="k">상태</span><span class="v">M1 완료 · 검증 준비</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">핵심 아이디어</div>
+    <h2>같은 문제를 푸는 두 방식</h2>
+    <div class="versus">
+      <div>
+        <span class="tag ga">다목적 유전 알고리즘 (NSGA-II)</span>
+        <ol>
+          <li>배치안을 무작위로 많이 만든다</li>
+          <li>모두 평가 엔진에 넣는다</li>
+          <li>여러 목표에서 우수한 안끼리 섞고 조금씩 바꾼다</li>
+          <li>수백 번 반복한다</li>
+        </ol>
+        <p class="caption">왜 그 안이 나왔는지는 남지 않습니다. 새 조건이 생기면 코드를 고쳐야 합니다.</p>
+      </div>
+      <div>
+        <span class="tag sun">AI 에이전트</span>
+        <ol>
+          <li>대지를 보고 배치 전략을 먼저 세운다</li>
+          <li>위반 목록과 겹친 배치도 이미지를 읽는다</li>
+          <li>기준 사이의 득실을 따져 고칠 안과 예상 변화를 적는다</li>
+          <li>평가해서 예측이 맞았는지 확인하고 다시 고친다</li>
+        </ol>
+        <p class="caption">판단과 예측이 설계 일지로 남습니다. 설계자가 말로 조건을 더하면 바로 반영합니다.</p>
+      </div>
+    </div>
+
+    <div class="log" role="figure" aria-label="AI 설계 일지 예시">
+      <div class="head"><span>AI 설계 일지 · 비정형 대지 · 평가 #41–45</span><span>설명용 예시</span></div>
+      <dl>
+        <dt>관찰</dt><dd>법규 위반 1건: 101동과 103동 사이 인동거리 3.2m 부족. 일조 확보 86%, 세대수는 목표의 97%.</dd>
+        <dt>판단</dt><dd>103동을 북쪽으로 4m 밀면 인동거리는 풀리지만 정북 일조 사선에 걸려 2개 층을 잃는다. 103동을 판상형에서 타워형으로 바꾸면 폭이 줄어 인동거리와 사선을 함께 피하고, 동측 산 조망도 열린다.</dd>
+        <dt>제안</dt><dd>103동 타워형 전환, 타워형 전환 + 15° 회전 등 5개 안</dd>
+        <dt>예측</dt><dd>위반 0건, 세대수 4세대 감소, 일조 3%p 상승, 조망 6%p 상승</dd>
+        <dt class="hit">실제</dt><dd class="hit">2번 안: 위반 0건, 세대수 6세대 감소, 일조 4%p 상승, 조망 5%p 상승. <b>네 항목 모두 방향 맞음</b></dd>
+      </dl>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">유전 알고리즘 대비 장점</div>
+    <h2>지금 방식보다 무엇이 나은가</h2>
+    <p>현재 연구와 실무에서는 Grasshopper의 Galapagos나 Wallacei 같은 유전 알고리즘 도구로 배치를 최적화합니다. AI 에이전트가 이 방식보다 나을 것으로 보는 점은 일곱 가지입니다. 모두 가설이고, 각각 어떤 실험으로 확인하는지 함께 적었습니다.</p>
+    <div class="tbl">
+      <table class="adv">
+        <thead><tr><th>관점</th><th class="gac">유전 알고리즘 (현재 방식)</th><th class="ai">AI 에이전트</th><th>확인 방법</th></tr></thead>
+        <tbody>
+          <tr><td class="k">1. 출발점</td><td>무작위 배치에서 시작합니다. 처음 수십 회는 대부분 법규를 어긴 안입니다.</td><td class="ai">대지를 해석해 전략을 세운 뒤 시작합니다. 첫 안부터 북측 저층, 남측 판상형 같은 계획 원칙을 따릅니다.</td><td class="v">RQ1 첫 적법안까지 평가 횟수</td></tr>
+          <tr><td class="k">2. 법규 위반 처리</td><td>위반을 벌점 하나로 뭉쳐 받습니다. 어느 동이 왜 걸렸는지 알지 못하고 무작위로 바꿔 봅니다.</td><td class="ai">"101동과 103동 인동거리 3.2m 부족"을 읽고 그 동만 골라 고칩니다.</td><td class="v">RQ1 적법안 비율</td></tr>
+          <tr><td class="k">3. 탐색 효율</td><td>보통 수천 회 평가가 필요합니다. 개체 50~100개를 수십 세대 반복합니다.</td><td class="ai">원인을 겨냥해 고치므로 수백 회 안에 좋은 안에 닿을 것으로 예상합니다.</td><td class="v">RQ2 같은 예산에서 하이퍼볼륨, 목표 도달 평가 횟수</td></tr>
+          <tr><td class="k">4. 다기준 득실 정리</td><td>결과가 파레토 해 수십~수백 개로 나옵니다. 설계자가 그중에서 직접 골라야 합니다.</td><td class="ai">득실을 따져 사업성 우선, 쾌적성 우선, 균형의 3안으로 정리하고 서로 무엇이 다른지 설명합니다.</td><td class="v">RQ4 블라인드 평가</td></tr>
+          <tr><td class="k">5. 설명 가능성</td><td>최종 숫자만 남습니다. 왜 이 배치인지 말할 수 없습니다.</td><td class="ai">관찰, 판단, 예측, 실제가 설계 일지로 남아 심의와 주민 설명의 근거가 됩니다.</td><td class="v">RQ3 예측 적중률</td></tr>
+          <tr><td class="k">6. 새 조건 반영</td><td>변수와 제약을 코드로 다시 정의하고 처음부터 다시 돌려야 합니다.</td><td class="ai">"104동은 진입로 때문에 고정"을 말로 넣으면 지금 안에서 이어서 고칩니다.</td><td class="v">RQ5 조건 추가 후 다시 좋은 안에 닿기까지 평가 횟수</td></tr>
+          <tr><td class="k">7. 정성 판단</td><td>숫자로 바꾼 목표만 봅니다.</td><td class="ai">겹친 배치도 이미지를 보고 광장의 모양, 동선의 자연스러움 같은 정성 요소도 판단합니다.</td><td class="v">RQ4 블라인드 평가</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="honest">
+      <h3>유전 알고리즘이 여전히 나은 점</h3>
+      <ul>
+        <li><b>비용:</b> 내 컴퓨터에서 돌아가서 API 비용이 들지 않습니다.</li>
+        <li><b>재현성:</b> 난수 시드를 고정하면 매번 같은 결과가 나옵니다. AI는 실행마다 조금씩 다릅니다.</li>
+        <li><b>끝까지 파고드는 탐색:</b> 평가 예산이 충분하면 결국 더 좋은 해를 찾을 수 있습니다. AI는 일찍 정체할 수 있습니다.</li>
+        <li><b>관행에 덜 묶임:</b> AI는 익숙한 배치 관행을 따르다 보니 낯설지만 좋은 배치를 놓칠 수 있습니다.</li>
+      </ul>
+      <p class="caption">그래서 AI가 초반을 맡고 유전 알고리즘이 후반을 맡는 H 조건을 함께 시험합니다. 연구 결론은 어느 단계를 누구에게 맡길지가 될 수도 있습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">의의</div>
+    <h2>왜 해 볼 만한가</h2>
+    <ul class="points">
+      <li><span class="k">건축</span><p>실제 단지 배치는 법규, 사업성, 쾌적성, 동선을 동시에 맞추는 문제입니다. 기준마다 시뮬레이션을 따로 돌리고 사람이 득실을 저울질하느라 초기 배치 검토에 시간이 많이 듭니다. 적은 계산으로 균형 잡힌 안과 그 이유를 함께 얻을 수 있다면 계획 초기 단계에서 바로 쓸 수 있습니다.</p></li>
+      <li><span class="k">AI 활용</span><p>AI가 대지 이미지를 보고 전략을 세우고, 조례 원문에서 수치를 뽑고, 평가 엔진을 직접 호출하고, 결과 이미지를 해석하고, 설계 설명서를 씁니다. 보기, 읽기, 도구 호출, 추론, 계획, 쉬운 말, 반박 검토가 한 과정에 다 들어갑니다.</p></li>
+      <li><span class="k">연구</span><p>AI의 설명이 그럴듯한지가 아니라 맞는지를 잽니다. 수정 전에 적은 득실 예측을 실제 평가와 대조해 채점하고, 최종안을 실제 준공 단지와 같은 엔진으로 비교합니다.</p></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">문제 설정</div>
+    <h2>필수 조건과 목표를 나눕니다</h2>
+    <p>하나라도 어기면 탈락하는 조건과 점수로 겨루는 목표를 구분합니다. 6주 안에 끝내기 위해 기준마다 계산의 정밀도를 다르게 잡았습니다.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>구분</th><th>항목</th><th>모듈</th><th>정밀도</th><th>계산 방식</th></tr></thead>
+        <tbody>
+          <tr class="must"><td><span class="pill must">필수</span></td><td>인동거리와 사생활 거리, 정북 일조 사선, 채광 방향 사선, 대지 경계 이격, 건폐율·용적률 상한, 소방차 접근</td><td class="w">M1 법규</td><td><span class="prec hi">정확</span></td><td>2D 기하 계산. 위반 항목과 부족한 거리를 목록으로 출력</td></tr>
+          <tr><td><span class="pill goal">목표 ①</span></td><td>사업성: 세대수(용적률 달성률), 판상형 비율</td><td class="w">M2 사업성</td><td><span class="prec hi">정확</span></td><td>동 유형별 층당 세대수 × 층수 합산</td></tr>
+          <tr><td><span class="pill goal">목표 ②</span></td><td>일조: 동지 일조 확보 세대 비율</td><td class="w">M3 일조</td><td><span class="prec hi">정밀</span></td><td>세대별 창 중심에서 태양 방향 광선, 10분 간격</td></tr>
+          <tr><td><span class="pill goal">목표 ③</span></td><td>조망: 산·공원·강이 보이는 세대 비율</td><td class="w">M4 조망</td><td><span class="prec hi">정밀</span></td><td>M3 광선 엔진을 재사용. 태양 대신 조망 대상으로 광선</td></tr>
+          <tr><td><span class="pill goal">목표 ④</span></td><td>통경축: 주풍향으로 열린 폭의 비율, 가장 넓은 바람길 폭</td><td class="w">M5 바람길</td><td><span class="prec lo">간이</span></td><td>CFD 대신 주풍향 방향으로 동을 투영해 막힌 폭 계산</td></tr>
+          <tr><td><span class="pill goal">목표 ⑤</span></td><td>보행·동선: 중앙 광장 면적, 역·초등학교 방향 출입구까지 보행거리</td><td class="w">M6 동선</td><td><span class="prec lo">간이</span></td><td>오픈스페이스 다각형 면적, 보행망 최단 경로</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl">
+      <table>
+        <tbody>
+          <tr><th>설계 변수</th><td>동마다 유형(판상형, 타워형, L·V자형), 위치(x, y), 회전 각도, 층수. 판상형과 타워형의 조합, 비정형 대지의 꺾인 배치가 유형 선택으로 들어갑니다.</td></tr>
+          <tr><th>일조 판정</th><td>동지일 <span class="mono">09–15시</span> 중 연속 2시간 이상, 또는 <span class="mono">08–16시</span> 중 누적 4시간 이상 (판례에서 쓰는 기준)</td></tr>
+          <tr><th>법규 수치</th><td>건축법 제61조와 시행령 제86조를 따릅니다. 마주 보는 동은 채광창 면 높이의 0.5배 이상(조례로 정함), 측벽과 측벽 4m, 측벽과 채광창 8m 같은 식입니다. 정확한 수치는 1주차에 현행 시행령과 대상 지역 조례로 확정합니다.</td></tr>
+          <tr><th>입력</th><td>대지 형상, 용도지역과 조례 수치, 주변 건물 높이, 조망 대상, 역과 초등학교 위치, 계절별 주풍향</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <span><b>사생활 보호 거리</b>는 별도 법규가 아니라 인동거리와 같은 조항(시행령 제86조 제3항)에 묶여 있어 M1에서 함께 검사합니다.</span>
+      <span><b>지상에 차 없는 단지</b>와 <b>통경축</b>은 법규가 아니라 설계 목표라서 점수로 평가합니다. 소방차 진입 동선만 필수 조건으로 둡니다.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">프로세스</div>
+    <h2>한 번의 실행은 이렇게 돕니다</h2>
+    <div class="fig">
+      <svg viewBox="0 0 640 380" role="img" aria-label="AI 제안, 평가 엔진, 결과, AI 해석이 반복되는 루프. NSGA-II와 랜덤 탐색은 같은 평가 엔진을 같은 횟수만큼 쓴다.">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" class="ah"/>
+          </marker>
+        </defs>
+        <rect class="box-sun" x="30" y="24" width="250" height="96" rx="4"/>
+        <text x="46" y="52" font-size="15" font-weight="700" class="t-sun">① 제안 · AI</text>
+        <text x="46" y="76" font-size="13.5">배치안 5개와 전략,</text>
+        <text x="46" y="98" font-size="13.5">기준별 예상 득실을 적는다</text>
+
+        <rect class="box" x="360" y="24" width="250" height="96" rx="4"/>
+        <text x="376" y="52" font-size="15" font-weight="700">② 평가 엔진 M1–M6</text>
+        <text x="376" y="76" font-size="13.5">법규 · 사업성 · 일조</text>
+        <text x="376" y="98" font-size="13.5">조망 · 바람길 · 동선</text>
+
+        <rect class="box" x="360" y="200" width="250" height="96" rx="4"/>
+        <text x="376" y="228" font-size="15" font-weight="700">③ 결과</text>
+        <text x="376" y="252" font-size="13.5">위반 목록과 기준별 점수,</text>
+        <text x="376" y="274" font-size="13.5">모든 지표를 겹친 배치도</text>
+
+        <rect class="box-sun" x="30" y="200" width="250" height="96" rx="4"/>
+        <text x="46" y="228" font-size="15" font-weight="700" class="t-sun">④ 해석 · AI</text>
+        <text x="46" y="252" font-size="13.5">위반 원인과 득실을 판단하고</text>
+        <text x="46" y="274" font-size="13.5">지난 예측이 맞았는지 기록</text>
+
+        <path class="arrow" d="M280,72 L356,72" marker-end="url(#ah)"/>
+        <path class="arrow" d="M485,120 L485,196" marker-end="url(#ah)"/>
+        <path class="arrow" d="M360,248 L284,248" marker-end="url(#ah)"/>
+        <path class="arrow" d="M155,200 L155,124" marker-end="url(#ah)"/>
+
+        <text x="320" y="156" font-size="13" text-anchor="middle" class="t-muted">평가 200회가 될 때까지 반복</text>
+        <text x="320" y="176" font-size="13" text-anchor="middle" class="t-muted">모든 판단은 설계 일지에 저장</text>
+
+        <rect class="box-ga" x="30" y="320" width="580" height="44" rx="4"/>
+        <text x="46" y="347" font-size="13.5" class="t-ga">NSGA-II와 랜덤 탐색은 같은 평가 엔진을 같은 200회만 쓴다. 한 세대에 5개씩.</text>
+      </svg>
+    </div>
+
+    <h3 style="margin-top:8px">AI가 일하는 순서</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>단계</th><th>AI가 하는 일</th><th>AI 활용 방식</th></tr></thead>
+        <tbody>
+          <tr><td class="w">① 대지 해석</td><td>대지 그림과 주변 정보를 보고 전략을 글로 씁니다. 예: 북측 경계는 사선 제한이 심하니 저층 타워형, 남측에 판상형, 동측 산 조망을 위해 V자로 튼다.</td><td><span class="chip">보기</span><span class="chip">추론</span></td></tr>
+          <tr><td class="w">② 조례 해석</td><td>조례 원문에서 인동거리 배수, 높이 제한 같은 수치를 뽑습니다. 연구자가 확인한 뒤 확정합니다.</td><td><span class="chip">읽기</span></td></tr>
+          <tr><td class="w">③ 초기안</td><td>전략에 맞는 배치안 5개를 데이터(JSON)로 냅니다.</td><td><span class="chip">계획</span></td></tr>
+          <tr><td class="w">④ 평가</td><td>평가 엔진을 직접 호출합니다.</td><td><span class="chip">도구 호출</span></td></tr>
+          <tr><td class="w">⑤ 해석</td><td>위반 목록과 겹친 배치도를 보고 원인과 득실을 판단합니다. 예: 103동을 옮기면 일조는 오르지만 12세대가 준다.</td><td><span class="chip">보기</span><span class="chip">추론</span></td></tr>
+          <tr><td class="w">⑥ 수정·예측</td><td>다음 안 5개와 기준별 예상 변화를 설계 일지에 적습니다.</td><td><span class="chip">계획</span></td></tr>
+          <tr><td class="w">⑦ 반복</td><td>평가 예산이 끝날 때까지 ④~⑥을 반복합니다.</td><td></td></tr>
+          <tr><td class="w">⑧ 최종 정리</td><td>사업성 우선, 쾌적성 우선, 균형의 3안을 고르고 설계 설명서를 씁니다.</td><td><span class="chip">쉬운 말</span></td></tr>
+          <tr><td class="w">선택 · 심의</td><td>건축심의위원 역할의 AI가 최종안을 반박하고, 통과한 안만 남깁니다.</td><td><span class="chip">반박 검토</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">설계자가 "104동은 진입로 때문에 고정", "남측 공원 조망 우선"처럼 말로 조건을 더하면 바로 반영되는 장면도 시연합니다.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">실험 설계</div>
+    <h2>대지, 비교 조건, 연구 질문</h2>
+    <div class="tbl">
+      <table>
+        <tbody>
+          <tr><th>대지 3곳</th><td>정형 대지, 비정형 대지, 실제 준공 단지의 대지 1곳. 실제 단지는 배치를 같은 엔진으로 평가해 기준선으로 씁니다. 지구단위계획 같은 다른 제약을 받았다는 한계는 보고서에 밝힙니다.</td></tr>
+          <tr><th>평가 예산</th><td>조건마다 200회, 반복 3~5회</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>조건</th><th>방식</th><th>보려는 것</th></tr></thead>
+        <tbody>
+          <tr><td class="w">R</td><td>랜덤 탐색</td><td>바닥 기준선</td></tr>
+          <tr><td class="w ga">GA</td><td>NSGA-II (pymoo)</td><td>다목적 최적화의 표준 방식</td></tr>
+          <tr><td class="w sun">AI</td><td>Claude 에이전트</td><td>추론으로 득실을 따지는 탐색</td></tr>
+          <tr><td class="w" style="color:var(--hy)">H</td><td>AI가 초기안 40회, NSGA-II가 나머지 160회</td><td>역할 분담이 가장 좋은가</td></tr>
+          <tr><td class="w">실제</td><td>실제 준공 배치 (대지 3에서만)</td><td>실무 설계와의 비교</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="rq">
+      <li><span class="id">RQ1</span><p>법규를 모두 지키는 안에 처음 도달하기까지 평가를 몇 번 쓰는가?</p></li>
+      <li><span class="id">RQ2</span><p>같은 예산에서 다섯 목표를 종합한 성능은 어떤가? 실제 준공 배치와 비교하면 어떤가?</p></li>
+      <li><span class="id">RQ3</span><p>AI가 설계 일지에 적은 득실 예측은 얼마나 맞는가?</p></li>
+      <li><span class="id">RQ4</span><p>설계자들이 누가 만든 안인지 모르는 상태로 평가할 때 AI 안을 납득하는가?</p></li>
+      <li><span class="id">RQ5</span><p>실행 도중에 "104동 고정" 같은 조건을 추가하면, 다시 좋은 안에 닿기까지 평가를 몇 번 쓰는가? (대지 1곳에서 AI와 NSGA-II 비교)</p></li>
+    </ul>
+    <p class="caption">지표: 적법안 비율, 첫 적법안까지 평가 횟수, 하이퍼볼륨(다섯 목표를 함께 얼마나 잘 달성했는지 하나의 숫자로 나타내는 다목적 최적화의 표준 지표), 목표 도달 평가 횟수(예: 일조 확보 90% 이상이면서 세대수 목표 100%), 예측 적중률, 블라인드 평가 점수, 조건 추가 후 회복까지 평가 횟수.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">예상 결과</div>
+    <h2>이런 그래프가 나오리라 예상합니다</h2>
+    <p>AI는 대지 해석으로 시작해 초반에 적법하고 균형 잡힌 안에 빨리 닿지만 일찍 정체하고, NSGA-II는 느리게 출발해 결국 따라잡는다는 가설입니다. 그렇다면 둘을 이은 H 조건이 가장 좋고, 실제 준공 배치보다도 높은 점수가 나와야 합니다.</p>
+    <div class="legend" aria-hidden="true">
+      <span><i style="border-color:var(--sun)"></i>AI</span>
+      <span><i style="border-color:var(--ga)"></i>NSGA-II</span>
+      <span><i style="border-color:var(--hy)"></i>AI → NSGA-II (H)</span>
+      <span><i style="border-color:var(--rnd); border-top-style:dotted"></i>랜덤</span>
+      <span><i style="border-color:var(--muted); border-top-style:dashed"></i>실제 준공 배치</span>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 660 310" role="img" aria-label="가설 그래프. 가로축 평가 횟수 0에서 200, 세로축 하이퍼볼륨 0.2에서 1.0. AI는 40회에 0.68로 빠르게 오르고 0.80에서 정체, NSGA-II는 200회에 0.81, H는 0.89, 랜덤은 0.56, 실제 준공 배치는 0.72.">
+        <g class="grid">
+          <line x1="60" y1="20" x2="620" y2="20"/><line x1="60" y1="80" x2="620" y2="80"/>
+          <line x1="60" y1="140" x2="620" y2="140"/><line x1="60" y1="200" x2="620" y2="200"/>
+        </g>
+        <line class="axis" x1="60" y1="260" x2="620" y2="260"/>
+        <line class="axis" x1="60" y1="20" x2="60" y2="260"/>
+        <g font-size="12" text-anchor="end">
+          <text x="52" y="24" class="t-muted">1.0</text><text x="52" y="84" class="t-muted">0.8</text>
+          <text x="52" y="144" class="t-muted">0.6</text><text x="52" y="204" class="t-muted">0.4</text>
+          <text x="52" y="264" class="t-muted">0.2</text>
+        </g>
+        <g font-size="12" text-anchor="middle">
+          <text x="60" y="280" class="t-muted">0</text><text x="172" y="280" class="t-muted">40</text>
+          <text x="284" y="280" class="t-muted">80</text><text x="396" y="280" class="t-muted">120</text>
+          <text x="508" y="280" class="t-muted">160</text><text x="620" y="280" class="t-muted">200</text>
+        </g>
+        <text x="340" y="302" font-size="12.5" text-anchor="middle" class="t-muted">평가 횟수</text>
+        <line class="real" x1="60" y1="104" x2="620" y2="104"/>
+        <text x="614" y="122" font-size="12" text-anchor="end" class="t-muted">실제 준공 배치 (대지 3)</text>
+        <polyline class="l-rnd" points="60,245 116,212 172,194 284,176 396,164 508,158 620,152"/>
+        <polyline class="l-ga" points="60,245 116,230 172,200 228,170 284,146 396,110 508,89 620,77"/>
+        <polyline class="l-hy" points="60,245 116,146 172,116 284,86 396,68 508,59 620,53"/>
+        <polyline class="l-ai" points="60,245 88,185 116,146 172,116 228,101 284,92 396,86 508,83 620,80"/>
+      </svg>
+    </div>
+    <p class="caption">가설을 설명하려고 그린 그림이며 실제 데이터가 아닙니다.</p>
+
+    <h3 style="margin-top:12px">남는 결과물</h3>
+    <ul class="plain">
+      <li>재사용 가능한 단지 배치 평가 엔진 (법규, 사업성, 일조, 조망, 바람길, 동선)</li>
+      <li>조건별 수렴 그래프와 표 (대지 3곳 × 조건 4개)</li>
+      <li>조건별 최종 3안의 배치도와 지표 겹침 이미지, 실제 준공 배치와 비교</li>
+      <li>AI 설계 일지 전체와 예측 적중률 분석</li>
+      <li>블라인드 평가 결과와 AI가 틀린 사례 모음</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">건축 활용</div>
+    <h2>실무에서는 이렇게 씁니다</h2>
+    <div class="uses">
+      <div><h3>설계 초기 배치 검토</h3><p>법규를 통과하는 안을 빠르게 여러 개 받고, 기준별 득실을 한 장에서 비교합니다.</p></div>
+      <div><h3>심의와 주민 설명 자료</h3><p>설계 일지가 왜 이 배치인지에 대한 근거가 됩니다. 유전 알고리즘은 최종 숫자만 남깁니다.</p></div>
+      <div><h3>재건축 사업성 검토</h3><p>세대수와 쾌적성 사이에서 사업성 우선, 쾌적성 우선, 균형의 3안을 제시해 조합과 시행사의 의사결정을 돕습니다.</p></div>
+      <div><h3>설계자가 말로 조건 추가</h3><p>고정할 동, 우선할 조망, 피할 방향을 말하면 바로 반영합니다.</p></div>
+      <div class="wide"><h3>확장</h3><p>평가 엔진 모듈을 바꾸면 CFD 바람 해석, 도로 소음, 에너지 성능으로 넓힐 수 있습니다. 이번 연구는 간이 지표로 다기준 탐색 방법을 검증하는 첫 단계입니다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">일정</div>
+    <h2>6주 계획</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>주</th><th>할 일</th><th>끝났다는 기준</th></tr></thead>
+        <tbody>
+          <tr><td class="w">1주</td><td>대지 3곳과 조례 수치 확정, 배치안 데이터 형식(JSON) 설계, M1 법규 검사기, M2 사업성 계산기, 배치도 시각화</td><td>손으로 만든 배치안 하나에서 위반 목록이 정확히 나옴</td></tr>
+          <tr><td class="w">2주</td><td>M3 일조(Ladybug와 대조 검증), M4 조망, M5 바람길, M6 동선. 실제 단지 배치로 엔진 점검</td><td><b>1회 평가 2초 이내, 일조 오차 10분 이내면 계속 진행</b></td></tr>
+          <tr><td class="w">3주</td><td>AI 에이전트 루프, NSGA-II와 랜덤 기준선 구현, 시범 실행과 API 비용 측정, 실험 계획 해시로 봉인</td><td>모든 조건이 끝까지 돌아감</td></tr>
+          <tr><td class="w">4주</td><td>본 실험 (대지 3곳 × 조건 4개 × 반복 3~5회), 조건 추가 실험 (대지 1곳, AI와 NSGA-II)</td><td>결과 표와 수렴 그래프</td></tr>
+          <tr><td class="w">5주</td><td>분석, 블라인드 평가, 발표 자료 (배치도, 3D 이미지, 설계 일지 발췌)</td><td>발표 가능</td></tr>
+          <tr><td class="w">6주</td><td>보고서 작성, 여유</td><td>제출</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <span><b>일정이 밀리면 이 순서로 줄입니다.</b> 법규, 사업성, 일조는 연구의 핵심이라 끝까지 유지합니다.</span>
+      <ol class="cut">
+        <li>반복 횟수를 5회에서 3회로</li>
+        <li>M6 동선은 광장 면적만 남김</li>
+        <li>M5 바람길은 점수에서 빼고 최종안 정성 평가로</li>
+        <li>대지를 3곳에서 2곳(정형 + 실제)으로</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">기술 스택</div>
+    <h2>무엇으로 만드나</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>용도</th><th>도구</th></tr></thead>
+        <tbody>
+          <tr><td>2D 기하, 법규 검사</td><td>Python + shapely</td></tr>
+          <tr><td>태양 위치</td><td>ladybug-core 또는 pvlib</td></tr>
+          <tr><td>일조·조망 광선 계산</td><td>numpy (동을 상자로 보는 모델)</td></tr>
+          <tr><td>보행 경로</td><td>networkx</td></tr>
+          <tr><td>다목적 유전 알고리즘</td><td>pymoo (NSGA-II)</td></tr>
+          <tr><td>시각화</td><td>matplotlib</td></tr>
+          <tr><td>AI 에이전트</td><td>Anthropic Python SDK (도구 사용 기능)</td></tr>
+          <tr><td>발표용 3D, 일조 검증</td><td>Rhino · Grasshopper · Ladybug (선택)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">위험과 대응</div>
+    <h2>막힐 수 있는 곳</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>위험</th><th>대응</th></tr></thead>
+        <tbody>
+          <tr><td>평가 엔진 여섯 모듈이 너무 많음</td><td>M1~M3를 먼저 끝내고, M4는 M3를 재사용하며, M5와 M6은 간이 지표로 둡니다. 밀리면 위의 순서로 줄입니다.</td></tr>
+          <tr><td>평가가 느려 실험이 오래 걸림</td><td>광선 계산을 numpy로 벡터화하고 세대를 층별 대표점으로 묶습니다. 2주차 기준(1회 2초)을 못 넘으면 시간 간격을 10분에서 15분으로 늘립니다.</td></tr>
+          <tr><td>실제 단지 데이터 확보</td><td>분양 공고 배치도와 위성사진으로 동 위치와 층수를 옮겨 그립니다. 오차는 보고서에 밝힙니다.</td></tr>
+          <tr><td>조례 해석 오류</td><td>AI가 뽑은 수치를 연구자가 원문과 대조해 확정한 뒤에 실험을 시작합니다.</td></tr>
+          <tr><td>AI가 NSGA-II보다 못함</td><td>그 자체로 결과입니다. 어떤 대지와 어떤 기준에서 지는지, 예측이 어디서 빗나갔는지가 결론이 됩니다.</td></tr>
+          <tr><td>API 비용</td><td>한 번에 5개 안을 제안해 실행 한 번에 약 40회 호출로 줄입니다. 이미지가 들어가므로 3주차 시범 실행에서 실제 비용을 재고 반복 횟수를 정합니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<div class="wrap" id="view-progress" hidden>
+
+  <header style="display:grid; gap:18px;">
+    <div class="eyebrow">진행 상황 · 2026.11.16 기준</div>
+    <h1>법규 검사기를 끝내고 실제 단지로 검증할 차례입니다</h1>
+    <p class="lead">평가 엔진의 첫 모듈인 M1 법규 검사기가 완성되었고, 법령 원문 7종과 대조를 마쳤습니다. 지금은 검증용 실제 단지인 래미안 라클래시의 자료를 모으고 있습니다.</p>
+  </header>
+
+  <section>
+    <div class="eyebrow">전체 진행</div>
+    <h2>여덟 단계 중 하나를 끝냈습니다</h2>
+    <div class="track" role="list">
+      <div class="done" role="listitem"><span class="bar"></span><span class="id">M1</span><span class="nm">법규 검사</span><span class="st done">완료</span></div>
+      <div class="next" role="listitem"><span class="bar"></span><span class="id">검증</span><span class="nm">실제 단지</span><span class="st next">진행 중</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">M2</span><span class="nm">사업성</span><span class="st todo">다음</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">M3</span><span class="nm">일조</span><span class="st todo">예정</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">M4</span><span class="nm">조망</span><span class="st todo">예정</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">M5·M6</span><span class="nm">바람길 · 동선</span><span class="st todo">예정</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">대결</span><span class="nm">AI · NSGA-II</span><span class="st todo">예정</span></div>
+      <div role="listitem"><span class="bar"></span><span class="id">분석</span><span class="nm">결과 · 발표</span><span class="st todo">예정</span></div>
+    </div>
+    <p class="caption">1주차 완료 기준("손으로 만든 배치안에서 위반 목록이 정확히 나옴")은 달성했습니다. 1주차에 함께 하려던 M2 사업성 계산기는 아직 남아 있습니다.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">지금까지 한 일</div>
+    <h2>작업 기록</h2>
+    <div class="log">
+      <div class="head"><span>날짜</span><span>결과물</span></div>
+      <dl>
+        <dt>11.09</dt><dd>주제 선정. 네 가지 기준(법규, 사업성, 환경, 동선)으로 평가하고 AI와 유전 알고리즘을 비교하기로 함</dd>
+        <dt>11.13</dt><dd>연구 계획 보강. 유전 알고리즘 대비 장점과 약점, 연구 질문 RQ1~RQ5 정리</dd>
+        <dt>11.14</dt><dd>M1 법규 검사기 구현 (Python + shapely). 건축법 제61조, 시행령 제86조, 주택건설기준, 소방 기준 조사</dd>
+        <dt>11.15</dt><dd>검증 단지 후보 3곳 비교 후 래미안 라클래시 선정</dd>
+        <dt class="hit">11.15</dt><dd class="hit">법령 원문 7종 대조. 엔진 오류 3건 수정, 테스트 44개에서 48개로</dd>
+        <dt>11.16</dt><dd>라클래시 토지이음 확인원, 배치도, 단지 정보 수집 중</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">M1 실행 결과 예시</div>
+    <h2>배치안을 넣으면 위반과 고칠 방법이 나옵니다</h2>
+    <div class="term"><pre><span class="dim">&gt; python check_layout.py examples/sample_layout.json --plot out/sample.png</span>
+[M1 법규 검사] 예제 대지 · 배치안 A: 위반 3건
+조건: 서울특별시 3종일반주거
+지표: 대지 18,875.0m², 건폐율 13.7% (상한 50%), 용적률 206.2% (상한 250%), 동 5개, 260세대
+위반:
+ 1. <span class="bad">[정북 일조]</span> 103동(높이 58.0m): 필요 29.0m, 실제 22.1m (6.9m 부족)
+    근거: 건축법 제61조 제1항
+    → 103동을 남쪽으로 6.9m 옮기거나 15층 이하로 낮추세요.
+ 2. <span class="bad">[채광 방향]</span> 103동: 필요 29.0m, 실제 22.1m (6.9m 부족)
+ 3. <span class="bad">[인동거리]</span> 102동↔104동: 필요 21.8m, 실제 19.0m (2.8m 부족)
+    근거: 건축법 시행령 제86조 제3항 제2호 가목
+    → 두 면 사이를 2.8m 이상 벌리거나 102동을 13층 이하로 낮추세요.</pre></div>
+    <p class="caption">위반마다 근거 조항, 부족한 거리, 고칠 방법이 함께 나옵니다. AI 에이전트는 이 출력을 읽고 다음 안을 고칩니다. 검사 항목은 정북 일조, 채광 방향, 인동거리 가~마목, 대지 안의 공지, 건폐율·용적률, 높이, 단지 안 도로, 진입도로, 소방 등 17종입니다.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">원문 대조</div>
+    <h2>법령 원문을 읽고 고친 세 가지</h2>
+    <ul class="fixes">
+      <li><h3>정북 일조 기준이 법으로 옮겨진 것을 반영</h3><span class="was">2026.11.12. 시행 개정으로 시행령 제86조 제1항이 삭제되고 건축법 제61조 제1항에 들어감. 10m 이하 1.5m, 10~17m 5m, 17m 초과 높이의 1/2을 원문으로 확정</span></li>
+      <li><h3>서울 인동거리에서 근거 없는 10m 최소값 삭제</h3><span class="was">보도자료로 넣었던 값. 서울 건축 조례 제35조 제4항은 높이의 0.5배만 정하고, 10m는 높은 동이 낮은 동을 향할 때(나목)만 적용</span></li>
+      <li><h3>상업지역 공동주택의 채광·인동 검사 제외</h3><span class="was">건축법 제61조 제2항은 일반상업·중심상업지역 공동주택을 제외함. 엔진이 이 지역에서도 검사하던 오류 수정</span></li>
+    </ul>
+    <p class="caption">대조한 법령: 건축법, 건축법 시행령, 서울특별시 건축 조례, 서울특별시 도시계획 조례, 주택건설기준 등에 관한 규정, 국토계획법 시행령, 소방기본법 시행령.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">검증 단지</div>
+    <h2>래미안 라클래시로 엔진을 검증합니다</h2>
+    <div class="site">
+      <div>
+        <h3>단지 개요</h3>
+        <dl>
+          <dt>위치</dt><dd>서울 강남구 삼성동 (상아2차 재건축)</dd>
+          <dt>규모</dt><dd>7개 동, 679세대, 13~35층</dd>
+          <dt>준공</dt><dd>2021.9.</dd>
+          <dt>밀도</dt><dd>건폐율 18%, 용적률 299%</dd>
+          <dt>특징</dt><dd>전 동 필로티</dd>
+        </dl>
+      </div>
+      <div>
+        <h3>고른 이유</h3>
+        <ul>
+          <li>층수 차이가 커서 높은 동이 낮은 동을 향하는 규정(나목)을 시험할 수 있음</li>
+          <li>필로티 높이를 정북에서는 넣고 채광·인동에서는 빼는 규칙을 실제로 확인</li>
+          <li>7개 동이라 실험 규모(5~15개 동)에 맞음</li>
+          <li>특별건축구역이 아님 (확인 중). 특례를 받은 단지는 후보에서 뺌</li>
+        </ul>
+      </div>
+      <div style="grid-column: 1 / -1;">
+        <h3>검증 기준</h3>
+        <p>인동간격 규정은 그동안 완화되기만 했으므로, 허가받은 단지를 현행 기준으로 돌리면 <b>위반이 0건</b>이어야 정상입니다. 용적률 299%는 정비사업 법적상한 용적률이라 조례 상한(250%) 대신 정비계획 값을 넣고 검사합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">다음 할 일</div>
+    <h2>이 순서로 진행합니다</h2>
+    <ol class="todo-list">
+      <li>토지이음에서 용도지역, 정비구역, 특별건축구역 여부, 북쪽 이웃 필지 용도지역 확인</li>
+      <li>배치도를 좌표로 옮겨 라클래시 배치안 JSON 만들기, M1으로 검사</li>
+      <li>위반이 나오면 원인 분석 (엔진 오류인지, 정비계획 특례인지)</li>
+      <li>M2 사업성 계산기 (세대수, 용적률 달성률, 판상형 비율)</li>
+      <li>M3 일조 엔진, Ladybug 결과와 대조해 오차 10분 이내 확인</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow">발표 가이드</div>
+    <h2>발표할 때는 이렇게 설명합니다</h2>
+    <div class="key">"AI가 배치를 그리는 게 아니라, 법규를 정확히 판정하는 엔진 위에서 AI가 이유를 대며 안을 고칩니다. 그 방식이 유전 알고리즘보다 적은 시도로 좋은 안에 도달하는지를 실험했습니다."</div>
+    <ol class="talk">
+      <li><div class="say"><b>문제</b>단지 배치는 법규, 사업성, 일조, 동선을 동시에 맞춰야 하고, 지금은 설계자의 반복 수작업이나 유전 알고리즘에 의존합니다.<div class="show">보여줄 것: 실제 단지 배치도 한 장</div></div><span class="min">1분</span></li>
+      <li><div class="say"><b>비교 설계</b>같은 평가 엔진, 같은 평가 횟수로 AI 에이전트, NSGA-II, 랜덤 탐색을 겨룹니다. 공정한 비교가 이 연구의 뼈대입니다.<div class="show">보여줄 것: 연구 계획의 "같은 문제를 푸는 두 방식"</div></div><span class="min">1.5분</span></li>
+      <li><div class="say"><b>평가 엔진</b>M1~M6 여섯 모듈이 배치안 하나를 점수로 바꿉니다. 법규는 필수 조건, 나머지는 목표입니다.<div class="show">보여줄 것: 모듈 구성도, M1 실행 출력</div></div><span class="min">2분</span></li>
+      <li><div class="say"><b>법규 정확성</b>2026.11. 개정까지 법령 원문 7종과 대조했고, 그 과정에서 엔진 오류 3건을 찾아 고쳤습니다. 테스트 48개로 손계산 값과 맞춥니다.<div class="show">보여줄 것: 위의 "고친 세 가지"</div></div><span class="min">1.5분</span></li>
+      <li><div class="say"><b>실제 단지 검증</b>래미안 라클래시를 엔진에 넣어 위반 0건이 나오는지 확인했습니다. 실제 단지의 점수는 실험의 기준선이 됩니다.<div class="show">보여줄 것: 라클래시 배치도와 검사 결과</div></div><span class="min">1.5분</span></li>
+      <li><div class="say"><b>실험 결과와 의미</b>수렴 그래프로 누가 더 빨리 좋은 안에 도달했는지, 설계 일지로 AI가 왜 그렇게 고쳤는지 보여줍니다. 지는 경우도 그대로 결론입니다.<div class="show">보여줄 것: 수렴 그래프, 최종 배치안 비교, 설계 일지 발췌</div></div><span class="min">2분</span></li>
+      <li><div class="say"><b>마무리</b>설계자가 말로 조건을 바꾸면 바로 다시 탐색하는 도구로 이어질 수 있습니다.<div class="show">보여줄 것: 실무 활용 장면 한 장</div></div><span class="min">0.5분</span></li>
+    </ol>
+    <p class="caption">10분 발표 기준 시간 배분입니다. 5·6번은 실험이 끝난 뒤 채웁니다.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">예상 질문</div>
+    <h2>이런 질문에 이렇게 답합니다</h2>
+    <dl class="qa">
+      <dt>AI가 법규를 잘못 판단하면요?</dt>
+      <dd>AI는 법규를 판정하지 않습니다. 판정은 원문으로 검증한 M1 엔진이 하고, AI는 그 결과를 읽고 안을 고치기만 합니다.</dd>
+      <dt>실제 단지 용적률이 299%인데 서울 조례 상한은 250% 아닌가요?</dt>
+      <dd>재건축 정비사업은 임대주택을 넣고 법적상한 용적률을 받습니다. 서울 도시계획 조례 제49조 제4항에 따라 정비계획 값을 상한으로 넣고 검사합니다.</dd>
+      <dt>동을 상자로 단순화하면 부정확하지 않나요?</dt>
+      <dd>각 동의 최고 높이로 검사하므로 결과는 안전 측입니다. 일조는 Ladybug 결과와 대조해 오차를 보고합니다.</dd>
+      <dt>유전 알고리즘이 더 잘하면요?</dt>
+      <dd>그것도 결과입니다. 어떤 대지와 기준에서 지는지, AI의 판단이 어디서 빗나갔는지를 설계 일지로 분석합니다.</dd>
+      <dt>법이 또 바뀌면요?</dt>
+      <dd>법규 수치는 설정 파일과 지역 프리셋으로 분리되어 있어 값만 바꾸면 됩니다. 2026.11. 정북 기준 개정이 실제 사례입니다.</dd>
+    </dl>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var views = { plan: "view-plan", progress: "view-progress" };
+  function show() {
+    var key = (location.hash || "").replace("#", "");
+    if (!views[key]) key = "plan";
+    Object.keys(views).forEach(function (k) {
+      document.getElementById(views[k]).hidden = k !== key;
+      var tab = document.getElementById("tab-" + k);
+      if (k === key) tab.setAttribute("aria-current", "page"); else tab.removeAttribute("aria-current");
+    });
+  }
+  window.addEventListener("hashchange", function () { show(); window.scrollTo(0, 0); });
+  show();
+})();
+</script>
+
+</body>
+</html>
