@@ -107,9 +107,9 @@
             <figcaption>승강기 기계장치 교체 생존곡선 (중간 분석)</figcaption>
           </figure>
           <div>
-            <p class="label">No. 03 · In Progress</p>
+            <p class="label">No. 03 · On Hold</p>
             <h3>공동주택 유지관리 이력 데이터의 생존분석을 통한 장기수선계획 수선주기의 실증적 보정</h3>
-            <p class="meta">2026.09 – 진행 중 · 캡스톤 디자인 2 · 개인 연구</p>
+            <p class="meta">2026.09 – 2026.11 · 개인 연구 · 캡스톤 주제를 No. 04로 바꿔 중단</p>
             <p class="desc">장기수선계획은 법령 별표의 수선주기(승강기 15년, 지붕 방수 15년, 외부 도장 5년)를 그대로 옮겨 적어 세워지지만, 이 숫자가 실제 교체 시점과 맞는지 전국 단위로 검증된 적은 거의 없습니다. 공동주택관리정보시스템에 공개된 유지관리 이력을 모으고, 아직 교체하지 않은 단지까지 "최소 이만큼은 버텼다"는 정보로 계산에 넣는 생존분석으로 부위별 실제 교체 주기를 추정합니다. 추정한 주기로 30년 수선비를 시뮬레이션해 법령 주기와의 차이를 금액으로 환산하고, 단지별 장기수선충당금 부족 위험을 진단하는 것이 목표입니다.</p>
             <ul class="spec facts">
               <li><span class="key">Data</span><span>전국 1만 3천여 단지의 유지관리 이력 · 입찰결과 · 단지 기본정보</span></li>
@@ -144,7 +144,8 @@
               <li><span class="key">Engine</span><span>M1 법규 · M2 사업성 · M3 일조 · M4 조망 · M5 바람길 · M6 동선 — 법규는 필수 조건, 나머지는 점수로 겨루는 목표</span></li>
               <li><span class="key">Baseline</span><span>NSGA-II · 랜덤 탐색 · AI→NSGA-II 혼합 · 실제 준공 단지, 모두 같은 평가 예산</span></li>
               <li><span class="key">Measure</span><span>AI가 수정 전에 적은 득실 예측을 실제 평가와 대조해 채점 — 설명이 그럴듯한지가 아니라 맞는지를 잼</span></li>
-              <li><span class="key">Status</span><span>M1 법규 검사기 완성, 법령 원문 7종과 대조 · 검사 항목 17종 · 검증 단지(래미안 라클래시) 자료 수집 중</span></li>
+              <li><span class="key">Interim</span><span>라클래시 대지 시범 대결(각 평가 200회): 랜덤 탐색과 NSGA-II는 법규를 모두 지킨 안을 하나도 찾지 못했고, AI 추론 조건은 21회째에 첫 적법안 · 총 161개. 한 대지의 시범 결과일 뿐 결론은 아님</span></li>
+              <li><span class="key">Status</span><span>평가 엔진 M1–M6 완성 · 래미안 라클래시로 검증(일조는 Radiance 162,960개 판정 일치, 바람길은 OpenFOAM 12케이스 대조) · 테스트 109개 · AI 대 NSGA-II 대결 진행 중 (2026.11.25)</span></li>
             </ul>
             <p class="stack"><span>Python</span><span>shapely</span><span>numpy</span><span>Anthropic SDK</span><span>NSGA-II</span></p>
             <div class="links">
